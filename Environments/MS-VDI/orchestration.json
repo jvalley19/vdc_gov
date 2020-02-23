@@ -1,0 +1,105 @@
+{
+    "ModuleConfigurationsPath": "../../Modules",
+    "ModuleConfigurations": [
+        {
+            "Name": "VirtualNetworkHUB",
+            "ModuleDefinitionName": "VirtualNetwork",
+            "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.VirtualNetworkHUB.ResourceGroup}",
+            "DependsOn": [                
+            ],
+            "Deployment": {
+                "OverrideParameters": {
+                    "vnetName": {
+                        "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkHUB.Name}"
+                    },
+                    "vnetAddressPrefixes": {
+                        "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkHUB.AddressPrefixes}"
+                    },
+                    "subnets": {
+                        "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkHUB.Subnets}"
+                    },
+                    "enableDdosProtection": {
+                        "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkHUB.EnableDdosProtection}"
+                    },
+                    "enableVmProtection": {
+                        "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkHUB.EnableVmProtection}"
+                    }
+                }
+            }
+        },
+        {
+            "Name": "VirtualNetworkSPOKE",
+            "ModuleDefinitionName": "VirtualNetwork",
+            "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.VirtualNetworkSPOKE.ResourceGroup}",
+            "DependsOn": [                
+            ],
+            "Deployment": {
+                "OverrideParameters": {
+                    "vnetName": {
+                        "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkSPOKE.Name}"
+                    },
+                    "vnetAddressPrefixes": {
+                        "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkSPOKE.AddressPrefixes}"
+                    },
+                    "subnets": {
+                        "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkSPOKE.Subnets}"
+                    },
+                    "enableDdosProtection": {
+                        "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkSPOKE.EnableDdosProtection}"
+                    },
+                    "enableVmProtection": {
+                        "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkSPOKE.EnableVmProtection}"
+                    }
+                }
+            }
+        },
+        {
+            "Name": "VirtualNetworkPeeringHub",
+            "ModuleDefinitionName": "VirtualNetworkPeering",
+            "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.VirtualNetworkHUB.ResourceGroup}",
+            "DependsOn": [
+                "VirtualNetworkHUB"
+            ],
+            "Deployment": {
+                "OverrideParameters": {
+                    "localVnetName": {
+                        "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkHUB.Name}"
+                    },
+                    "peeringName": {
+                        "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkPeering.LocalPeering.Name}"
+                    },
+                    "remoteVirtualNetworkId": {
+                        "value": "${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkSPOKE.Id}"
+                    },
+                    "useRemoteGateways": {
+                        "value": false
+                      }
+                }
+            }
+        },
+        {
+            "Name": "VirtualNetworkPeeringSPOKE",
+            "ModuleDefinitionName": "VirtualNetworkPeering",
+            "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.VirtualNetworkSPOKE.ResourceGroup}",
+            "DependsOn": [
+                "VirtualNetworkSPOKE"
+            ],
+            "Deployment": {
+                "OverrideParameters": {
+                    "localVnetName": {
+                        "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkSPOKE.Name}"
+                    },
+                    "peeringName": {
+                        "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkPeering.LocalPeering.Name}"
+                    },
+                    "remoteVirtualNetworkId": {
+                        "value": "${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkHUB.Id}"
+                    },
+                    "useRemoteGateways": {
+                        "value": false
+                      }
+                }
+            }
+        }
+    ]
+}
