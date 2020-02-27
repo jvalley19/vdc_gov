@@ -33,6 +33,12 @@
                 }
             }
         },
+        "OnPremisesInformation": {
+            "InstanceName": "${Parameters.InstanceName}",
+            "Comments": "This InstanceName is a temporal value, this value is used in artifactsStorageAccount.json, the idea is to have a global set of services and this name should point to the InstanceName (deployment name) of the global services archetype"
+        },
+        "KeyVaultManagementUserId": "env(KEYVAULT_MANAGEMENT_USER_ID)",
+        "DevOpsServicePrincipalId": "env(DEVOPS_SERVICE_PRINCIPAL_USER_ID)",
         "VirtualNetworkHUB": {            
             "Name": "${Parameters.InstanceName}-HUB",
             "ResourceGroup": "${Parameters.InstanceName}-hubnetwork-rg",
@@ -152,6 +158,15 @@
                 "Name": "${Parameters.DeploymentName}-to-sharedsvcs"
             }
         },
+        "ApplicationSecurityGroups": {
+            "ResourceGroup": "${Parameters.ModuleConfigurationParameters.VirtualNetworkSPOKE.ResourceGroup}",
+            "Jumpbox": {
+                "Name": "jumpbox-asg"
+            },
+            "DomainController": {
+                "Name": "dc-asg"
+            }
+        },
         "NetworkSecurityGroups": {
             "ResourceGroup": "${Parameters.ModuleConfigurationParameters.VirtualNetworkHUB.ResourceGroup}",
             "Comments": "Virtual Network (TCP and UDP) to Application Security Group rules are required for DNS resolution",
@@ -177,6 +192,138 @@
                         }
                     }
                 ]
+            }
+        },
+        "DiagnosticStorageAccount": {
+            "Name": "${Parameters.Organization}${Parameters.DeploymentName}diag01",
+            "ResourceGroup": "${Parameters.InstanceName}-diagnostics-rg",
+            "Location": "${Parameters.Location}",
+            "Sku": "Standard_GRS",
+            "NetworkAcls": {
+                "bypass": "AzureServices",
+                "defaultAction": "Deny",
+                "virtualNetworkRules": [
+                    {
+                        "subnet": "${Parameters.ModuleConfigurationParameters.VirtualNetworkSPOKE.Subnets[0].Name}"
+                    }
+                ],
+                "ipRules": []
+            },
+            "Policies": {
+                "Effect": "Audit"
+            }
+        },
+        "LogAnalytics": {
+            "Name": "${Parameters.InstanceName}-la",
+            "Comments": "Log Analytics and Diagnostic Storage Account must be deployed in the same region",
+            "ResourceGroup": "${Parameters.InstanceName}-diagnostics-rg",
+            "Location": "${Parameters.ModuleConfigurationParameters.DiagnosticStorageAccount.Location}",
+            "ListOfAllowedRegions": [
+                "Australia Central",
+                "Australia East",
+                "Australia Southeast",
+                "Canada Central",
+                "Central India",
+                "Central US",
+                "East Asia",
+                "East US",
+                "East US 2",
+                "France Central",
+                "Japan East",
+                "Korea Central",
+                "North Europe",
+                "South Central US",
+                "Southeast Asia",
+                "UK South",
+                "West Europe",
+                "West US",
+                "West US 2"
+            ]
+        },
+        "KeyVault": {
+            "Name": "${Parameters.InstanceName}-kv",
+            "ResourceGroup": "${Parameters.InstanceName}-keyvault-rg",
+            "Sku": "Premium",
+            "EnableVaultForDeployment": true,
+            "EnableVaultForDiskEncryption": true,
+            "EnableVaultForTemplateDeployment": true,
+            "AccessPolicies": [
+                {
+                    "tenantId": "${Parameters.TenantId}",
+                    "objectId": "${Parameters.ModuleConfigurationParameters.KeyVaultManagementUserId}",
+                    "permissions": {
+                        "certificates": [
+                            "All"
+                        ],
+                        "keys": [
+                            "All"
+                        ],
+                        "secrets": [
+                            "All"
+                        ]
+                    }
+                },
+                {
+                    "tenantId": "${Parameters.TenantId}",
+                    "objectId": "${Parameters.ModuleConfigurationParameters.DevOpsServicePrincipalId}",
+                    "permissions": {
+                        "certificates": [
+                            "All"
+                        ],
+                        "keys": [
+                            "All"
+                        ],
+                        "secrets": [
+                            "All"
+                        ]
+                    }
+                }
+            ],
+            "SecretsObject": {
+                "Comments": "Creating an object so we can use a secretsobject parameter type in our ARM template",
+                "Secrets": [
+                    {
+                        "secretName": "admin-user",
+                        "secretValue": "env(ADMIN_USER_PWD)"
+                    },
+                    {
+                        "secretName": "env(DOMAIN_ADMIN_USERNAME)",
+                        "secretValue": "env(DOMAIN_ADMIN_USER_PWD)"
+                    }
+                ]
+            },
+            "NetworkAcls": {
+                "bypass": "AzureServices",
+                "defaultAction": "Deny",
+                "virtualNetworkRules": [
+                    {
+                        "subnet": "${Parameters.ModuleConfigurationParameters.VirtualNetworkSPOKE.Subnets[0].Name}"
+                    }
+                ],
+                "ipRules": []
+            }
+        },
+        "ArtifactsStorageAccount": "file(../_Common/artifactsStorageAccount.json)",
+        "Jumpbox": {
+            "ResourceGroup": "${Parameters.InstanceName}-jumpbox-rg",
+            "AdminUsername": "${Parameters.ModuleConfigurationParameters.KeyVault.SecretsObject.Secrets[0].secretName}",
+            "SubnetName": "${Parameters.ModuleConfigurationParameters.VirtualNetworkSPOKE.Subnets[0].name}",
+            "Windows": {
+                "Comments": "Windows VM name cannot exceed 13 characters",
+                "Name": "win-jb-vm",
+                "VMCount": 1,
+                "OSType": "Windows",
+                "VMSize": "Standard_DS2_v2",
+                "OSImage": {
+                    "offer": "WindowsServer",
+                    "publisher": "MicrosoftWindowsServer",
+                    "sku": "2016-Datacenter"
+                },
+                "Kek": {
+                    "Name": "WindowsJumpboxKey",
+                    "Comments": "Destination can be HSM or Software. Use HSM to create Production keys.",
+                    "Destination": "HSM"
+                }
             }
         },
         "ActiveDirectory": {
@@ -247,35 +394,6 @@
                     "diskId": 2
                 }
             ]
-        },
-        "KeyVault": {
-            "Name": "${Parameters.InstanceName}-kv",
-            "ResourceGroup": "${Parameters.InstanceName}-keyvault-rg",
-            "Sku": "Premium",
-            "EnableVaultForDeployment": true,
-            "EnableVaultForDiskEncryption": true,
-            "EnableVaultForTemplateDeployment": true,
-            "AccessPolicies": [
-                {
-                }
-            ],
-            "SecretsObject": {
-                "Comments": "Creating an object so we can use a secretsobject parameter type in our ARM template",
-                "Secrets": [
-                    {
-                        "secretName": "admin-user",
-                        "secretValue": "env(ADMIN_USER_PWD)"
-                    },
-                    {
-                        "secretName": "env(DOMAIN_ADMIN_USERNAME)",
-                        "secretValue": "env(DOMAIN_ADMIN_USER_PWD)"
-                    },
-                    {
-                        "secretName": "admin-user-ssh",
-                        "secretValue": "env(ADMIN_USER_SSH)"
-                    }
-                ]
-            }
         }
     }
 }
