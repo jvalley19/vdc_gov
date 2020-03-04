@@ -3,7 +3,7 @@
     "DeploymentName": "vdcvdi",
     "InstanceName": "${Parameters.Organization}-${Parameters.DeploymentName}",
     "Subscription": "VDCVDI",
-    "Location": "East US",
+    "Location": "env(AZURE_LOCATION)",
     "ModuleConfigurationParameters": {
         "SharedServices": {
             "DeploymentName": "shrdsvcs",
@@ -91,8 +91,7 @@
             "DnsServers": [                
             ]
         },
-        "VirtualNetworkSPOKE": {
-            "Id": "/subscriptions/${Subscriptions.SharedServices.SubscriptionId}/resourceGroups/${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkSPOKE.ResourceGroupName}/providers/Microsoft.Network/virtualNetworks/${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkSPOKE.Name}",
+        "VirtualNetworkSPOKE": {            
             "Name": "${Parameters.InstanceName}-SPOKE",
             "ResourceGroup": "${Parameters.InstanceName}-spokenetwork-rg",
             "AddressPrefixes": [ "172.50.0.0/16" ],
