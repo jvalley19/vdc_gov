@@ -1,6 +1,6 @@
 {
     "Comments": "Toolkit subscription and tenant information",
-    "TenantId": "env(tenant_id)",
-    "SubscriptionId": "env(subscription_id)",
-    "Location": "env(azure_location)"
+    "TenantId": "00000000-0000-0000-0000-000000000000",
+    "SubscriptionId": "00000000-0000-0000-0000-000000000000",
+    "Location": "USGov Virginia"
 }
