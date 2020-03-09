@@ -536,7 +536,7 @@
                 "diagnosticsProfile": {
                     "bootDiagnostics": {
                         "enabled": true,
-                        "storageUri": "[concat('https://', parameters('diagnosticStorageAccountName'), '.blob.core.windows.net/')]"
+                        "storageUri": "[concat('https://', parameters('diagnosticStorageAccountName'), '.blob.core.usgovcloudapi.net/')]"
                     }
                 }
             },
@@ -629,7 +629,7 @@
                         "autoUpgradeMinorVersion": true,
                         "settings": {
                             "configuration": {
-                                "url": "[concat('https://', parameters('artifactsStorageAccountName'), '.blob.core.windows.net/scripts/Windows/formatDataDisks.zip')]",
+                                "url": "[concat('https://', parameters('artifactsStorageAccountName'), '.blob.core.usgovcloudapi.net/scripts/Windows/formatDataDisks.zip')]",
                                 "script": "formatDisk.ps1",
                                 "function": "FormatDisk"
                             },
@@ -967,7 +967,7 @@
                         "autoUpgradeMinorVersion": true,
                         "settings": {
                             "fileUris": [
-                                "[concat('https://', parameters('artifactsStorageAccountName'), '.blob.core.windows.net/scripts/Windows/enable-local-policy-settings.ps1')]"
+                                "[concat('https://', parameters('artifactsStorageAccountName'), '.blob.core.usgovcloudapi.net/scripts/Windows/enable-local-policy-settings.ps1')]"
                             ]
                         },
                         "protectedSettings": {
