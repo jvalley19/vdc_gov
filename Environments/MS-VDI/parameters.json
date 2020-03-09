@@ -11,7 +11,7 @@
                 "VmIpAddressStart": [ "172.0.0.10" ]
             },
             "VirtualNetworkHUB": {
-                "Id": "/subscriptions/${Subscriptions.SharedServices.SubscriptionId}/resourceGroups/${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkHUB.ResourceGroupName}/providers/Microsoft.Network/virtualNetworks/${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkHUB.Name}",
+                "Id": "/subscriptions/${Subscriptions.VDCVDI.SubscriptionId}/resourceGroups/${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkHUB.ResourceGroupName}/providers/Microsoft.Network/virtualNetworks/${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkHUB.Name}",
                 "Name": "${Parameters.InstanceName}-HUB",
                 "ResourceGroupName": "${Parameters.InstanceName}-hubnetwork-rg",
                 "AddressPrefix": "172.0.0.0/16",
@@ -22,7 +22,7 @@
                 }
             },
             "VirtualNetworkSPOKE": {
-                "Id": "/subscriptions/${Subscriptions.SharedServices.SubscriptionId}/resourceGroups/${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkSPOKE.ResourceGroupName}/providers/Microsoft.Network/virtualNetworks/${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkSPOKE.Name}",
+                "Id": "/subscriptions/${Subscriptions.VDCVDI.SubscriptionId}/resourceGroups/${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkSPOKE.ResourceGroupName}/providers/Microsoft.Network/virtualNetworks/${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkSPOKE.Name}",
                 "Name": "${Parameters.InstanceName}-SPOKE",
                 "ResourceGroupName": "${Parameters.InstanceName}-spokenetwork-rg",
                 "AddressPrefixes": "172.50.0.0/16",
@@ -236,7 +236,13 @@
                 "UK South",
                 "West Europe",
                 "West US",
-                "West US 2"
+                "West US 2",
+                "USGov Virginia",
+                "USGov Iowa",
+                "USGov Arizona",
+                "USGov Texas",
+                "USDoD Central",
+                "USDoD East"
             ]
         },
         "KeyVault": {
@@ -283,11 +289,11 @@
                 "Secrets": [
                     {
                         "secretName": "admin-user",
-                        "secretValue": "env(ADMIN_USER_PWD)"
+                        "secretValue": "env(ADMIN_USER_NAME)"
                     },
                     {
-                        "secretName": "env(DOMAIN_ADMIN_USERNAME)",
-                        "secretValue": "env(DOMAIN_ADMIN_USER_PWD)"
+                        "secretName": "admin-user-pswd",
+                        "secretValue": "env(ADMIN_USER_PWD)"
                     }
                 ]
             },
