@@ -150,17 +150,17 @@ The following is the series of commands to execute.
         .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "UploadScriptsToArtifactsStorage"
         .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "JumpboxASG"
         .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "WindowsVM"
-        ```
+```
 
-### Teardown the environment
-Note: Have not tested yet!
+### **Teardown the environment**
+**Note:** Have not tested yet!
 
 ``` PowerShell
 ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -TearDownEnvironment -DefinitionPath ./Environments/MS-VDI/definition.json
 ```
 
-> Note: This is the same command you used to deploy except that you include ` -TearDownEnvironment`.
-> It uses the same configuration, so if you change the configuration the tear down may not execute as expected.
+Note: This is the same command you used to deploy except that you include ` -TearDownEnvironment`.
+It uses the same configuration, so if you change the configuration the tear down may not execute as expected.
 
 For safety reasons, the key vault will not be deleted. Instead, it will be set to a _removed_ state. This means that the name is still considered in use. To fully delete the key vault, use:
 
