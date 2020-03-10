@@ -119,6 +119,9 @@ To use the above script:
 4. Copy the script into the clipboard and paste it in the terminal.
 5. Verify that the enviromental variables are set by running `env` to view the current values.
 
+#### Parameters
+Any application specific parameters updates should be done in the [parameters.json](../../Environments/MS-VDI/parameters.json) file such as IP address, subnet names, subnet range, secrets etc.
+
 ## Deploying the MS-VDI environment
 
 1. Return to the running Docker container from earlier in the quickstart.
