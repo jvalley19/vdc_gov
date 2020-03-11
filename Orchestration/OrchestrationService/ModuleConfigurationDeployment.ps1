@@ -331,7 +331,8 @@ Function Start-Deployment {
                                 -ModuleConfiguration $moduleConfiguration.Policies `
                                 -ArchetypeInstanceName $ArchetypeInstanceName `
                                 -Location $location `
-                                -Validate:$($Validate.IsPresent);
+                                -Validate:$($Validate.IsPresent) `
+                                -AzureEnvironmentName $subscriptionInformation.AzureEnvironmentName;
                             Write-Debug "Deployment complete, Resource state is: $(ConvertTo-Json -Compress $policyResourceState)";
                     }
                     else {
@@ -392,7 +393,8 @@ Function Start-Deployment {
                                 -ModuleConfiguration $moduleConfiguration.RBAC `
                                 -ArchetypeInstanceName $ArchetypeInstanceName `
                                 -Location $location `
-                                -Validate:$($Validate.IsPresent);
+                                -Validate:$($Validate.IsPresent) `
+                                -AzureEnvironmentName $subscriptionInformation.AzureEnvironmentName;
                         Write-Debug "Deployment complete, Resource state is: $(ConvertTo-Json -Compress $rbacResourceState)";
                     }
                     else {
@@ -413,7 +415,8 @@ Function Start-Deployment {
                                 -ModuleConfiguration $moduleConfiguration.Deployment `
                                 -ArchetypeInstanceName $ArchetypeInstanceName `
                                 -Location $location `
-                                -Validate:$($Validate.IsPresent);
+                                -Validate:$($Validate.IsPresent) `
+                                -AzureEnvironmentName $subscriptionInformation.AzureEnvironmentName;
                         Write-Debug "Deployment complete, Resource state is: $(ConvertTo-Json -Compress $resourceState)";
                     }
                 }
@@ -2180,7 +2183,9 @@ Function New-AzureResourceManagerDeployment {
         $Location,
         [Parameter(Mandatory=$true)]
         [switch]
-        $Validate
+        $Validate,
+        [string]
+        $AzureEnvironmentName
     )
 
     try {
@@ -2216,7 +2221,8 @@ Function New-AzureResourceManagerDeployment {
                     $ResourceGroupName,
                     $DeploymentTemplate,
                     $DeploymentParameters,
-                    $Location);
+                    $Location,
+                    $AzureEnvironmentName);
         }
     }
     catch {

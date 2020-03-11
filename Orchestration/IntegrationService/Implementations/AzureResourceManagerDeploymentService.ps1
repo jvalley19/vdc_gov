@@ -1,20 +1,24 @@
 Class AzureResourceManagerDeploymentService: IDeploymentService {
  
-    [string] $armResourceGroupDeploymentUri = "https://management.usgovcloudapi.net/subscriptions/{0}/resourcegroups/{1}/providers/Microsoft.Resources/deployments/{2}?api-version=2019-05-10";
-    [string] $armSubscriptionDeploymentUri = "https://management.usgovcloudapi.net/subscriptions/{0}/providers/Microsoft.Resources/deployments/{1}?api-version=2019-05-10"
-    [string] $armResourceGroupValidationUri = "https://management.usgovcloudapi.net/subscriptions/{0}/resourcegroups/{1}/providers/Microsoft.Resources/deployments/{2}/validate?api-version=2019-05-10";
-    [string] $armSubscriptionValidationUri = "https://management.usgovcloudapi.net/subscriptions/{0}/providers/Microsoft.Resources/deployments/{1}/validate?api-version=2019-05-10"
+    [string] $armResourceGroupDeploymentUri = ""
+    [string] $armSubscriptionDeploymentUri = ""
+    [string] $armResourceGroupValidationUri = ""
+    [string] $armSubscriptionValidationUri = ""
     
-    [bool] $isSubscriptionDeployment = $false;
+    [bool] $isSubscriptionDeployment = $false;    
  
     [hashtable] ExecuteDeployment([string] $tenantId, `
                         [string] $subscriptionId, `
                         [string] $resourceGroupName, `
                         [string] $deploymentTemplate, `
                         [string] $deploymentParameters, `
-                        [string] $location) {
+                        [string] $location,
+                        [string] $azureEnvironmentName) {
        
         try {
+            # set the URL's from Discovery REST API call
+            $this.SetAzureEnvironmentBasedManagementUrls($azureEnvironmentName);
+
             # call arm deployment
             $deployment = `
             $this.InvokeARMOperation(
@@ -753,5 +757,29 @@ Class AzureResourceManagerDeploymentService: IDeploymentService {
             Write-Host $_;
             throw $_;
         }
+    }
+
+    hidden [void] SetAzureEnvironmentBasedManagementUrls([string] $AzureEnvironment)
+    {
+        $discoveryUrl = "https://management.azure.com/metadata/endpoints?api-version=2019-05-01"
+        $auth = ( Invoke-RestMethod -Uri $discoveryUrl -Method Get -ContentType "application/json" ) | where { $_.name -eq $AzureEnvironment } | select { $_.authentication }
+        $aud = $auth.' $_.authentication '
+        $mngtUrl = $aud.audiences[1]
+
+        if(![string]::IsNullOrEmpty($mngtUrl)) {
+            $this.armResourceGroupDeploymentUri = $mngtUrl + "/subscriptions/{0}/resourcegroups/{1}/providers/Microsoft.Resources/deployments/{2}?api-version=2019-05-10";
+            $this.armSubscriptionDeploymentUri = $mngtUrl + "/subscriptions/{0}/providers/Microsoft.Resources/deployments/{1}?api-version=2019-05-10";
+            $this.armResourceGroupValidationUri = $mngtUrl + "/subscriptions/{0}/resourcegroups/{1}/providers/Microsoft.Resources/deployments/{2}/validate?api-version=2019-05-10";
+            $this.armSubscriptionValidationUri = $mngtUrl + "/subscriptions/{0}/providers/Microsoft.Resources/deployments/{1}/validate?api-version=2019-05-10";
+        }
+        else
+        {
+            $this.armResourceGroupDeploymentUri = "https://management.azure.com/subscriptions/{0}/resourcegroups/{1}/providers/Microsoft.Resources/deployments/{2}?api-version=2019-05-10";
+            $this.armSubscriptionDeploymentUri = "https://management.azure.com/subscriptions/{0}/providers/Microsoft.Resources/deployments/{1}?api-version=2019-05-10";
+            $this.armResourceGroupValidationUri = "https://management.azure.com/subscriptions/{0}/resourcegroups/{1}/providers/Microsoft.Resources/deployments/{2}/validate?api-version=2019-05-10";
+            $this.armSubscriptionValidationUri = "https://management.azure.com/subscriptions/{0}/providers/Microsoft.Resources/deployments/{1}/validate?api-version=2019-05-10";
+        }
+       
+        Write-Debug "Management URL: $mngtUrl";
     }
 }

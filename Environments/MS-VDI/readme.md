@@ -99,7 +99,6 @@ Note: The first two variables are set with the content of the configuration file
 $ENV:VDC_SUBSCRIPTIONS = (Get-Content .\Environments\_Common\subscriptions.json -Raw)
 $ENV:VDC_TOOLKIT_SUBSCRIPTION = (Get-Content .\Config\toolkit.subscription.json -Raw)
 $ENV:ORGANIZATION_NAME = "MS"
-$ENV:AZURE_ENVIRONMENT = "AzureUSGovernment"
 $ENV:AZURE_LOCATION = "USGov Virginia"
 $ENV:TENANT_ID = "[TENANT_ID]"
 $ENV:SUBSCRIPTION_ID = "[SUBSCRIPTION_ID]"
@@ -154,6 +153,10 @@ The following is the series of commands to execute.
         .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "JumpboxASG"
         .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "WindowsVM"
 ```
+
+**NOTE: **
+1. If deployment reports, unable to find deployment storage account, it could be that PowerShell is not connected to Azure.
+2. Open a new PowerShell/Docker instance if there was any changes to files in Environments folder
 
 ### **Teardown the environment**
 **Note:** Have not tested yet!
