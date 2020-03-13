@@ -64,7 +64,8 @@ Note: You can use a single subscription. You'll just need to provide the same su
 You can get your user object id and tenant id in the portal or by using command line utitilies.
 
 Using Azure PowerShell:
-1. Run `Connect-AzAccount -Tenant "[TENANT_ID]" -SubscriptionId "[SUBSCRIPTION_ID]" -EnvironmentName AzureUSGovernment` to login and set an Azure context.
+
+1. Run `Connect-AzAccount -Tenant "[TENANT_ID]" -SubscriptionId "[SUBSCRIPTION_ID]" -EnvironmentName "[AZURE_ENVIRONMENT]"` to login and set an Azure context.
 1. Run `Get-AzContext | % { Get-AzADUser -UserPrincipalName $($_.Account.Id) } | select Id` to get the user object id.
 1. Run `Get-AzContext | select Tenant` to get the tenant id.
 
@@ -99,7 +100,8 @@ Note: The first two variables are set with the content of the configuration file
 $ENV:VDC_SUBSCRIPTIONS = (Get-Content .\Environments\_Common\subscriptions.json -Raw)
 $ENV:VDC_TOOLKIT_SUBSCRIPTION = (Get-Content .\Config\toolkit.subscription.json -Raw)
 $ENV:ORGANIZATION_NAME = "MS"
-$ENV:AZURE_LOCATION = "USGov Virginia"
+$ENV:AZURE_LOCATION = "[AZURE_REGION]"
+$ENV:AzureEnvironmentName ="[AZURE_ENVIRONMENT]"
 $ENV:TENANT_ID = "[TENANT_ID]"
 $ENV:SUBSCRIPTION_ID = "[SUBSCRIPTION_ID]"
 $ENV:KEYVAULT_MANAGEMENT_USER_ID  = "[KEY_VAULT_MANAGEMENT_USER_ID]"
@@ -124,7 +126,7 @@ Any application specific parameters updates should be done in the [parameters.js
 ## Deploying the MS-VDI environment
 
 1. Return to the running Docker container from earlier in the quickstart.
-1. If you have not already done so, run `Connect-AzAccount -Tenant "[TENANT_ID]" -SubscriptionId "[SUBSCRIPTION_ID]" -EnvironmentName AzureUSGovernment` to login and set an Azure context.
+1. If you have not already done so, run `Connect-AzAccount -Tenant "[TENANT_ID]" -SubscriptionId "[SUBSCRIPTION_ID]" -EnvironmentName "[AZURE_ENVIRONMENT]"` to login and set an Azure context.
 1. To deploy the entire MS-VDI environment, you can run a single command:
 
     ``` PowerShell
@@ -132,11 +134,11 @@ Any application specific parameters updates should be done in the [parameters.js
     ```
 
 The toolkit will begin deploying the constituent modules and the status will be sent to the terminal.
-Open the [Azure portal](https://portal.azure.us) and you can check the status of the invididual deployments.
+Open the [Azure portal](https://portal.azure.us) and you can check the status of the invididual deployments. Azure portal link will be based on azure environment.
 
 ## Deploying individual modules
 
-If you prefer you can deploy the constituent modules for MS-VDI individually. 
+If you prefer you can deploy the constituent modules for MS-VDI individually.
 The following is the series of commands to execute.
 
 ``` PowerShell
