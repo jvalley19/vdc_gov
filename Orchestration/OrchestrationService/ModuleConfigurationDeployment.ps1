@@ -54,6 +54,7 @@ $defaultLocation = "West US";
 $defaultModuleConfigurationsFolderName = "Modules";
 $defaultTemplateFileName = "deploy.json";
 $defaultParametersFileName = "parameters.json";
+$AzureEnvironmentName = $ENV:AzureEnvironmentName;
 
 Function Start-Deployment {
     [CmdletBinding()]
@@ -130,18 +131,18 @@ Function Start-Deployment {
                 $ModuleConfigurationName = `
                     $moduleConfiguration.Name;
 
-                $subscriptionInformation = $null;
-                $subscriptionInformation = `
-                    Get-SubscriptionInformation `
-                        -ArchetypeInstanceJson $archetypeInstanceJson `
-                        -SubscriptionName $archetypeInstanceJson.Parameters.Subscription `
-                        -ModuleConfiguration $moduleConfiguration `
-                        -Mode @{ "False" = "deploy"; "True" = "validate"; }[$Validate.ToString()];
+        $subscriptionInformation = $null;
+            $subscriptionInformation = `
+            Get-SubscriptionInformation `
+            -ArchetypeInstanceJson $archetypeInstanceJson `
+            -SubscriptionName $archetypeInstanceJson.Parameters.Subscription `
+            -ModuleConfiguration $moduleConfiguration `
+            -Mode @{ "False" = "deploy"; "True" = "validate"; }[$Validate.ToString()];
 
-                if ($null -eq $subscriptionInformation) {
-                    throw "Subscription: $($archetypeInstanceJson.Parameters.Subscription) not found";
-                }
-
+        if ($null -eq $subscriptionInformation) {
+            throw "Subscription: $($archetypeInstanceJson.Parameters.Subscription) not found";
+        }
+                
                 # Let's get the current subscription context
                 $sub = Get-AzContext | Select-Object Subscription
 
@@ -332,7 +333,7 @@ Function Start-Deployment {
                                 -ArchetypeInstanceName $ArchetypeInstanceName `
                                 -Location $location `
                                 -Validate:$($Validate.IsPresent) `
-                                -AzureEnvironmentName $subscriptionInformation.AzureEnvironmentName;
+                                -AzureEnvironmentName $AzureEnvironmentName;
                             Write-Debug "Deployment complete, Resource state is: $(ConvertTo-Json -Compress $policyResourceState)";
                     }
                     else {
@@ -394,7 +395,7 @@ Function Start-Deployment {
                                 -ArchetypeInstanceName $ArchetypeInstanceName `
                                 -Location $location `
                                 -Validate:$($Validate.IsPresent) `
-                                -AzureEnvironmentName $subscriptionInformation.AzureEnvironmentName;
+                                -AzureEnvironmentName $AzureEnvironmentName;
                         Write-Debug "Deployment complete, Resource state is: $(ConvertTo-Json -Compress $rbacResourceState)";
                     }
                     else {
@@ -416,7 +417,7 @@ Function Start-Deployment {
                                 -ArchetypeInstanceName $ArchetypeInstanceName `
                                 -Location $location `
                                 -Validate:$($Validate.IsPresent) `
-                                -AzureEnvironmentName $subscriptionInformation.AzureEnvironmentName;
+                                -AzureEnvironmentName $AzureEnvironmentName;
                         Write-Debug "Deployment complete, Resource state is: $(ConvertTo-Json -Compress $resourceState)";
                     }
                 }
@@ -749,6 +750,11 @@ Function Start-Init {
         $global:customScriptExecution = `
             $factory.GetInstance('CustomScriptExecution');
 
+        # Set the BLOB Storage URL based on Azure Environment
+        $ENV:AZURE_ENV_BASED_URL = $deploymentService.GetAzureApiUrl($AzureEnvironmentName, "storage");
+    
+        Write-Debug "Azure_Env_Based_Url: $ENV:AZURE_ENV_BASED_URL";
+
         # Contruct the archetype instance object only if it is not already
         # cached
         $archetypeInstanceJson = `
@@ -766,6 +772,9 @@ Function Start-Init {
         else {
             $location = $archetypeInstanceJson.Parameters.Location
         }
+
+        Write-Debug ($archetypeInstanceJson.Orchestration.ModuleConfigurations.Deployment.OverrideParameters[10].storageBlobUrl | Format-Table | Out-String)
+        Write-Debug ($archetypeInstanceJson.Parameters | Format-Table | Out-String)
 
         # Retrieve the Archetype instance name if not already passed
         # to this function

@@ -5,7 +5,8 @@
             "Name": "VirtualNetworkHUB",
             "ModuleDefinitionName": "VirtualNetwork",
             "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.VirtualNetworkHUB.ResourceGroup}",
-            "DependsOn": [                
+            "DependsOn": [    
+                "VirtualNetworkSPOKE"            
             ],
             "Deployment": {
                 "OverrideParameters": {
@@ -58,6 +59,7 @@
             "ModuleDefinitionName": "VirtualNetworkPeering",
             "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.VirtualNetworkHUB.ResourceGroup}",
             "DependsOn": [
+                "VirtualNetworkSPOKE",
                 "VirtualNetworkHUB"
             ],
             "Deployment": {
@@ -265,6 +267,9 @@
                     },
                     "storageAccountSku": {
                         "value": "${Parameters.ModuleConfigurationParameters.ArtifactsStorageAccount.Sku}"
+                    },
+                    "location": {
+                        "value": "${Parameters.ModuleConfigurationParameters.ArtifactsStorageAccount.Location}"
                     }
                 }
             }
@@ -370,6 +375,9 @@
                             },
                             "secretName": "${Parameters.ModuleConfigurationParameters.KeyVault.SecretsObject.Secrets[1].secretName}"
                         }
+                    },
+                    "storageBlobUrl": {
+                        "value": "${Parameters.ModuleConfigurationParameters.Jumpbox.StorageBlobUrl}"
                     }
                 }
             }

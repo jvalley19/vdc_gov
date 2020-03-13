@@ -759,12 +759,38 @@ Class AzureResourceManagerDeploymentService: IDeploymentService {
         }
     }
 
-    hidden [void] SetAzureEnvironmentBasedManagementUrls([string] $AzureEnvironment)
+    [string] GetAzureApiUrl([string] $AzureEnvironment, [string] $requestAttrName)
     {
         $discoveryUrl = "https://management.azure.com/metadata/endpoints?api-version=2019-05-01"
-        $auth = ( Invoke-RestMethod -Uri $discoveryUrl -Method Get -ContentType "application/json" ) | where { $_.name -eq $AzureEnvironment } | select { $_.authentication }
-        $aud = $auth.' $_.authentication '
-        $mngtUrl = $aud.audiences[1]
+        $azureEnvUrl = ""
+        $invokeApi = ( Invoke-RestMethod -Uri $discoveryUrl -Method Get -ContentType "application/json" ) | where { $_.name -eq $AzureEnvironment }
+
+        switch ($requestAttrName.ToLower())
+        {
+            "management"
+            {
+                $filterVal = $invokeApi | select { $_.authentication }
+                $reqAzUrl = $filterVal.' $_.authentication '
+                $azureEnvUrl = $reqAzUrl.audiences[1]
+            }
+            "storage"
+            {
+                $filterVal = $invokeApi | select { $_.suffixes }
+                $reqAzUrl = $filterVal.' $_.suffixes '
+                $azureEnvUrl = $reqAzUrl.storage
+            }
+            default 
+            {
+                Throw "Azure URL not found for requested: " + $requestAttrName
+            }
+        }
+
+        return $azureEnvUrl.Trim()
+    }
+
+    hidden [void] SetAzureEnvironmentBasedManagementUrls([string] $AzureEnvironment)
+    {
+        $mngtUrl = $this.GetAzureApiUrl($AzureEnvironment, "management")
 
         if(![string]::IsNullOrEmpty($mngtUrl)) {
             $this.armResourceGroupDeploymentUri = $mngtUrl + "/subscriptions/{0}/resourcegroups/{1}/providers/Microsoft.Resources/deployments/{2}?api-version=2019-05-10";

@@ -4,6 +4,7 @@
     "InstanceName": "${Parameters.Organization}-${Parameters.DeploymentName}",
     "Subscription": "VDCVDI",
     "Location": "env(AZURE_LOCATION)",
+    "StorageBlobUrl": "env(AZURE_ENV_BASED_URL)",
     "ModuleConfigurationParameters": {
         "SharedServices": {
             "DeploymentName": "shrdsvcs",
@@ -313,6 +314,7 @@
             "ResourceGroup": "${Parameters.InstanceName}-jumpbox-rg",
             "AdminUsername": "${Parameters.ModuleConfigurationParameters.KeyVault.SecretsObject.Secrets[0].secretName}",
             "SubnetName": "${Parameters.ModuleConfigurationParameters.VirtualNetworkSPOKE.Subnets[0].name}",
+            "StorageBlobUrl": "${Parameters.StorageBlobUrl}",
             "Windows": {
                 "Comments": "Windows VM name cannot exceed 13 characters",
                 "Name": "win-jb-vm",
