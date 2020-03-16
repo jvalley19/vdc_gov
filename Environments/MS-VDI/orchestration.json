@@ -6,7 +6,7 @@
             "ModuleDefinitionName": "VirtualNetwork",
             "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.VirtualNetworkHUB.ResourceGroup}",
             "DependsOn": [    
-                "VirtualNetworkSPOKE"            
+           
             ],
             "Deployment": {
                 "OverrideParameters": {
