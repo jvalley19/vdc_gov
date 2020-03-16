@@ -32,7 +32,8 @@
             "Name": "VirtualNetworkSPOKE",
             "ModuleDefinitionName": "VirtualNetwork",
             "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.VirtualNetworkSPOKE.ResourceGroup}",
-            "DependsOn": [                
+            "DependsOn": [   
+                "VirtualNetworkHUB"             
             ],
             "Deployment": {
                 "OverrideParameters": {
@@ -59,7 +60,6 @@
             "ModuleDefinitionName": "VirtualNetworkPeering",
             "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.VirtualNetworkHUB.ResourceGroup}",
             "DependsOn": [
-                "VirtualNetworkSPOKE",
                 "VirtualNetworkHUB"
             ],
             "Deployment": {
