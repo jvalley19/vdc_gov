@@ -54,7 +54,7 @@ $defaultLocation = "West US";
 $defaultModuleConfigurationsFolderName = "Modules";
 $defaultTemplateFileName = "deploy.json";
 $defaultParametersFileName = "parameters.json";
-$AzureEnvironmentName = $ENV:AzureEnvironmentName;
+$AzureEnvironmentName = $ENV:AZURE_ENVIRONMENT_NAME;
 
 Function Start-Deployment {
     [CmdletBinding()]
