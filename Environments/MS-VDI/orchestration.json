@@ -33,7 +33,7 @@
             "ModuleDefinitionName": "VirtualNetwork",
             "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.VirtualNetworkSPOKE.ResourceGroup}",
             "DependsOn": [   
-            
+                "DiagnosticStorageAccount"
             ],
             "Deployment": {
                 "OverrideParameters": {
@@ -84,7 +84,7 @@
             "ModuleDefinitionName": "VirtualNetworkPeering",
             "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.VirtualNetworkSPOKE.ResourceGroup}",
             "DependsOn": [
-                "VirtualNetworkSPOKE"
+                "VirtualNetworkHUB"
             ],
             "Deployment": {
                 "OverrideParameters": {
