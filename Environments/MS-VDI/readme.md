@@ -2,42 +2,31 @@
 
 Deployment steps for [MS-VDI](../../Environments/MS-VDI) archetypes provided in the toolkit.
 
-## Prerequisites
-
-For some resources the deployment works only from Docker containers. 
-* [Docker](https://www.docker.com/get-started)
-* [Git](https://git-scm.com/downloads)
-* [Visual Studio Code](https://code.visualstudio.com/) or any text editor
-
-You can install these on your local machine or you can use the lab VM provided in the toolkit.
-See these instructions for [setting up the lab VM](../LabVM/README.md).
-
-After these prerequisties are installed, [clone the reposistory on GitHub](https://help.github.com/en/articles/cloning-a-repository-from-github) and [build a Docker image](https://docs.docker.com/glossary/?term=build).
-This quickstart assumes that you will be interacting with the toolkit through the Docker image.
-
 ### Clone the repository
 
 These steps assume that the `git` command is on your path.
 
 1. Open a terminal window
-1. Navigate to a folder where you want to store the source for the toolkit. If you are using the labVM, you can use the default `c:\Users\vdcadmin` folder.
-1. Run `git clone https://github.com/Azure/vdc.git`. This will clone the GitHub repository in a folder named `vdc`.
-1. Run `cd vdc` to change directory in the source folder.
-1. Run `git checkout master` to switch to the branch with the current in-development version of the toolkit.
+2. Navigate to a folder where you want to store the source for the toolkit. For, e.g. `c:\git`, navigate to that folder.
+3. Run `git clone https://github.com/RKSelvi/vdc.git`. This will clone the GitHub repository in a folder named `vdc`.
+4. Run `cd vdc` to change directory in the source folder.
+5. Run `git checkout master` to switch to the branch with the current in-development version of the toolkit.
 
 ### Build the Docker image
 
 1. Ensure that the [Docker daemon](https://docs.docker.com/config/daemon/) is running. If you are new to Docker, the easiest way to do this is to install [Docker Desktop](https://www.docker.com/products/docker-desktop).
 1. Open a terminal window
-1. Navigate to the folder where you cloned the repository. _The rest of the quickstart assumes that this path is `C:\Users\vdcadmin\vdc\`_
+1. Navigate to the folder where you cloned the repository. _The rest of the quickstart assumes that this path is `C:\git\vdc\`_
 1. Run `docker build . -t vdc:latest` to build the image.
 
 ### Run the toolkit container
+
 After the image finishing building, you can run it using:
 
-`docker run -it --rm -v C:\Users\vdcadmin\vdc\Config:/usr/src/app/Config -v C:\Users\vdcadmin\vdc\Environments:/usr/src/app/Environments -v C:\Users\vdcadmin\vdc\Modules:/usr/src/app/Modules vdc:latest`
+`docker run -it --rm -v C:\git\vdc\Config:/usr/src/app/Config -v C:\git\vdc\Environments:/usr/src/app/Environments -v C:\git\vdc\Modules:/usr/src/app/Modules vdc:latest`
 
 A few things to note:
+
 - You don't need to build the image every time you want to run the container. You'll only need to rebuild it if there are changes to the source (primarily changes in the `Orchestration` folder).
 - The `docker run` command above will map volumes in the container to volumes on the host machine. This will allow you to directly modify files in these directories (`Config`,`Environments`, and `Modules`).
 
@@ -49,10 +38,11 @@ When the container starts, you will see the prompt
 To configure the toolkit for this quickstart, we will need to collect the following information.
 
 You'll need:
+
 - A subscription for the toolkit to use for logging and tracking deployment.
 - The associated tenant id of the Azure Active Directory associated with those subscriptions.
 - The object id of the user account that you'll use to run the deployment.
-- The object id of a [service principal](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal) that Azure DevOps can use for deployment.
+- The object id of a [service principal](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal) that Azure DevOps can use for deployment. This is only for CI/CD pipeline
 - An organization name for generating a prefix for naming resources.
 - The desired username and password for the Active Directory domain admin that will be created. Active Directory is not deployed now.
 - The desired password of the Windows jumpbox.
@@ -79,29 +69,30 @@ This file is for toolkit configuration in general.
 
 - Set `Subscription.TenantId` to the tenant id note above.
 - Set `Subscription.SubscriptionId` to the id of the subscription used for logging and deployment state tracking noted above.
+- Set `Subscription.Location` for Azure regions. For e.g. for Azure Gov, "USGov Virginia"
 
 #### [`Environments\_Common\subscriptions.json`](../Environments/_Common/subscriptions.json)
 
-This file is for the deployment enviroments configuration. In the quickstart, we are only interested in the `MS-VDI`.
+This file is for the deployment enviroments configuration. Update the subscription & tenant id's in the following environments in the subscriptions.json, `VDCVDI`, `SharedServices` & `Artifacts`
 
-- Set `MS-VDI.TenantId` to the tenant id note above.
-- Set `MS-VDI.SubscriptionId` to the id of the target subscription for the deployment noted above.
-
+- Set `TenantId` to the tenant id note above.
+- Set `SubscriptionId` to the id of the target subscription for the deployment noted above.
+  
 #### Environmental variables
 
 The toolkit uses environmental variables instead of configuration files to help avoid the accidental inclusion of secrets into your source control. In the context of a CI/CD pipeline, these values would be retrieved from a key vault.
 
-You can set these environmental variables by substituting the actual values in the script below.
-You can then copy and paste this script into PowerShell to execute it.
+Set these environmental variables by substituting the actual values in the script below.
+Copy and paste this script into PowerShell to execute it.
 
 Note: The first two variables are set with the content of the configuration files we just modified. The path will not resolve correctly unless you are in `/usr/src/app` directory. 
 
 ```PowerShell
 $ENV:VDC_SUBSCRIPTIONS = (Get-Content .\Environments\_Common\subscriptions.json -Raw)
 $ENV:VDC_TOOLKIT_SUBSCRIPTION = (Get-Content .\Config\toolkit.subscription.json -Raw)
-$ENV:ORGANIZATION_NAME = "MS"
+$ENV:ORGANIZATION_NAME = "[ORGANIZATION_NAME]"
+$ENV:AZURE_ENVIRONMENT_NAME = "[AZURE_ENVIRONMENT]"
 $ENV:AZURE_LOCATION = "[AZURE_REGION]"
-$ENV:AzureEnvironmentName ="[AZURE_ENVIRONMENT]"
 $ENV:TENANT_ID = "[TENANT_ID]"
 $ENV:SUBSCRIPTION_ID = "[SUBSCRIPTION_ID]"
 $ENV:KEYVAULT_MANAGEMENT_USER_ID  = "[KEY_VAULT_MANAGEMENT_USER_ID]"
@@ -112,6 +103,37 @@ $ENV:ADMIN_USER_NAME = "[VM_ADMIN_USER_NAME]"
 $ENV:ADMIN_USER_PWD = "[VM_ADMIN_USER_PASSWORD]"
 ```
 
+**NOTE:** Examples to setting the env variables
+
+- "[ORGANIZATION_NAME]"
+  - Abbreviation of your org (for e.g. contoso) with **NO SPACES**
+- "[AZURE_ENVIRONMENT]"
+  - For Azure Commercial
+    - "AzureCloud"
+  - For Azure Government
+    - "AzureUSGovernment"
+- "[AZURE_REGION]" - Depending on the Azure Enviroment, provide Azure regions. For e.g.
+  - Azure public cloud
+    - "East US"
+    - "East US 2"
+  - Azure Government
+    - "USGov Virginia"
+    - "USGov Iowa"
+- "[KEY_VAULT_MANAGEMENT_USER_ID]"
+  - User's GUID from AAD deploying the VDC toolkit
+- "[SERVICE_PRINCIPAL_USER_ID]"
+  - Used by CI/CD (not yet implemented). Can be same as KEY_VAULT_MANAGEMENT_USER_ID
+- "[TENANT_ID]" - Tenant's GUID
+- "[SUBSCRIPTION_ID]" - Subscription's GUID
+- "[DOMAIN_ADMIN_USER_NAME]"
+  - Domain user name - will be used for AD deployment and not yet included in current deployment
+- "[DOMAIM_ADMIN_USER_PASSWORD]"
+  - Domain user password - will be used for AD deployment and not yet included in current deployment
+- "[VM_ADMIN_USER_NAME]"
+  - VM log in username
+- "[VM_ADMIN_USER_PASSWORD]"
+  - VM user password
+
 To use the above script:
 
 1. Return to the running Docker container from earlier in the quickstart.
@@ -121,6 +143,7 @@ To use the above script:
 5. Verify that the enviromental variables are set by running `env` to view the current values.
 
 #### Parameters
+
 Any application specific parameters updates should be done in the [parameters.json](../../Environments/MS-VDI/parameters.json) file such as IP address, subnet names, subnet range, secrets etc.
 
 ## Deploying the MS-VDI environment
@@ -156,12 +179,12 @@ The following is the series of commands to execute.
         .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "WindowsVM"
 ```
 
-**NOTE: **
+**NOTE:**
+
 1. If deployment reports, unable to find deployment storage account, it could be that PowerShell is not connected to Azure.
 2. Open a new PowerShell/Docker instance if there was any changes to files in Environments folder
 
 ### **Teardown the environment**
-**Note:** Have not tested yet!
 
 ``` PowerShell
 ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -TearDownEnvironment -DefinitionPath ./Environments/MS-VDI/definition.json
