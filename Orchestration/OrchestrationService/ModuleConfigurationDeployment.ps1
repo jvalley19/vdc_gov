@@ -54,7 +54,13 @@ $defaultLocation = "West US";
 $defaultModuleConfigurationsFolderName = "Modules";
 $defaultTemplateFileName = "deploy.json";
 $defaultParametersFileName = "parameters.json";
-$AzureEnvironmentName = $ENV:AZURE_ENVIRONMENT_NAME;
+
+# Get/Set the BLOB Storage & Management URL based on Azure Environment
+$discUrlResponse = Get-AzureApiUrl -AzureEnvironment $ENV:AZURE_ENVIRONMENT_NAME
+$ENV:AZURE_STORAGE_BLOB_URL = $discUrlResponse.suffixes.storage
+$AzureManagementUrl = $discUrlResponse.authentication.audiences[1]
+Write-Debug "AZURE_STORAGE_BLOB_URL: $ENV:AZURE_STORAGE_BLOB_URL"
+Write-Debug "AzureManagementUrl: $AzureManagementUrl"
 
 Function Start-Deployment {
     [CmdletBinding()]
@@ -333,7 +339,7 @@ Function Start-Deployment {
                                 -ArchetypeInstanceName $ArchetypeInstanceName `
                                 -Location $location `
                                 -Validate:$($Validate.IsPresent) `
-                                -AzureEnvironmentName $AzureEnvironmentName;
+                                -AzureManagementUrl $AzureManagementUrl;
                             Write-Debug "Deployment complete, Resource state is: $(ConvertTo-Json -Compress $policyResourceState)";
                     }
                     else {
@@ -395,7 +401,7 @@ Function Start-Deployment {
                                 -ArchetypeInstanceName $ArchetypeInstanceName `
                                 -Location $location `
                                 -Validate:$($Validate.IsPresent) `
-                                -AzureEnvironmentName $AzureEnvironmentName;
+                                -AzureManagementUrl $AzureManagementUrl;
                         Write-Debug "Deployment complete, Resource state is: $(ConvertTo-Json -Compress $rbacResourceState)";
                     }
                     else {
@@ -417,7 +423,7 @@ Function Start-Deployment {
                                 -ArchetypeInstanceName $ArchetypeInstanceName `
                                 -Location $location `
                                 -Validate:$($Validate.IsPresent) `
-                                -AzureEnvironmentName $AzureEnvironmentName;
+                                -AzureManagementUrl $AzureManagementUrl;
                         Write-Debug "Deployment complete, Resource state is: $(ConvertTo-Json -Compress $resourceState)";
                     }
                 }
@@ -749,12 +755,7 @@ Function Start-Init {
 
         $global:customScriptExecution = `
             $factory.GetInstance('CustomScriptExecution');
-
-        # Set the BLOB Storage URL based on Azure Environment
-        $ENV:AZURE_ENV_BASED_URL = $deploymentService.GetAzureApiUrl($AzureEnvironmentName, "storage");
-    
-        Write-Debug "Azure_Env_Based_Url: $ENV:AZURE_ENV_BASED_URL";
-
+        
         # Contruct the archetype instance object only if it is not already
         # cached
         $archetypeInstanceJson = `
@@ -2194,7 +2195,7 @@ Function New-AzureResourceManagerDeployment {
         [switch]
         $Validate,
         [string]
-        $AzureEnvironmentName
+        $AzureManagementUrl
     )
 
     try {
@@ -2231,7 +2232,7 @@ Function New-AzureResourceManagerDeployment {
                     $DeploymentTemplate,
                     $DeploymentParameters,
                     $Location,
-                    $AzureEnvironmentName);
+                    $AzureManagementUrl);
         }
     }
     catch {

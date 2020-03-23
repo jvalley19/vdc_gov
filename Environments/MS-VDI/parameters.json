@@ -4,7 +4,7 @@
     "InstanceName": "${Parameters.Organization}-${Parameters.DeploymentName}",
     "Subscription": "VDCVDI",
     "Location": "env(AZURE_LOCATION)",
-    "StorageBlobUrl": "env(AZURE_ENV_BASED_URL)",
+    "StorageBlobUrl": "env(AZURE_STORAGE_BLOB_URL)",
     "ModuleConfigurationParameters": {
         "SharedServices": {
             "DeploymentName": "shrdsvcs",
