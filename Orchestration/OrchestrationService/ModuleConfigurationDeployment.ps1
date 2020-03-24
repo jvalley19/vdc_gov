@@ -2192,7 +2192,7 @@ Function New-AzureResourceManagerDeployment {
         $Location,
         [Parameter(Mandatory=$true)]
         [switch]
-        $Validate
+        $Validate,
         [string]
         $AzureManagementUrl
     )
