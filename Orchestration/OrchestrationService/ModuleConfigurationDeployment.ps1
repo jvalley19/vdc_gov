@@ -56,7 +56,7 @@ $defaultTemplateFileName = "deploy.json";
 $defaultParametersFileName = "parameters.json";
 
 # Get/Set the BLOB Storage & Management URL based on Azure Environment
-$discUrlResponse = Get-AzureApiUrl -AzureEnvironment $ENV:AZURE_ENVIRONMENT_NAME
+$discUrlResponse = Get-AzureApiUrl -AzureEnvironment $ENV:AZURE_ENVIRONMENT_NAME -AzureDiscoveryUrl $ENV:AZURE_DISCOVERY_URL
 $ENV:AZURE_STORAGE_BLOB_URL = $discUrlResponse.suffixes.storage
 $AzureManagementUrl = $discUrlResponse.authentication.audiences[1]
 Write-Debug "AZURE_STORAGE_BLOB_URL: $ENV:AZURE_STORAGE_BLOB_URL"
