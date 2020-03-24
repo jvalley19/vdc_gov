@@ -225,7 +225,13 @@
             "metadata": {
                 "description": "Optional. AD domain name. If joinToDomain is set to true, this value becomes required."
             }
-        }
+        },
+        "storageBlobUrl": {
+            "type": "string",
+            "defaultValue": "core.windows.net",
+            "metadata": {
+                "description": "Required. BLOB Storage URL based on Azure Environment."
+            }
     },
     "variables": {
         "joinToDomain": "[and(not(empty(parameters('domainAdminUsername'))), not(empty(parameters('domainAdminPassword'))))]",
@@ -536,7 +542,7 @@
                 "diagnosticsProfile": {
                     "bootDiagnostics": {
                         "enabled": true,
-                        "storageUri": "[concat('https://', parameters('diagnosticStorageAccountName'), '.blob.core.windows.net/')]"
+                        "storageUri": "[concat('https://', parameters('diagnosticStorageAccountName'), '.blob.', parameters('storageBlobUrl'), '/')]"
                     }
                 }
             },
@@ -629,7 +635,7 @@
                         "autoUpgradeMinorVersion": true,
                         "settings": {
                             "configuration": {
-                                "url": "[concat('https://', parameters('artifactsStorageAccountName'), '.blob.core.windows.net/scripts/Windows/formatDataDisks.zip')]",
+                                "url": "[concat('https://', parameters('artifactsStorageAccountName'), '.blob.', parameters('storageBlobUrl'), '/scripts/Windows/formatDataDisks.zip')]",
                                 "script": "formatDisk.ps1",
                                 "function": "FormatDisk"
                             },
@@ -931,7 +937,7 @@
                         "protectedSettings": {
                             "storageAccountName": "[parameters('diagnosticStorageAccountName')]",
                             "storageAccountSasToken": "[parameters('diagnosticStorageAccountSasToken')]",
-                            "storageAccountEndPoint": "https://core.windows.net"
+                            "storageAccountEndPoint": "[concat('https://', parameters('storageBlobUrl'))]"
                         }
                     }
                 },
@@ -967,7 +973,7 @@
                         "autoUpgradeMinorVersion": true,
                         "settings": {
                             "fileUris": [
-                                "[concat('https://', parameters('artifactsStorageAccountName'), '.blob.core.windows.net/scripts/Windows/enable-local-policy-settings.ps1')]"
+                                "[concat('https://', parameters('artifactsStorageAccountName'), '.blob.', parameters('storageBlobUrl'), '/scripts/Windows/enable-local-policy-settings.ps1')]"
                             ]
                         },
                         "protectedSettings": {
@@ -1871,7 +1877,7 @@
                         },
                         "protectedSettings": {
                             "storageAccountName": "[parameters('diagnosticStorageAccountName')]",
-                            "storageAccountEndPoint": "https://core.windows.net/",
+                            "storageAccountEndPoint": "[concat('https://', parameters('storageBlobUrl'), '/')]",
                             "storageAccountSasToken": "[parameters('diagnosticStorageAccountSasToken')]"
                         }
                     }
@@ -2067,6 +2073,13 @@
             "metadata": {
                 "description": "The resource identifier of the VMs provisioned."
             }
-        }
+        },
+        "AzureEnvUrl": {
+            "type": "string",
+            "value": "parameters('storageBlobUrl')",
+            "metadata": {
+                "description": "Checking the incoming storageBlobUrl."
+            }
+        }	        }
     }
 }

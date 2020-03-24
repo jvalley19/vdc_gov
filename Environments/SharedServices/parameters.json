@@ -3,7 +3,7 @@
     "DeploymentName": "shrdsvcs",
     "InstanceName": "${Parameters.Organization}-${Parameters.DeploymentName}",
     "Subscription": "SharedServices",
-    "Location": "West US",
+    "Location": "env(Azure_location)",
     "ModuleConfigurationParameters": {
         "OnPremisesInformation": {
             "InstanceName": "${Parameters.InstanceName}",

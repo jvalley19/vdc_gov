@@ -1,5 +1,10 @@
 {
     "Comments": "Dashes are not supported as part of a Subscription name",
+    "VDCVDI": {
+        "Comments": "Microsoft VDC with VDI environment subscription and tenant information",
+        "TenantId": "00000000-0000-0000-0000-000000000000",
+        "SubscriptionId": "00000000-0000-0000-0000-000000000000"
+    },
     "OnPremises": {
         "Comments": "Simulated On-Premises subscription and tenant information",
         "TenantId": "00000000-0000-0000-0000-000000000000",

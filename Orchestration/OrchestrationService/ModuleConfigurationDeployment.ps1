@@ -55,6 +55,13 @@ $defaultModuleConfigurationsFolderName = "Modules";
 $defaultTemplateFileName = "deploy.json";
 $defaultParametersFileName = "parameters.json";
 
+# Get/Set the BLOB Storage & Management URL based on Azure Environment
+$discUrlResponse = Get-AzureApiUrl -AzureEnvironment $ENV:AZURE_ENVIRONMENT_NAME
+$ENV:AZURE_STORAGE_BLOB_URL = $discUrlResponse.suffixes.storage
+$AzureManagementUrl = $discUrlResponse.authentication.audiences[1]
+Write-Debug "AZURE_STORAGE_BLOB_URL: $ENV:AZURE_STORAGE_BLOB_URL"
+Write-Debug "AzureManagementUrl: $AzureManagementUrl"
+
 Function Start-Deployment {
     [CmdletBinding()]
     param (
@@ -331,7 +338,8 @@ Function Start-Deployment {
                                 -ModuleConfiguration $moduleConfiguration.Policies `
                                 -ArchetypeInstanceName $ArchetypeInstanceName `
                                 -Location $location `
-                                -Validate:$($Validate.IsPresent);
+                                -Validate:$($Validate.IsPresent) `
+                                -AzureManagementUrl $AzureManagementUrl;
                             Write-Debug "Deployment complete, Resource state is: $(ConvertTo-Json -Compress $policyResourceState)";
                     }
                     else {
@@ -392,7 +400,8 @@ Function Start-Deployment {
                                 -ModuleConfiguration $moduleConfiguration.RBAC `
                                 -ArchetypeInstanceName $ArchetypeInstanceName `
                                 -Location $location `
-                                -Validate:$($Validate.IsPresent);
+                                -Validate:$($Validate.IsPresent) `
+                                -AzureManagementUrl $AzureManagementUrl;
                         Write-Debug "Deployment complete, Resource state is: $(ConvertTo-Json -Compress $rbacResourceState)";
                     }
                     else {
@@ -763,6 +772,9 @@ Function Start-Init {
         else {
             $location = $archetypeInstanceJson.Parameters.Location
         }
+
+        Write-Debug ($archetypeInstanceJson.Orchestration.ModuleConfigurations.Deployment.OverrideParameters[10].storageBlobUrl | Format-Table | Out-String)
+        Write-Debug ($archetypeInstanceJson.Parameters | Format-Table | Out-String)
 
         # Retrieve the Archetype instance name if not already passed
         # to this function
@@ -2181,6 +2193,8 @@ Function New-AzureResourceManagerDeployment {
         [Parameter(Mandatory=$true)]
         [switch]
         $Validate
+        [string]
+        $AzureManagementUrl
     )
 
     try {
