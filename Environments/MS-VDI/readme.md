@@ -101,6 +101,7 @@ $ENV:DOMAIN_ADMIN_USERNAME = "[DOMAIN_ADMIN_USER_NAME]"
 $ENV:DOMAIN_ADMIN_USER_PWD = "[DOMAIM_ADMIN_USER_PASSWORD]"
 $ENV:ADMIN_USER_NAME = "[VM_ADMIN_USER_NAME]"
 $ENV:ADMIN_USER_PWD = "[VM_ADMIN_USER_PASSWORD]"
+$ENV:AZURE_DISCOVERY_URL = "https://management.azure.com/metadata/endpoints?api-version=2019-05-01"
 ```
 
 **NOTE:** Examples to setting the env variables
