@@ -497,9 +497,11 @@ Function Get-AzureApiUrl() {
     param(
         [Parameter(Mandatory=$true)]
         [string]
-        $AzureEnvironment = "AzureCloud"
+        $AzureEnvironment = "AzureCloud",
+        [Parameter(Mandatory=$true)]
+        [string]
+        $AzureDiscoveryUrl
     )
 
-    $discoveryUrl = "https://management.azure.com/metadata/endpoints?api-version=2019-05-01"
-    return ( Invoke-RestMethod -Uri $discoveryUrl -Method Get -ContentType "application/json" ) | where { $_.name -eq $AzureEnvironment }
+    return ( Invoke-RestMethod -Uri $AzureDiscoveryUrl -Method Get -ContentType "application/json" ) | where { $_.name -eq $AzureEnvironment }
 }
