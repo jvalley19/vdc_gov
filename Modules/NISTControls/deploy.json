@@ -24,8 +24,9 @@
         },
         "location": {
             "type": "string",
+            "defaultValue": "[resourceGroup().location]",
             "metadata": {
-                "description": "Required. Location used as part of the Policy assignment."
+                "description": "Optional. Location of the Storage Account."
             }
         },
         "listOfResourceTypesWithDiagnosticLogsEnabled": {

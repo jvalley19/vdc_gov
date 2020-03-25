@@ -55,7 +55,13 @@
                 "UK South",
                 "West Europe",
                 "West US",
-                "West US 2"
+                "West US 2",
+                "USGov Virginia",
+                "USGov Iowa",
+                "USGov Arizona",
+                "USGov Texas",
+                "USDoD Central",
+                "USDoD East"
             ]
         },
         "AutomationAccounts": {
@@ -83,7 +89,13 @@
                 "West Central US",
                 "West Europe",
                 "West US 2",
-                "West US"
+                "West US",
+                "USGov Virginia",
+                "USGov Iowa",
+                "USGov Arizona",
+                "USGov Texas",
+                "USDoD Central",
+                "USDoD East"
             ]
         },
         "AzureBastion": {
@@ -96,7 +108,13 @@
                 "West Europe",
                 "South Central US",
                 "Australia East",
-                "Japan East"
+                "Japan East",
+                "USGov Virginia",
+                "USGov Iowa",
+                "USGov Arizona",
+                "USGov Texas",
+                "USDoD Central",
+                "USDoD East"
             ]
         },
         "ApplicationSecurityGroups": {
