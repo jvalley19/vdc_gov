@@ -19,4 +19,4 @@ jobs:
       run: docker build . -t vdc:latest
       
     - name: Connect Docket toolkit container
-      run: docker run -it --rm -v ./VDC/Config:/usr/src/app/Config -v ./VDC/Environments:/usr/src/app/Environments -v ./VDC/Modules:/usr/src/app/Modules vdc:latest
+      run: docker run -it --rm -v VDC/Config:/usr/src/app/Config -v VDC/Environments:/usr/src/app/Environments -v VDC/Modules:/usr/src/app/Modules vdc:latest
