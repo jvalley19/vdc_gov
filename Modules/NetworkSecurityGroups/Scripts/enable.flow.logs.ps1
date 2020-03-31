@@ -36,8 +36,8 @@ try {
     else {
         Write-Host "No subscription switching is required."
     }
-
-    $WorkspaceRegion = $WorkspaceRegion.Replace(' ', '').ToLower()
+    
+    #$WorkspaceRegion = $WorkspaceRegion.Replace(' ', '').ToLower()
     $NetworkWatcherRegion = $NetworkWatcherRegion.Replace(' ', '').ToLower()
 
     $registered = Get-AzResourceProvider -ProviderNamespace Microsoft.Insights
