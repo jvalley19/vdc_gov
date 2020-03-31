@@ -16,5 +16,5 @@ jobs:
     - uses: actions/checkout@v2
       
     - name: Build the Docker image
-      run: docker run -it -v "/vdc/tree/master/Config":"/usr/src/app/Config" vdc:latest
+      run: docker run -v "/vdc/tree/master/Config":"/usr/src/app/Config" vdc:latest
       
