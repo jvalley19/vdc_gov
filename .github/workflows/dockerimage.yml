@@ -34,5 +34,6 @@ jobs:
         TENANT_ID : "afbdf3f7-745e-4ef4-9622-afdafcb3fd2b"
         SUBSCRIPTION_ID : "060528b2-d1a2-49ee-95d9-d5877a6922e6"
         KEYVAULT_MANAGEMENT_USER_ID  : "f1a33fd8-35d3-4955-9ef3-9c4773c29e6b"
+        AZURE_DISCOVERY_URL : "https://management.azure.com/metadata/endpoints?api-version=2019-05-01"
       run: ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/MS-VDI/definition.json -ModuleConfigurationName "VirtualNetworkHUB"
       shell : pwsh
