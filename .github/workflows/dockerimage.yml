@@ -19,4 +19,16 @@ jobs:
        docker build . -t vdc:latest
        docker run -v "/vdc/tree/master/Config":"/usr/src/app/Config" -v "/vdc/tree/master/Environments":"/usr/src/app/Environments" -v "/vdc/tree/master/Modules":"/usr/src/app/Modules" vdc:latest
        chmod +x  ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1
+    
+    - name: Execute deployment      
+      env:
+        VDC_SUBSCRIPTIONS: (Get-Content .\Environments\_Common\subscriptions.json -Raw)
+        VDC_TOOLKIT_SUBSCRIPTION: (Get-Content .\Config\toolkit.subscription.json -Raw)
+        ORGANIZATION_NAME : "MS"
+        AZURE_LOCATION : "West US 2"
+        AZURE_ENVIRONMENT_NAME : "AzureCloud"
+        TENANT_ID : "afbdf3f7-745e-4ef4-9622-afdafcb3fd2b"
+        SUBSCRIPTION_ID : "060528b2-d1a2-49ee-95d9-d5877a6922e6"
+        KEYVAULT_MANAGEMENT_USER_ID  : "f1a33fd8-35d3-4955-9ef3-9c4773c29e6b"
+      run: 
        ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/MS-VDI/definition.json -ModuleConfigurationName "VirtualNetworkHUB"
