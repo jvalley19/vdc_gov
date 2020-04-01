@@ -492,7 +492,7 @@
                 "WindowsJumpbox", 
                 "LinuxJumpbox", 
                 "InstallActiveDirectory",
-               
+                "InstallActiveDirectoryDomainServices",
                 "ActiveDirectoryDomainServicesKek", 
                 "WindowsJumpboxKek", 
                 "LinuxJumpboxKek", 
@@ -1110,7 +1110,7 @@
                 "EncryptActiveDirectoryDomainServices"
             ],
             "Comments": "Installs Active Directory Domain Services",
-            "Enabled": false,
+            
             "Deployment": {
                 "OverrideParameters": {
                     "virtualMachineName": {
