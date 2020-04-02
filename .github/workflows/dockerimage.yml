@@ -19,12 +19,18 @@ jobs:
        docker build . -t vdc:latest
        docker run -v "/vdc/tree/master/Config":"/usr/src/app/Config" -v "/vdc/tree/master/Environments":"/usr/src/app/Environments" -v "/vdc/tree/master/Modules":"/usr/src/app/Modules" vdc:latest
        chmod +x  ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1
+   
+       - name: Build the Docker image
+       - uses: azure/login@v1
+       with:
+        creds: ${{ secrets.AZURE_CREDENTIALS  }}
        
-    - name: Login into Azure
+    - name: Print Env Variables
       run: |
         echo ${{ secrets.TENANT_ID }}
         echo ${{ secrets.SUBSCRIPTION_ID }}
         echo ${{ secrets.KEYVAULT_MANAGEMENT_USER_ID }}
+      shell : pwsh
    
     - name: Execute deployment      
       env:
