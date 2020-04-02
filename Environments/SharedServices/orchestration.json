@@ -210,7 +210,8 @@
                     "DiagnosticStorageAccountId": "reference(DiagnosticStorageAccount.storageAccountResourceId)",
                     "WorkspaceId": "reference(LogAnalytics.logAnalyticsWorkspaceId)",
                     "LogAnalyticsWorkspaceId": "reference(LogAnalytics.logAnalyticsWorkspaceResourceId)",
-                    "WorkspaceRegion": "${Parameters.ModuleConfigurationParameters.LogAnalytics.Location}"
+                    "WorkspaceRegion": "${Parameters.ModuleConfigurationParameters.LogAnalytics.Location}",
+                    "environmentName": "${Parameters.EnvironmentName}"
                 }
             }
         },
@@ -255,7 +256,8 @@
                     "DiagnosticStorageAccountId": "reference(DiagnosticStorageAccount.storageAccountResourceId)",
                     "WorkspaceId": "reference(LogAnalytics.logAnalyticsWorkspaceId)",
                     "LogAnalyticsWorkspaceId": "reference(LogAnalytics.logAnalyticsWorkspaceResourceId)",
-                    "WorkspaceRegion": "${Parameters.ModuleConfigurationParameters.LogAnalytics.Location}"
+                    "WorkspaceRegion": "${Parameters.ModuleConfigurationParameters.LogAnalytics.Location}",
+                    "environmentName": "${Parameters.EnvironmentName}"
                 }
             }
         },

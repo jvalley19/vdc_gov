@@ -20,7 +20,10 @@
         $LogAnalyticsWorkspaceId,
         [Parameter(Mandatory=$true)]
         [string]
-        $WorkspaceRegion
+        $WorkspaceRegion,
+        [Parameter(Mandatory=$true)]
+        [string]
+        $environmentName
     )
 
 try {
@@ -36,8 +39,14 @@ try {
     else {
         Write-Host "No subscription switching is required."
     }
-    
-    #$WorkspaceRegion = $WorkspaceRegion.Replace(' ', '').ToLower()
+    if ($environmentName -eq "AzureCloud") {
+        $WorkspaceRegion = $WorkspaceRegion.Replace(' ', '').ToLower()
+        Write-Host "Workspace region set for Azure commercial"
+    }
+    else {
+        Write-Host "Workspace region set for Azure Government"
+    }
+   
     $NetworkWatcherRegion = $NetworkWatcherRegion.Replace(' ', '').ToLower()
 
     $registered = Get-AzResourceProvider -ProviderNamespace Microsoft.Insights
