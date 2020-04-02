@@ -21,6 +21,7 @@ jobs:
         ORG_NAME : "MS"
       run: |
         echo $VDC_SUB $VDC_TOOL_SUB $ORG_NAME
+      shell : pwsh
     
     - name: Log into Azure
       uses: azure/login@v1
@@ -36,7 +37,7 @@ jobs:
     - name: Execute deployment      
       env:
         VDC_SUBSCRIPTIONS: (pwsh Get-Content .\Environments\_Common\subscriptions.json -Raw)
-        VDC_TOOLKIT_SUBSCRIPTION: (pwsh Get-Content .\Config\toolkit.subscription.json -Raw)
+        VDC_TOOLKIT_SUBSCRIPTION: (pwsh Get-Content /home/runner/work/vdc/vdc/Config/toolkit.config.json -Raw)
         ORGANIZATION_NAME : "MS"
         AZURE_LOCATION : "West US 2"
         AZURE_ENVIRONMENT_NAME : "AzureCloud"
