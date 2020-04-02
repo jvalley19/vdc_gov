@@ -13,6 +13,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    
+    - name: Print Env Variables
+      run: |
+        echo ${{ secrets.TENANT_ID }}
+        echo ${{ secrets.SUBSCRIPTION_ID }}
+        echo ${{ secrets.KEYVAULT_MANAGEMENT_USER_ID }}
+      shell : pwsh
       
     - name: Build the Docker image
       run: |
@@ -20,18 +27,11 @@ jobs:
        docker run -v "/vdc/tree/master/Config":"/usr/src/app/Config" -v "/vdc/tree/master/Environments":"/usr/src/app/Environments" -v "/vdc/tree/master/Modules":"/usr/src/app/Modules" vdc:latest
        chmod +x  ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1
    
-       - name: Build the Docker image
+       - name: Log into Azure
        - uses: azure/login@v1
        with:
         creds: ${{ secrets.AZURE_CREDENTIALS  }}
-       
-    - name: Print Env Variables
-      run: |
-        echo ${{ secrets.TENANT_ID }}
-        echo ${{ secrets.SUBSCRIPTION_ID }}
-        echo ${{ secrets.KEYVAULT_MANAGEMENT_USER_ID }}
-      shell : pwsh
-   
+          
     - name: Execute deployment      
       env:
         VDC_SUBSCRIPTIONS: (Get-Content .\Environments\_Common\subscriptions.json -Raw)
