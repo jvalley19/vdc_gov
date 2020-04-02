@@ -24,7 +24,7 @@ jobs:
         echo $TID $SID $KID $TNTID
     
     - name: Log into Azure
-    - uses: azure/login@v1
+      uses: azure/login@v1
       with:
        creds: ${{ secrets.AZURE_CREDENTIALS  }}
             
