@@ -22,17 +22,17 @@ jobs:
         KID: ${{ secrets.KEYVAULT_MANAGEMENT_USER_ID }}
       run: |
         echo $TID $SID $KID $TNTID
+    
+    - name: Log into Azure
+    - uses: azure/login@v1
+      with:
+       creds: ${{ secrets.AZURE_CREDENTIALS  }}
             
     - name: Build the Docker image
       run: |
        docker build . -t vdc:latest
        docker run -v "/vdc/tree/master/Config":"/usr/src/app/Config" -v "/vdc/tree/master/Environments":"/usr/src/app/Environments" -v "/vdc/tree/master/Modules":"/usr/src/app/Modules" vdc:latest
        chmod +x  ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1
-   
-       - name: Log into Azure
-       - uses: azure/login@v1
-       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS  }}
           
     - name: Execute deployment      
       env:
