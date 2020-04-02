@@ -31,9 +31,9 @@ jobs:
         ORGANIZATION_NAME : "MS"
         AZURE_LOCATION : "West US 2"
         AZURE_ENVIRONMENT_NAME : "AzureCloud"
-        TENANT_ID : "afbdf3f7-745e-4ef4-9622-afdafcb3fd2b"
-        SUBSCRIPTION_ID : "060528b2-d1a2-49ee-95d9-d5877a6922e6"
-        KEYVAULT_MANAGEMENT_USER_ID  : "f1a33fd8-35d3-4955-9ef3-9c4773c29e6b"
+        TENANT_ID : ${{ secrets.TENANT_ID }}
+        SUBSCRIPTION_ID : ${{ secrets.SUBSCRIPTION_ID }}
+        KEYVAULT_MANAGEMENT_USER_ID  : ${{ secrets.KEYVAULT_MANAGEMENT_USER_ID }}
         AZURE_DISCOVERY_URL : "https://management.azure.com/metadata/endpoints?api-version=2019-05-01"
       run: ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/MS-VDI/definition.json -ModuleConfigurationName "VirtualNetworkHUB"
       shell : pwsh
