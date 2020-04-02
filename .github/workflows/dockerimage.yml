@@ -16,12 +16,11 @@ jobs:
     
     - name: Print Env Variables
       env:
-        TID: Hi there! My name is
         TNTID: ${{ secrets.TENANT_ID }}
         SID: ${{ secrets.SUBSCRIPTION_ID }}
         KID: ${{ secrets.KEYVAULT_MANAGEMENT_USER_ID }}
       run: |
-        echo $TID $SID $KID $TNTID
+        echo $SID $KID $TNTID
     
     - name: Log into Azure
       uses: azure/login@v1
@@ -45,6 +44,7 @@ jobs:
         SUBSCRIPTION_ID : ${{ secrets.SUBSCRIPTION_ID }}
         KEYVAULT_MANAGEMENT_USER_ID  : ${{ secrets.KEYVAULT_MANAGEMENT_USER_ID }}
         AZURE_DISCOVERY_URL : "https://management.azure.com/metadata/endpoints?api-version=2019-05-01"
-      run:          
-          ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/MS-VDI/definition.json -ModuleConfigurationName "VirtualNetworkHUB"
+      run:  |
+         $DebugPreference="Continue"        
+         .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "DiagnosticStorageAccount"
       shell : pwsh
