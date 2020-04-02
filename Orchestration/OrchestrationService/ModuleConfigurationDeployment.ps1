@@ -56,7 +56,11 @@ $defaultTemplateFileName = "deploy.json";
 $defaultParametersFileName = "parameters.json";
 
 # Get/Set the BLOB Storage & Management URL based on Azure Environment
+<<<<<<< HEAD
 $discUrlResponse = Get-AzureApiUrl -AzureEnvironment $ENV:AZURE_ENVIRONMENT_NAME
+=======
+$discUrlResponse = Get-AzureApiUrl -AzureEnvironment $ENV:AZURE_ENVIRONMENT_NAME -AzureDiscoveryUrl $ENV:AZURE_DISCOVERY_URL
+>>>>>>> jackbranch
 $ENV:AZURE_STORAGE_BLOB_URL = $discUrlResponse.suffixes.storage
 $AzureManagementUrl = $discUrlResponse.authentication.audiences[1]
 Write-Debug "AZURE_STORAGE_BLOB_URL: $ENV:AZURE_STORAGE_BLOB_URL"
@@ -137,18 +141,18 @@ Function Start-Deployment {
                 $ModuleConfigurationName = `
                     $moduleConfiguration.Name;
 
-                $subscriptionInformation = $null;
-                $subscriptionInformation = `
-                    Get-SubscriptionInformation `
-                        -ArchetypeInstanceJson $archetypeInstanceJson `
-                        -SubscriptionName $archetypeInstanceJson.Parameters.Subscription `
-                        -ModuleConfiguration $moduleConfiguration `
-                        -Mode @{ "False" = "deploy"; "True" = "validate"; }[$Validate.ToString()];
+        $subscriptionInformation = $null;
+            $subscriptionInformation = `
+            Get-SubscriptionInformation `
+            -ArchetypeInstanceJson $archetypeInstanceJson `
+            -SubscriptionName $archetypeInstanceJson.Parameters.Subscription `
+            -ModuleConfiguration $moduleConfiguration `
+            -Mode @{ "False" = "deploy"; "True" = "validate"; }[$Validate.ToString()];
 
-                if ($null -eq $subscriptionInformation) {
-                    throw "Subscription: $($archetypeInstanceJson.Parameters.Subscription) not found";
-                }
-
+        if ($null -eq $subscriptionInformation) {
+            throw "Subscription: $($archetypeInstanceJson.Parameters.Subscription) not found";
+        }
+                
                 # Let's get the current subscription context
                 $sub = Get-AzContext | Select-Object Subscription
 
@@ -422,7 +426,8 @@ Function Start-Deployment {
                                 -ModuleConfiguration $moduleConfiguration.Deployment `
                                 -ArchetypeInstanceName $ArchetypeInstanceName `
                                 -Location $location `
-                                -Validate:$($Validate.IsPresent);
+                                -Validate:$($Validate.IsPresent) `
+                                -AzureManagementUrl $AzureManagementUrl;
                         Write-Debug "Deployment complete, Resource state is: $(ConvertTo-Json -Compress $resourceState)";
                     }
                 }
@@ -754,7 +759,7 @@ Function Start-Init {
 
         $global:customScriptExecution = `
             $factory.GetInstance('CustomScriptExecution');
-
+        
         # Contruct the archetype instance object only if it is not already
         # cached
         $archetypeInstanceJson = `
@@ -2230,7 +2235,8 @@ Function New-AzureResourceManagerDeployment {
                     $ResourceGroupName,
                     $DeploymentTemplate,
                     $DeploymentParameters,
-                    $Location);
+                    $Location,
+                    $AzureManagementUrl);
         }
     }
     catch {
