@@ -35,8 +35,8 @@ jobs:
           
     - name: Execute deployment      
       env:
-        VDC_SUBSCRIPTIONS: (Get-Content .\Environments\_Common\subscriptions.json -Raw)
-        VDC_TOOLKIT_SUBSCRIPTION: (Get-Content .\Config\toolkit.subscription.json -Raw)
+        VDC_SUBSCRIPTIONS: (pwsh Get-Content .\Environments\_Common\subscriptions.json -Raw)
+        VDC_TOOLKIT_SUBSCRIPTION: (pwsh Get-Content .\Config\toolkit.subscription.json -Raw)
         ORGANIZATION_NAME : "MS"
         AZURE_LOCATION : "West US 2"
         AZURE_ENVIRONMENT_NAME : "AzureCloud"
