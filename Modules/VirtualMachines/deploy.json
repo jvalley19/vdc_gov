@@ -2081,10 +2081,6 @@
             "metadata": {
                 "description": "Checking the incoming storageBlobUrl."
             }
-<<<<<<< HEAD
-        }	        }
-=======
         }
->>>>>>> jackbranch
     }
 }
