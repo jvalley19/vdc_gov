@@ -18,11 +18,7 @@ Class AzureResourceManagerDeploymentService: IDeploymentService {
                         [string] $azureManagementUrl) {
        
         try {
-<<<<<<< HEAD
-             # set the URL's from Discovery REST API call
-=======
             # set the URL's from Discovery REST API call
->>>>>>> jackbranch
             $this.SetAzureEnvironmentBasedManagementUrls($azureManagementUrl);
 
             # call arm deployment
@@ -765,11 +761,7 @@ Class AzureResourceManagerDeploymentService: IDeploymentService {
         }
     }
 
-<<<<<<< HEAD
-     hidden [void] SetAzureEnvironmentBasedManagementUrls([string] $mngtUrl)
-=======
     hidden [void] SetAzureEnvironmentBasedManagementUrls([string] $mngtUrl)
->>>>>>> jackbranch
     {
         if(![string]::IsNullOrEmpty($mngtUrl)) {
             $this.armResourceGroupDeploymentUri = $mngtUrl + "/subscriptions/{0}/resourcegroups/{1}/providers/Microsoft.Resources/deployments/{2}?api-version=2019-05-10";
@@ -784,11 +776,7 @@ Class AzureResourceManagerDeploymentService: IDeploymentService {
             $this.armResourceGroupValidationUri = "https://management.azure.com/subscriptions/{0}/resourcegroups/{1}/providers/Microsoft.Resources/deployments/{2}/validate?api-version=2019-05-10";
             $this.armSubscriptionValidationUri = "https://management.azure.com/subscriptions/{0}/providers/Microsoft.Resources/deployments/{1}/validate?api-version=2019-05-10";
         }
-<<<<<<< HEAD
 
-=======
-       
->>>>>>> jackbranch
         Write-Debug "Management URL: $mngtUrl";
     }
 }
