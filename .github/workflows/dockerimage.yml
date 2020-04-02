@@ -15,12 +15,14 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Print Env Variables
+      env:
+        TID: Hi there! My name is
+        TNTID: ${{ secrets.TENANT_ID }}
+        SID: ${{ secrets.SUBSCRIPTION_ID }}
+        KID: ${{ secrets.KEYVAULT_MANAGEMENT_USER_ID }}
       run: |
-        echo ${{ secrets.TENANT_ID }}
-        echo ${{ secrets.SUBSCRIPTION_ID }}
-        echo ${{ secrets.KEYVAULT_MANAGEMENT_USER_ID }}
-      shell : pwsh
-      
+        echo $TID $SID $KID $TNTID
+            
     - name: Build the Docker image
       run: |
        docker build . -t vdc:latest
