@@ -16,11 +16,11 @@ jobs:
     
     - name: Print Env Variables
       env:
-        TNTID: ${{ secrets.TENANT_ID }}
-        SID: ${{ secrets.SUBSCRIPTION_ID }}
-        KID: ${{ secrets.KEYVAULT_MANAGEMENT_USER_ID }}
+        VDC_SUB: (pwsh Get-Content -Path .\Environments\_Common\subscriptions.json -Raw)
+        VDC_TOOL_SUB: (pwsh Get-Content /home/runner/work/vdc/vdc/Config/toolkit.config.json -Raw)
+        ORG_NAME : "MS"
       run: |
-        echo $SID $KID $TNTID
+        echo $VDC_SUB $VDC_TOOL_SUB $ORG_NAME
     
     - name: Log into Azure
       uses: azure/login@v1
@@ -45,6 +45,7 @@ jobs:
         KEYVAULT_MANAGEMENT_USER_ID  : ${{ secrets.KEYVAULT_MANAGEMENT_USER_ID }}
         AZURE_DISCOVERY_URL : "https://management.azure.com/metadata/endpoints?api-version=2019-05-01"
       run:  |
+         echo $SID $KID
          $DebugPreference="Continue"        
          .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "DiagnosticStorageAccount"
       shell : pwsh
