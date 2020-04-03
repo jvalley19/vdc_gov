@@ -19,10 +19,9 @@ jobs:
       with:
        creds: ${{ secrets.AZURE_CREDENTIALS  }}
      
-    - name: Get File Content
+    - name: Get JSON
       run: |
-          $webContent = Invoke-WebRequest -Uri 'https://github.com/RKSelvi${{ github.workspace }}/Config/toolkit.config.json'
-          echo $webContent.RawContent ${{ github.workspace }}
+          echo ${{ secrets.TOOLKIT_JSON  }}}
       shell : pwsh
             
     - name: Build the Docker image
