@@ -45,7 +45,7 @@ jobs:
         KEYVAULT_MANAGEMENT_USER_ID  : ${{ secrets.KEYVAULT_MANAGEMENT_USER_ID }}
         AZURE_DISCOVERY_URL : "https://management.azure.com/metadata/endpoints?api-version=2019-05-01"
       run:  |
-         $DebugPreference="Continue"        
-         .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "DiagnosticStorageAccount"
-         echo $VDC_SUBSCRIPTIONS $VDC_TOOLKIT_SUBSCRIPTION
+         $DebugPreference="Continue"
+         echo $VDC_SUBSCRIPTIONS $VDC_TOOLKIT_SUBSCRIPTION     
+         .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "DiagnosticStorageAccount"         
       shell : pwsh
