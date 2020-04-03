@@ -28,14 +28,15 @@ jobs:
     - name: Print Env Variables     
       run: |
         $DebugPreference="Continue"
-        $webContent = (Get-Content .\Config\toolkit.subscription.json -Raw)
-        echo $webContent
+        $toolKitContentJson = (Get-Content .\Config\toolkit.subscription.json -Raw)
+        $subsContentJson = (Get-Content .\Environments\_Common\subscriptions.json -Raw)
+        echo $toolKitContentJson $subsContentJson
       shell : pwsh
           
     - name: Execute deployment      
       env:
-        VDC_SUBSCRIPTIONS: (pwsh Get-Content .\Environments\_Common\subscriptions.json -Raw)
-        VDC_TOOLKIT_SUBSCRIPTION: (pwsh Get-Content /home/runner/work/vdc/vdc/Config/toolkit.config.json -Raw)
+        VDC_SUBSCRIPTIONS: $subsContentJson
+        VDC_TOOLKIT_SUBSCRIPTION: $toolKitContentJson
         ORGANIZATION_NAME : "MS"
         AZURE_LOCATION : "West US 2"
         AZURE_ENVIRONMENT_NAME : "AzureCloud"
@@ -46,4 +47,5 @@ jobs:
       run:  |
          $DebugPreference="Continue"        
          .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "DiagnosticStorageAccount"
+         echo $VDC_SUBSCRIPTIONS $VDC_TOOLKIT_SUBSCRIPTION
       shell : pwsh
