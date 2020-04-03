@@ -62,6 +62,9 @@ $AzureManagementUrl = $discUrlResponse.authentication.audiences[1]
 Write-Debug "AZURE_STORAGE_BLOB_URL: $ENV:AZURE_STORAGE_BLOB_URL"
 Write-Debug "AzureManagementUrl: $AzureManagementUrl"
 
+Write-Debug "Toolkit: $ENV:VDC_SUBSCRIPTIONS"
+Write-Debug "SubJson: $ENV:VDC_TOOLKIT_SUBSCRIPTION"
+
 Function Start-Deployment {
     [CmdletBinding()]
     param (
