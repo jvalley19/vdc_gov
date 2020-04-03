@@ -18,11 +18,6 @@ jobs:
       uses: azure/login@v1
       with:
        creds: ${{ secrets.AZURE_CREDENTIALS  }}
-     
-    - name: Get JSON
-      run: |
-          echo ${{ secrets.TOOLKIT_JSON  }}}
-      shell : pwsh
             
     - name: Build the Docker image
       run: |
@@ -30,15 +25,11 @@ jobs:
        docker run -v "/vdc/tree/master/Config":"/usr/src/app/Config" -v "/vdc/tree/master/Environments":"/usr/src/app/Environments" -v "/vdc/tree/master/Modules":"/usr/src/app/Modules" vdc:latest
        chmod +x  ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1
                     
-    - name: Print Env Variables
-      env:
-        VDC_SUB: |
-          $webContent = Invoke-WebRequest -Uri '/home/runner/work/vdc/vdc/Config/toolkit.config.json'
-          $webContent.RawContent
-        VDC_TOOL_SUB: (Get-Content /home/runner/work/vdc/vdc/Config/toolkit.config.json -Raw)
-        ORG_NAME : "MS"
+    - name: Print Env Variables     
       run: |
-        echo $VDC_SUB $VDC_TOOL_SUB $ORG_NAME
+        $DebugPreference="Continue"
+        $webContent = (Get-Content .\Config\toolkit.subscription.json -Raw)
+        echo $webContent
       shell : pwsh
           
     - name: Execute deployment      
@@ -53,7 +44,6 @@ jobs:
         KEYVAULT_MANAGEMENT_USER_ID  : ${{ secrets.KEYVAULT_MANAGEMENT_USER_ID }}
         AZURE_DISCOVERY_URL : "https://management.azure.com/metadata/endpoints?api-version=2019-05-01"
       run:  |
-         echo $SID $KID
          $DebugPreference="Continue"        
          .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "DiagnosticStorageAccount"
       shell : pwsh
