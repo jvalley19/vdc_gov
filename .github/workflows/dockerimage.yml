@@ -54,5 +54,5 @@ jobs:
          $VDC_SUBSCRIPTIONS = $subsContentJson
          $VDC_TOOLKIT_SUBSCRIPTION = $toolKitContentJson
          echo "Test123: " $VDC_SUBSCRIPTIONS $VDC_TOOLKIT_SUBSCRIPTION     
-         .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "DiagnosticStorageAccount"         
+         ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/MS-VDI/definition.json
       shell : pwsh
