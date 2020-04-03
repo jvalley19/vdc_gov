@@ -21,7 +21,7 @@ jobs:
      
     - name: Get File Content
       run: |
-          $webContent = Invoke-WebRequest -Uri '${{ github.workspace }}/Config/toolkit.config.json'
+          $webContent = Invoke-WebRequest -Uri 'https://github.com/RKSelvi${{ github.workspace }}/Config/toolkit.config.json'
           echo $webContent.RawContent ${{ github.workspace }}
       shell : pwsh
             
