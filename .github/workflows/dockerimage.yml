@@ -27,7 +27,9 @@ jobs:
        
     - name: Print Env Variables
       env:
-        VDC_SUB: (Get-Content -Path .\Environments\_Common\subscriptions.json -Raw)
+        VDC_SUB: |
+          $webContent = Invoke-WebRequest -Uri '/home/runner/work/vdc/vdc/Config/toolkit.config.json'
+          $webContent.RawContent
         VDC_TOOL_SUB: (Get-Content /home/runner/work/vdc/vdc/Config/toolkit.config.json -Raw)
         ORG_NAME : "MS"
       run: |
