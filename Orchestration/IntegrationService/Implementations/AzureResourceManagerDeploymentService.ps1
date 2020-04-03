@@ -776,7 +776,7 @@ Class AzureResourceManagerDeploymentService: IDeploymentService {
             $this.armResourceGroupValidationUri = "https://management.azure.com/subscriptions/{0}/resourcegroups/{1}/providers/Microsoft.Resources/deployments/{2}/validate?api-version=2019-05-10";
             $this.armSubscriptionValidationUri = "https://management.azure.com/subscriptions/{0}/providers/Microsoft.Resources/deployments/{1}/validate?api-version=2019-05-10";
         }
-       
+
         Write-Debug "Management URL: $mngtUrl";
     }
 }

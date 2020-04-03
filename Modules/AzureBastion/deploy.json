@@ -44,7 +44,13 @@
                 "West Europe",
                 "South Central US",
                 "Australia East",
-                "Japan East"
+                "Japan East",
+                "USGov Virginia",
+                "USGov Iowa",
+                "USGov Arizona",
+                "USGov Texas",
+                "USDoD Central",
+                "USDoD East"
             ],
             "metadata": {
                 "description": "Optional. Location for Azure Bastion, is currently limited to a small subset of regions."
