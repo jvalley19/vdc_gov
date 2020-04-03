@@ -25,6 +25,12 @@ jobs:
        docker run -v "/vdc/tree/master/Config":"/usr/src/app/Config" -v "/vdc/tree/master/Environments":"/usr/src/app/Environments" -v "/vdc/tree/master/Modules":"/usr/src/app/Modules" vdc:latest
        chmod +x  ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1
        
+       - name: Get File Content
+        run: |
+          $webContent = Invoke-WebRequest -Uri '/home/runner/work/vdc/vdc/Config/toolkit.config.json'
+          echo $webContent.RawContent
+      shell : pwsh
+       
     - name: Print Env Variables
       env:
         VDC_SUB: |
