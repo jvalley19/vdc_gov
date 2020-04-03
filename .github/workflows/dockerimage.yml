@@ -21,8 +21,8 @@ jobs:
      
     - name: Get File Content
       run: |
-          $webContent = Invoke-WebRequest -Uri '/home/runner/work/vdc/vdc/Config/toolkit.config.json'
-          echo $webContent.RawContent
+          $webContent = Invoke-WebRequest -Uri '${{ github.workspace }}/Config/toolkit.config.json'
+          echo $webContent.RawContent ${{ github.workspace }}
       shell : pwsh
             
     - name: Build the Docker image
