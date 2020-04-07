@@ -78,7 +78,7 @@ This file is for the deployment enviroments configuration. Update the subscripti
 - Set `TenantId` to the tenant id note above.
 - Set `SubscriptionId` to the id of the target subscription for the deployment noted above.
   
-#### Environmental variables
+### Setting the Environmental variables
 
 The toolkit uses environmental variables instead of configuration files to help avoid the accidental inclusion of secrets into your source control. In the context of a CI/CD pipeline, these values would be retrieved from a key vault.
 
@@ -129,13 +129,13 @@ $ENV:AZURE_DISCOVERY_URL = "https://management.azure.com/metadata/endpoints?api-
 - "[DOMAIN_ADMIN_USER_NAME]"
   - Domain user name - will be used for AD deployment and not yet included in current deployment
 - "[DOMAIM_ADMIN_USER_PASSWORD]"
-  - Domain user password - will be used for AD deployment and not yet included in current deployment
+  - Domain user password - will be used for AD deployment and not yet included in current deployment. Follow the [guidelines](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#what-are-the-password-requirements-when-creating-a-vm) for setting the password.
 - "[VM_ADMIN_USER_NAME]"
   - VM log in username
 - "[VM_ADMIN_USER_PASSWORD]"
-  - VM user password
+  - VM user password. Follow the [guidelines](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#what-are-the-password-requirements-when-creating-a-vm) for setting the password.
 
-To use the above script:
+To set the environment values:
 
 1. Return to the running Docker container from earlier in the quickstart.
 2. Confirm that you are in the `/usr/src/app` directory.
@@ -143,7 +143,7 @@ To use the above script:
 4. Copy the script into the clipboard and paste it in the terminal.
 5. Verify that the enviromental variables are set by running `env` to view the current values.
 
-#### Parameters
+### Setting the Parameters
 
 Any application specific parameters updates should be done in the [parameters.json](../../Environments/MS-VDI/parameters.json) file such as IP address, subnet names, subnet range, secrets etc.
 
@@ -194,8 +194,27 @@ The following is the series of commands to execute.
 Note: This is the same command you used to deploy except that you include ` -TearDownEnvironment`.
 It uses the same configuration, so if you change the configuration the tear down may not execute as expected.
 
+### **Remove vdc-toolkit-rg**
+
+Teardown removes only the resources deployed from VDC toolkit orchestration but do not actually remove the resource group (vdc-toolkit-rg) and storage accounts created by VDC toolkit deployment.
+vdc-toolkit-rg
+
+Use the Azure Cli to remove the resource group and the storage accounts. Find the storage account name from the vdc-toolkit-rg resource group.
+
+``` AzureCli
+az account set --subscription [SUBSCRIPTION_ID]
+
+az storage container legal-hold clear --resource-group vdc-toolkit-rg --account-name [STORAGE_ACCOUNT_NAME] --container-name deployments --tags audit
+
+az storage container legal-hold clear --resource-group vdc-toolkit-rg --account-name [STORAGE_ACCOUNT_NAME] --container-name audit --tags audit
+```
+
+### **Remove KeyVault**
+
 For safety reasons, the key vault will not be deleted. Instead, it will be set to a _removed_ state. This means that the name is still considered in use. To fully delete the key vault, use:
 
 ``` PowerShell
-Get-AzKeyVault -InRemovedState | ? { Write-Host "Removing vault: $($_.VaultName)"; Remove-AzKeyVault -InRemovedState -VaultName $_.VaultName -Location $_.Location -Force }
+Get-AzKeyVault -InRemovedState | ? { Write-Host "Removing vault: $($_.VaultName)"; 
+
+Remove-AzKeyVault -InRemovedState -VaultName $_.VaultName -Location $_.Location -Force }
 ```
