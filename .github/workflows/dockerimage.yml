@@ -10,10 +10,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-  
-    env:
-     CC: ${{ matrix.compiler }}
-      
+       
     steps:
     - uses: actions/checkout@v2
        
@@ -27,19 +24,9 @@ jobs:
        docker build . -t vdc:latest
        docker run -v "/vdc/tree/master/Config":"/usr/src/app/Config" -v "/vdc/tree/master/Environments":"/usr/src/app/Environments" -v "/vdc/tree/master/Modules":"/usr/src/app/Modules" vdc:latest
        chmod +x  ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1
-                    
-    - name: Print Env Variables     
-      run: |
-        $DebugPreference="Continue"
-        $toolKitContentJson = (Get-Content .\Config\toolkit.subscription.json -Raw)
-        $subsContentJson = (Get-Content .\Environments\_Common\subscriptions.json -Raw)
-        echo $toolKitContentJson $subsContentJson
-      shell : pwsh
-          
+                            
     - name: Execute deployment
       env:
-        VDC_SUBSCRIPTIONS: $subsContentJson
-        VDC_TOOLKIT_SUBSCRIPTION: $toolKitContentJson
         ORGANIZATION_NAME : "MS"
         AZURE_LOCATION : "West US 2"
         AZURE_ENVIRONMENT_NAME : "AzureCloud"
@@ -47,12 +34,5 @@ jobs:
         SUBSCRIPTION_ID : ${{ secrets.SUBSCRIPTION_ID }}
         KEYVAULT_MANAGEMENT_USER_ID  : ${{ secrets.KEYVAULT_MANAGEMENT_USER_ID }}
         AZURE_DISCOVERY_URL : "https://management.azure.com/metadata/endpoints?api-version=2019-05-01"
-      run:  |
-         $DebugPreference="Continue"
-         $toolKitContentJson = (Get-Content .\Config\toolkit.subscription.json -Raw)
-         $subsContentJson = (Get-Content .\Environments\_Common\subscriptions.json -Raw)
-         $VDC_SUBSCRIPTIONS = $subsContentJson
-         $VDC_TOOLKIT_SUBSCRIPTION = $toolKitContentJson
-         echo "Test123: " $VDC_SUBSCRIPTIONS $VDC_TOOLKIT_SUBSCRIPTION     
-         ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/MS-VDI/definition.json
+      run: ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/MS-VDI/definition.json
       shell : pwsh
