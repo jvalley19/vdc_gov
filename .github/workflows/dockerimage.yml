@@ -34,5 +34,6 @@ jobs:
         SUBSCRIPTION_ID : ${{ secrets.SUBSCRIPTION_ID }}
         KEYVAULT_MANAGEMENT_USER_ID  : ${{ secrets.KEYVAULT_MANAGEMENT_USER_ID }}
         AZURE_DISCOVERY_URL : "https://management.azure.com/metadata/endpoints?api-version=2019-05-01"
-      run: ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/MS-VDI/definition.json
-      shell : pwsh
+      run: |
+           $DebugPreference="Continue"
+           ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/MS-VDI/definition.json
