@@ -28,6 +28,7 @@ jobs:
        
     - run: |
         az webapp list --query "[?state=='Running']"
+        Enable-AzContextAutosave
         
     - name: Execute deployment
       env:
