@@ -42,6 +42,7 @@ $factoryModulePath = Join-Path $rootPath -ChildPath '..' -AdditionalChildPath @(
 Import-Module $bootstrapModulePath -Force;
 Import-Module $factoryModulePath -Force;
 Import-Module "$($rootPath)/../Common/Helper.psd1" -Force;
+$null = Find-Module -Name Az | Install-Module -Force
 
 $global:deploymentService = $null;
 $global:cacheDataService = $null;
