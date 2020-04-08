@@ -15,6 +15,7 @@ jobs:
     - uses: actions/checkout@v2
             
     - name: Build the Docker image
+      shell : pwsh
       run: |
        Set-ExecutionPolicy -ExecutionPolicy Unrestricted
        docker build . -t vdc:latest
