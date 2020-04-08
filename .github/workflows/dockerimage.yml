@@ -37,3 +37,4 @@ jobs:
       run: |
            $DebugPreference="Continue"
            ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/MS-VDI/definition.json
+           shell : pwsh
