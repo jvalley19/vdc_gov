@@ -17,7 +17,6 @@ jobs:
     - name: Build the Docker image
       shell : pwsh
       run: |
-       Set-ExecutionPolicy -ExecutionPolicy Unrestricted
        docker build . -t vdc:latest
        docker run -v "/vdc/tree/master/Config":"/usr/src/app/Config" -v "/vdc/tree/master/Environments":"/usr/src/app/Environments" -v "/vdc/tree/master/Modules":"/usr/src/app/Modules" vdc:latest
        chmod +x  ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1
