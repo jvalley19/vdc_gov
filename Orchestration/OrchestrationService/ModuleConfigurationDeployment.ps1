@@ -75,8 +75,8 @@ Write-Debug "AzureManagementUrl: $AzureManagementUrl"
 # Get the config files
 $ENV:VDC_SUBSCRIPTIONS = (Get-Content ./Environments/_Common/subscriptions.json -Raw)
 $ENV:VDC_TOOLKIT_SUBSCRIPTION = (Get-Content ./Config/toolkit.subscription.json -Raw)
-Write-Debug "ToolkitJSON: $ENV:VDC_SUBSCRIPTIONS"
-Write-Debug "SubscriptionJson: $ENV:VDC_TOOLKIT_SUBSCRIPTION"
+#Write-Debug "ToolkitJSON: $ENV:VDC_SUBSCRIPTIONS"
+#Write-Debug "SubscriptionJson: $ENV:VDC_TOOLKIT_SUBSCRIPTION"
 
 Function Start-Deployment {
     [CmdletBinding()]
