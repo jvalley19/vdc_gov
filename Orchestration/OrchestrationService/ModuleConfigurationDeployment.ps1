@@ -841,8 +841,9 @@ Function Get-AllModules {
             
             if ($ENV:IS_DEV_OPS -eq $true)
             {
-                $topologicalSortBinReleasePath = Join-Path $rootPath -ChildPath "TopologicalSort\obj\Release\netstandard2.0";
-                $topologicalSortAssemblyPath = Join-Path $topologicalSortRootPath "TopologicalSort.dll"
+                $topologicalSortAssemblyPath = Join-Path $topologicalSortRootPath -ChildPath "obj\Release\netstandard2.0\TopologicalSort.dll";
+                #REMOVE
+                Write-Host "Inside: Topological Assembly: $topologicalSortAssemblyPath"
             }
             else
             {
