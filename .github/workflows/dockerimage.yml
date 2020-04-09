@@ -19,6 +19,7 @@ jobs:
       with:
        creds: ${{ secrets.AZURE_CREDENTIALS  }}  
        
+       
     - name: Build the Docker image & Deploy
       shell : pwsh
       env:
