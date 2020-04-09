@@ -12,13 +12,13 @@
                 "VmIpAddressStart": [ "172.0.0.10" ]
             },
             "VirtualNetworkHUB": {
-                "Id": "/subscriptions/${Subscriptions.VDCVDI.SubscriptionId}/resourceGroups/${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkHUB.ResourceGroupName}/providers/Microsoft.Network/virtualNetworks/${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkHUB.Name}",
-                "Name": "${Parameters.InstanceName}-HUB",
-                "ResourceGroupName": "${Parameters.InstanceName}-hubnetwork-rg",
+                "Id": "/subscriptions/${Subscriptions.SharedServices.SubscriptionId}/resourceGroups/${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkHUB.ResourceGroupName}/providers/Microsoft.Network/virtualNetworks/${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkHUB.Name}",
+                "Name": "${Parameters.Organization}-shrdsvcs-vnet",
+                "ResourceGroupName": "${Parameters.organization}-shrdsvcs-network-rg",
                 "AddressPrefix": "172.0.0.0/16",
                 "NetworkVirtualAppliance": {
                     "AzureFirewall": {
-                        "Name": "${Parameters.Organization}-${Parameters.ModuleConfigurationParameters.SharedServices.DeploymentName}-hbazfw"
+                        "Name": "${Parameters.Organization}-${Parameters.ModuleConfigurationParameters.SharedServices.DeploymentName}-azfw"
                     }
                 }
             },
@@ -40,58 +40,7 @@
         },
         "KeyVaultManagementUserId": "env(KEYVAULT_MANAGEMENT_USER_ID)",
         "DevOpsServicePrincipalId": "env(DEVOPS_SERVICE_PRINCIPAL_USER_ID)",
-        "VirtualNetworkHUB": {            
-            "Name": "${Parameters.InstanceName}-HUB",
-            "ResourceGroup": "${Parameters.InstanceName}-hubnetwork-rg",
-            "AddressPrefixes": ["172.0.0.0/16"],            
-            "EnableDdosProtection": false,
-            "EnableVmProtection": false,
-            "Subnets": [
-                {
-                    "name": "shrdsvcs",
-                    "addressPrefix": "172.0.0.0/28",
-                    "networkSecurityGroupName": "",
-                    "routeTableName": "",
-                    "serviceEndpoints": [
-                        {
-                            "service": "Microsoft.EventHub"
-                        },
-                        {
-                            "service": "Microsoft.Sql"
-                        },
-                        {
-                            "service": "Microsoft.Storage"
-                        },
-                        {
-                            "service": "Microsoft.KeyVault"
-                        }
-                    ]
-                },
-                {
-                    "name": "AppGateway",
-                    "addressPrefix": "172.0.1.0/28",
-                    "networkSecurityGroupName": "",
-                    "routeTableName": "",
-                    "serviceEndpoints": []
-                },
-                {
-                    "name": "AzureFirewallSubnet",
-                    "addressPrefix": "172.0.2.0/28",
-                    "networkSecurityGroupName": "",
-                    "routeTableName": "",
-                    "serviceEndpoints": []
-                },
-                {
-                    "name": "GatewaySubnet",
-                    "addressPrefix": "172.0.3.0/28",
-                    "networkSecurityGroupName": "",
-                    "routeTableName": "",
-                    "serviceEndpoints": []
-                }
-            ],
-            "DnsServers": [                
-            ]
-        },
+       
         "VirtualNetworkSPOKE": {            
             "Name": "${Parameters.InstanceName}-SPOKE",
             "ResourceGroup": "${Parameters.InstanceName}-spokenetwork-rg",
@@ -150,7 +99,7 @@
                 }         
             ],
             "DnsServers": [
-                "${Parameters.ModuleConfigurationParameters.ActiveDirectory.PrimaryDomainControllerIP}"
+                "${Parameters.ModuleConfigurationParameters.SharedServices.ActiveDirectory.VmIpAddressStart}"
             ]
         },       
         "VirtualNetworkPeering": {
@@ -168,7 +117,7 @@
             }
         },
         "NetworkSecurityGroups": {
-            "ResourceGroup": "${Parameters.ModuleConfigurationParameters.VirtualNetworkHUB.ResourceGroup}",
+            "ResourceGroup": "${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkHUB.ResourceGroupName}",
             "Comments": "Virtual Network (TCP and UDP) to Application Security Group rules are required for DNS resolution",
             "SharedServices": {
                 "Name": "${Parameters.DeploymentName}-nsg",
@@ -178,23 +127,7 @@
                 ]
             }
         },
-        "RouteTables": {
-            "ResourceGroup": "${Parameters.ModuleConfigurationParameters.VirtualNetworkHUB.ResourceGroup}",
-            "SharedServices": {
-                "Name": "${Parameters.DeploymentName}-udr",
-                "Routes": [
-                    {
-                        "name": "default",
-                        "properties": {
-                            "addressPrefix": "0.0.0.0/0",
-                            "nextHopIpAddress": "reference(AzureFirewall.azureFirewallPrivateIp)",
-                            "nextHopType": "VirtualAppliance"
-                        }
-                    }
-                ]
-            }
-        },
-        "DiagnosticStorageAccount": {
+            "DiagnosticStorageAccount": {
             "Name": "${Parameters.Organization}${Parameters.DeploymentName}diag01",
             "ResourceGroup": "${Parameters.InstanceName}-diagnostics-rg",
             "Location": "${Parameters.Location}",
@@ -332,75 +265,7 @@
                     "Destination": "HSM"
                 }
             }
-        },
-        "ActiveDirectory": {
-            "Name": "primary-ad",
-            "ResourceGroup": "${Parameters.InstanceName}-adds-rg",
-            "Comments": "Windows VM name cannot exceed 13 characters.",
-            "PrimaryDomainControllerIP": "172.0.0.10",
-            "DomainName": "msvdcvdi.com",
-            "ADSitename": "Cloud-Site",
-            "CloudZone": "msvdcvdicloud.com",
-            "DomainAdminUsername": "env(DOMAIN_ADMIN_USERNAME)",
-            "DomainAdminPassword": {
-                "keyVault": {
-                    "id": "reference(KeyVault.keyVaultResourceId)"
-                },
-                "secretName": "${Parameters.ModuleConfigurationParameters.KeyVault.SecretsObject.Secrets[1].secretName}"
-            },
-            "VMSize": "Standard_DS3_v2",
-            "OSImage": {
-                "offer": "WindowsServer",
-                "publisher": "MicrosoftWindowsServer",
-                "sku": "2016-Datacenter"
-            },
-            "OSType": "Windows",
-            "Kek": {
-                "Name": "AdKey",
-                "Comments": "Destination can be HSM or Software. Use HSM to create Production keys.",
-                "Destination": "HSM"
-            },
-            "SubnetName": "${Parameters.ModuleConfigurationParameters.VirtualNetworkSPOKE.Subnets[0].name}"
-        },
-        "ActiveDirectoryDomainServices": {
-            "Name": "adds-vm",
-            "ResourceGroup": "${Parameters.ModuleConfigurationParameters.ActiveDirectory.ResourceGroup}",
-            "Comments": "Windows VM name cannot exceed 13 characters. Additionally, Make sure that AddsIPAddressStart and ActiveDirectory.PrimaryDomainControllerIP are in the same subnet address prefix and they don't overlap",
-            "AdminUsername": "${Parameters.ModuleConfigurationParameters.KeyVault.SecretsObject.Secrets[0].secretName}",
-            "AdminPassword": {
-                "keyVault": {
-                    "id": "reference(KeyVault.keyVaultResourceId)"
-                },
-                "secretName": "${Parameters.ModuleConfigurationParameters.KeyVault.SecretsObject.Secrets[0].secretName}"
-            },
-            "Kek": {
-                "Name": "AddsKey",
-                "Comments": "Destination can be HSM or Software. Use HSM to create Production keys.",
-                "Destination": "HSM"
-            },
-            "DomainAdminUsername": "${Parameters.ModuleConfigurationParameters.ActiveDirectory.DomainAdminUsername}",
-            "DomainAdminPassword": "${Parameters.ModuleConfigurationParameters.ActiveDirectory.DomainAdminPassword}",
-            "VMCount": 2,
-            "VMSize": "Standard_DS3_v2",
-            "OSType": "Windows",
-            "OSImage": {
-                "offer": "WindowsServer",
-                "publisher": "MicrosoftWindowsServer",
-                "sku": "2016-Datacenter"
-            },
-            "AddsIPAddressStart": "172.0.0.20",
-            "DomainName": "${Parameters.ModuleConfigurationParameters.ActiveDirectory.DomainName}",
-            "PrimaryDomainControllerIP": "${Parameters.ModuleConfigurationParameters.ActiveDirectory.PrimaryDomainControllerIP}",
-            "ADSitename": "${Parameters.ModuleConfigurationParameters.ActiveDirectory.ADSitename}",
-            "DomaincontrollerDriveLetter": "F",
-            "SubnetName": "${Parameters.ModuleConfigurationParameters.VirtualNetworkSPOKE.Subnets[0].name}",
-            "DataDisks": [
-                {
-                    "size": 127,
-                    "driveLetter": "F",
-                    "diskId": 2
-                }
-            ]
         }
+        
     }
 }
