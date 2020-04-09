@@ -42,4 +42,4 @@ jobs:
        docker run -v "/vdc/tree/master/Config":"/usr/src/app/Config" -v "/vdc/tree/master/Environments":"/usr/src/app/Environments" -v "/vdc/tree/master/Modules":"/usr/src/app/Modules" vdc:latest
        chmod +x  ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1
        $DebugPreference="Continue"
-       ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/MS-VDI/definition.json
+       .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "VirtualNetworkHUB"
