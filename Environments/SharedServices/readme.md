@@ -46,6 +46,7 @@ You'll need:
 - An organization name for generating a prefix for naming resources.
 - The desired username and password for the Active Directory domain admin that will be created. Active Directory is not deployed now.
 - The desired password of the Windows jumpbox.
+- The [public ssh key](https://docs.microsoft.com/azure/virtual-machines/linux/mac-create-ssh-keys) for accessing the Linux jumpbox.
 
 Note: You can use a single subscription. You'll just need to provide the same subscription id in multiple locations in the configuration.
 
