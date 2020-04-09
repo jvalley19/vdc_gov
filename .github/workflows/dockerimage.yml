@@ -22,6 +22,9 @@ jobs:
     - name: Build the Docker image & Deploy
       shell : pwsh
       env:
+        SERVICE_PRINCIPAL: ${{ secrets.SERVICE_PRINCIPAL }}
+        SERVICE_PRINCIPAL_PASS: ${{ secrets. SERVICE_PRINCIPAL_PASS }}
+        IS_DEV_OPS : "true"
         ORGANIZATION_NAME : "MS"
         AZURE_LOCATION : "West US 2"
         AZURE_ENVIRONMENT_NAME : "AzureCloud"
