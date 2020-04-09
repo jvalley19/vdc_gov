@@ -40,7 +40,7 @@ try {
         Write-Host "No subscription switching is required."
     }
     if ($environmentName -eq "AzureCloud") {
-        $WorkspaceRegion = $WorkspaceRegion.Replace(' ', '').ToLower()
+      #  $WorkspaceRegion = $WorkspaceRegion.Replace(' ', '').ToLower()
         Write-Host "Workspace region set for Azure commercial"
     }
     else {
