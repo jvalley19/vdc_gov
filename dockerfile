@@ -11,6 +11,7 @@ RUN  apt-get update \
   && pwsh -Command "Install-Module -Name Az -Force" \
   && pwsh -Command "Install-Module -Name Pester -Force" \
   && pwsh -Command "Install-Module -Name Az.ResourceGraph -Force" \
+  && pwsh -Command "Install-Module -Name Az.Accounts -Force" \
   && export VER="1.4.1" \
   && wget -q https://releases.hashicorp.com/packer/${VER}/packer_${VER}_linux_amd64.zip \
   && unzip packer_${VER}_linux_amd64.zip \

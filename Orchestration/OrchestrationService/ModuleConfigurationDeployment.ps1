@@ -43,6 +43,16 @@ Import-Module $bootstrapModulePath -Force;
 Import-Module $factoryModulePath -Force;
 Import-Module "$($rootPath)/../Common/Helper.psd1" -Force;
 
+# For GitHub Actions to work
+if ($ENV:IS_DEV_OPS -eq $true)
+{
+    $null = Find-Module -Name Az | Install-Module -Force
+
+    $srvc_prin_passwd = ConvertTo-SecureString $ENV:SERVICE_PRINCIPAL_PASS -AsPlainText -Force
+    $credential = New-Object System.Management.Automation.PSCredential ($ENV:SERVICE_PRINCIPAL, $srvc_prin_passwd)
+    Connect-AzAccount -ServicePrincipal -Credential $credential -Tenant $ENV:TENANT_ID -SubscriptionId $ENV:SUBSCRIPTION_ID -EnvironmentName $ENV:AZURE_ENVIRONMENT_NAME
+}
+
 $global:deploymentService = $null;
 $global:cacheDataService = $null;
 $global:auditDataService = $null;
@@ -66,6 +76,12 @@ $ENV:VDC_TOOLKIT_SUBSCRIPTION = (Get-Content .\Config\toolkit.subscription.json 
 Write-Debug "AZURE_STORAGE_BLOB_URL: $ENV:AZURE_STORAGE_BLOB_URL"
 Write-Debug "AzureManagementUrl: $AzureManagementUrl"
 
+
+# Get the config files
+$ENV:VDC_SUBSCRIPTIONS = (Get-Content ./Environments/_Common/subscriptions.json -Raw)
+$ENV:VDC_TOOLKIT_SUBSCRIPTION = (Get-Content ./Config/toolkit.subscription.json -Raw)
+#Write-Debug "ToolkitJSON: $ENV:VDC_SUBSCRIPTIONS"
+#Write-Debug "SubscriptionJson: $ENV:VDC_TOOLKIT_SUBSCRIPTION"
 
 Function Start-Deployment {
     [CmdletBinding()]
@@ -820,12 +836,27 @@ Function Get-AllModules {
 
             $topologicalSortRootPath = `
                 Join-Path $rootPath -ChildPath 'TopologicalSort';
+            
+            #REMOVE
+            Write-Host "RootPath: $rootPath"
+            Write-Host "Topological Sort: $topologicalSortRootPath"
 
-            # Adding Out-Null to prevent outputs from the Invoke-Command from being added to
+            # Adding Out-Null to prevent outputs from the Invoke-Command from being added to            
             Invoke-Command -ScriptBlock { dotnet build $topologicalSortRootPath --configuration Release --output ./ } | Out-Null
-
-            $topologicalSortAssemblyPath = `
-                Join-Path $topologicalSortRootPath "TopologicalSort.dll"
+            
+            if ($ENV:IS_DEV_OPS -eq $true)
+            {
+                $topologicalSortAssemblyPath = Join-Path $topologicalSortRootPath -ChildPath "obj\Release\netstandard2.0\TopologicalSort.dll";
+                #REMOVE
+                Write-Host "Inside: Topological Assembly: $topologicalSortAssemblyPath"
+            }
+            else
+            {
+                $topologicalSortAssemblyPath = Join-Path $topologicalSortRootPath "TopologicalSort.dll"
+            }
+            
+            #REMOVE
+            Write-Host "Topological Assembly: $topologicalSortAssemblyPath"
 
             Add-Type -Path $topologicalSortAssemblyPath
 
@@ -1528,7 +1559,7 @@ Function Get-AuditStorageInformation {
             StorageAccountName = ''
             LocalPath = ''
         };
-
+               
         if ($ToolkitConfigurationJson.Configuration.Audit -and
         $ToolkitConfigurationJson.Configuration.Audit.StorageType.ToLower() -eq "storageaccount"){
 
