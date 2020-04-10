@@ -71,6 +71,11 @@ $ENV:AZURE_STORAGE_BLOB_URL = $discUrlResponse.suffixes.storage
 $AzureManagementUrl = $discUrlResponse.authentication.audiences[1]
 Write-Debug "AZURE_STORAGE_BLOB_URL: $ENV:AZURE_STORAGE_BLOB_URL"
 Write-Debug "AzureManagementUrl: $AzureManagementUrl"
+$ENV:VDC_SUBSCRIPTIONS = (Get-Content .\Environments\_Common\subscriptions.json -Raw)
+$ENV:VDC_TOOLKIT_SUBSCRIPTION = (Get-Content .\Config\toolkit.subscription.json -Raw)
+Write-Debug "AZURE_STORAGE_BLOB_URL: $ENV:AZURE_STORAGE_BLOB_URL"
+Write-Debug "AzureManagementUrl: $AzureManagementUrl"
+
 
 # Get the config files
 $ENV:VDC_SUBSCRIPTIONS = (Get-Content ./Environments/_Common/subscriptions.json -Raw)

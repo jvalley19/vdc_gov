@@ -2,33 +2,6 @@
     "ModuleConfigurationsPath": "../../Modules",
     "ModuleConfigurations": [
         {
-            "Name": "VirtualNetworkHUB",
-            "ModuleDefinitionName": "VirtualNetwork",
-            "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.VirtualNetworkHUB.ResourceGroup}",
-            "DependsOn": [    
-                "VirtualNetworkSPOKE"
-            ],
-            "Deployment": {
-                "OverrideParameters": {
-                    "vnetName": {
-                        "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkHUB.Name}"
-                    },
-                    "vnetAddressPrefixes": {
-                        "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkHUB.AddressPrefixes}"
-                    },
-                    "subnets": {
-                        "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkHUB.Subnets}"
-                    },
-                    "enableDdosProtection": {
-                        "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkHUB.EnableDdosProtection}"
-                    },
-                    "enableVmProtection": {
-                        "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkHUB.EnableVmProtection}"
-                    }
-                }
-            }
-        },
-        {
             "Name": "VirtualNetworkSPOKE",
             "ModuleDefinitionName": "VirtualNetwork",
             "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.VirtualNetworkSPOKE.ResourceGroup}",
@@ -58,14 +31,15 @@
         {
             "Name": "VirtualNetworkPeeringHub",
             "ModuleDefinitionName": "VirtualNetworkPeering",
-            "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.VirtualNetworkHUB.ResourceGroup}",
+            "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkHUB.ResourceGroupName}",
             "DependsOn": [
-                "VirtualNetworkHUB"
+                "VirtualNetworkHUB",
+                "VirtualNetworkSPOKE"
             ],
             "Deployment": {
                 "OverrideParameters": {
                     "localVnetName": {
-                        "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkHUB.Name}"
+                        "value": "${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkHUB.Name}"
                     },
                     "peeringName": {
                         "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkPeering.LocalPeering.Name}"
@@ -84,6 +58,7 @@
             "ModuleDefinitionName": "VirtualNetworkPeering",
             "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.VirtualNetworkSPOKE.ResourceGroup}",
             "DependsOn": [
+                "VirtualNetworkSPOKE",
                 "VirtualNetworkHUB"
             ],
             "Deployment": {
@@ -271,18 +246,6 @@
                     "location": {
                         "value": "${Parameters.ModuleConfigurationParameters.ArtifactsStorageAccount.Location}"
                     }
-                }
-            }
-        },
-        {
-            "Name": "UploadScriptsToArtifactsStorage",
-            "Comments": "Upload Scripts to Artifacts Storage",
-            "DependsOn": [ 
-                "ArtifactsStorageAccount"
-            ],
-            "Script": {
-                "Command": "Write-Host 'Adding Scripts...'; Import-Module -Name Az.Storage; $ctx = New-AzStorageContext -StorageAccountName reference(ArtifactsStorageAccount.storageAccountName) -SasToken '?reference(ArtifactsStorageAccount.storageAccountSasToken)'; New-AzRmStorageContainer -Name scripts -ResourceGroupName reference(ArtifactsStorageAccount.storageAccountResourceGroup) -StorageAccountName reference(ArtifactsStorageAccount.storageAccountName); Get-ChildItem -LiteralPath '../../Scripts/Windows' -File -Recurse | % { Set-AzStorageBlobContent -Context $ctx -Container scripts -Force -File $($_.FullName) -Blob Windows/$($_.Name)}",
-                "Arguments" : {
                 }
             }
         },

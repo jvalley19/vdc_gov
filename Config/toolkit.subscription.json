@@ -1,6 +1,6 @@
 {
-    "Comments": "Toolkit subscription and tenant information",
-    "TenantId": "afbdf3f7-745e-4ef4-9622-afdafcb3fd2b",
-    "SubscriptionId": "060528b2-d1a2-49ee-95d9-d5877a6922e6",
-    "Location": "West US 2"
+  "Comments": "Cleaned up from deployment",
+  "TenantId": "00000-0000000-000000-0000-0",
+  "SubscriptionId": "000000-000-0000-0000",
+  "Location": "DUMMYVALUE"
 }
