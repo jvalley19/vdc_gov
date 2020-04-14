@@ -15,20 +15,9 @@ jobs:
         - name: Hi world action
           uses: ./
           id: hello
-        -name: Get output time
+          with: 
+            
+        - name: Get output time
           run: echo "The time was ${{ steps.hello.outputs.time }}"
         
         
-        name: Log into Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS  }}  
-          
-
-
-       
-      run: |
-       docker build . -t vdc:latest
-       docker run -v "/vdc/tree/master/Config":"/usr/src/app/Config" -v "/vdc/tree/master/Environments":"/usr/src/app/Environments" -v "/vdc/tree/master/Modules":"/usr/src/app/Modules" vdc:latest
-       chmod +x  ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1
-       $DebugPreference="Continue"
