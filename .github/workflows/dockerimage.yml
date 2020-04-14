@@ -39,7 +39,6 @@ jobs:
         KEYVAULT_MANAGEMENT_USER_ID  : ${{ secrets.KEYVAULT_MANAGEMENT_USER_ID }}
         AZURE_DISCOVERY_URL : "https://management.azure.com/metadata/endpoints?api-version=2019-05-01"
       run: |
-      
        docker build . -t vdc:latest
        docker run -v "/vdc/tree/master/Config":"/usr/src/app/Config" -v "/vdc/tree/master/Environments":"/usr/src/app/Environments" -v "/vdc/tree/master/Modules":"/usr/src/app/Modules" vdc:latest
        chmod +x  ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1
