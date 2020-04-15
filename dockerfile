@@ -26,5 +26,5 @@ RUN  apt-get update \
   && apt-get install -y dotnet-sdk-2.2 \
   && dotnet build Orchestration/OrchestrationService/TopologicalSort/TopologicalSort.csproj --configuration Release
 
-COPY entrypoint.sh /entrypoint.sh
-ENTRYPOINT [ "/entrypoint.sh" ]
+#COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT [ "./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1" ]
