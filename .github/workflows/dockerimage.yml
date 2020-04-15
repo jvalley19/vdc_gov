@@ -9,21 +9,7 @@ on:
 jobs:
 
   build:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Log into Azure
-      uses: azure/login@v1
-      with:
-       creds: ${{ secrets.AZURE_CREDENTIALS  }}  
-       
-       
-    - name: Build the Docker image & Deploy
-      id : hello
-      uses: jvalley19/vdc@master
-      env:
+    env:
         SERVICE_PRINCIPAL: ${{ secrets.SERVICE_PRINCIPAL }}
         SERVICE_PRINCIPAL_PASS: ${{ secrets.SERVICE_PRINCIPAL_PASS }}
         IS_DEV_OPS : "false"
@@ -40,6 +26,21 @@ jobs:
         KEYVAULT_MANAGEMENT_USER_ID  : ${{ secrets.KEYVAULT_MANAGEMENT_USER_ID }}
         AZURE_DISCOVERY_URL : "https://management.azure.com/metadata/endpoints?api-version=2019-05-01"
         ADMIN_USER_SSH : ${{ secrets.ADMIN_USER_SSH }}
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Log into Azure
+      uses: azure/login@v1
+      with:
+       creds: ${{ secrets.AZURE_CREDENTIALS  }}  
+       
+       
+    - name: Build the Docker image & Deploy
+      id : hello
+      uses: jvalley19/vdc@master
+      
     - name:  get output
       run: |
         
