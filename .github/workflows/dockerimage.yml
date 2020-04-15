@@ -10,9 +10,10 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-       
+    container:
+      image: ubuntu   
     steps:
-    #uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
     - name: Log into Azure
       uses: azure/login@v1
