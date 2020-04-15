@@ -1,4 +1,4 @@
-FROM windows
+FROM ubuntu
 WORKDIR /usr/src/app
 COPY . ./
 RUN  apt-get update \
