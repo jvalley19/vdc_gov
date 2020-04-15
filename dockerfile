@@ -27,5 +27,5 @@ RUN  apt-get update \
   && dotnet build Orchestration/OrchestrationService/TopologicalSort/TopologicalSort.csproj --configuration Release
 
 RUN chmod 755 /usr/src/app
-COPY entrypoint.sh /usr/src/app/entrypoint.sh
-ENTRYPOINT [ "pwsh", "-c", "./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/SharedServices/definition.json" ]
+#COPY entrypoint.sh /usr/src/app/entrypoint.sh
+ENTRYPOINT [ "pwsh", "/usr/src/app/", "./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/SharedServices/definition.json" ]
