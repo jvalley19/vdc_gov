@@ -26,6 +26,6 @@ RUN  apt-get update \
   && apt-get install -y dotnet-sdk-2.2 \
   && dotnet build Orchestration/OrchestrationService/TopologicalSort/TopologicalSort.csproj --configuration Release
 
-RUN chmod 755 '/usr/src/app'
+RUN chmod 755 /usr/src/app
 COPY entrypoint.sh /usr/src/app/entrypoint.sh
 ENTRYPOINT [ "/bin/bash", "-c", "/usr/src/app/entrypoint.sh" ]
