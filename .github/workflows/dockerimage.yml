@@ -9,7 +9,7 @@ on:
 jobs:
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
        
     steps:
     - uses: actions/checkout@v2
@@ -40,9 +40,8 @@ jobs:
         AZURE_DISCOVERY_URL : "https://management.azure.com/metadata/endpoints?api-version=2019-05-01"
         ADMIN_USER_SSH : ${{ secrets.ADMIN_USER_SSH }}
       run: |
-       docker build . -t vdc:latest
-       docker run -v "/vdc/tree/master/Config":"/usr/src/app/Config" -v "/vdc/tree/master/Environments":"/usr/src/app/Environments" -v "/vdc/tree/master/Modules":"/usr/src/app/Modules" vdc:latest
-       chmod +x  ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1
-       .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\SharedServices\definition.json -ModuleConfigurationName "ArtifactsStorageAccount"
-       .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\SharedServices\definition.json -ModuleConfigurationName "UploadScriptsToArtifactsStorage"
+        docker build . -t vdc:latest
+        docker run -v "/vdc/tree/master/Config":"/usr/src/app/Config" -v "/vdc/tree/master/Environments":"/usr/src/app/Environments" -v "/vdc/tree/master/Modules":"/usr/src/app/Modules" vdc:latest
+        chmod +x  ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1
+        ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/SharedServices/definition.json
 
