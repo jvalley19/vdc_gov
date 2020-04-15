@@ -28,4 +28,4 @@ RUN  apt-get update \
 
 RUN chmod 755 /usr/src/app
 COPY entrypoint.sh /usr/src/app/entrypoint.sh
-ENTRYPOINT [ "pwsh", "-c", "/usr/src/app/'./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/SharedServices/definition.json'" ]
+ENTRYPOINT [ "pwsh", "-c", "./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/SharedServices/definition.json" ]
