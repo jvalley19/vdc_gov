@@ -1,5 +1,5 @@
-#!/usr/src/app -l
-
+#!/bin/bash -l
+set -x
 echo "HI dummy"
 echo $PWD
 echo $(ls)
