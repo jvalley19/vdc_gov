@@ -18,7 +18,7 @@ jobs:
         ADMIN_USER_PWD: ${{ secrets.ADMIN_USER_PWD }}
         DOMAIN_ADMIN_USERNAME: ${{ secrets.DOMAIN_ADMIN_USERNAME }}
         DOMAIN_ADMIN_USER_PWD: ${{ secrets.DOMAIN_ADMIN_USER_PWD }}
-        ORGANIZATION_NAME : "MS"
+        ORGANIZATION_NAME : "MSJV"
         AZURE_LOCATION : "East US"
         AZURE_ENVIRONMENT_NAME : "AzureCloud"
         TENANT_ID : ${{ secrets.TENANT_ID }}
