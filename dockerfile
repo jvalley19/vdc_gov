@@ -29,4 +29,4 @@ RUN  apt-get update \
 RUN chmod 755 /usr/src/app
 #COPY entrypoint.sh /usr/src/app/entrypoint.sh
 COPY entrypoint1.ps1 /usr/src/app/entrypoint1.ps1
-ENTRYPOINT [ "pwsh", "-c", "/entrypoint1.ps1" ]
+ENTRYPOINT [ "pwsh", "-c", "./entrypoint1.ps1" ]
