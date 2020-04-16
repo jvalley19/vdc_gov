@@ -14,5 +14,5 @@ Write-Host "HI dummy"
 Write-Debug Get-Location 
 #Write-Debug $(ls)
 ##chmod +x ./Environments/SharedServices
-$DebugPreference="Continue"
+#$DebugPreference="Continue"
 ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/SharedServices/definition.json
