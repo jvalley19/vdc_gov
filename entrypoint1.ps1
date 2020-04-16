@@ -1,8 +1,14 @@
 #!/usr/src/app
+$null = Find-Module -Name Az | Install-Module -Force
+
+$secpasswd = ConvertTo-SecureString $env:SERVICE_PRINCIPAL_PASS -AsPlainText -Force
+$Credential = New-Object System.Management.Automation.PSCredential ($env:SERVICE_PRINCIPAL, $secpasswd)
+
+Add-AzAccount -ServicePrincipal -Credential $Credential -Tenant $env:TENANT_ID
 
 #set -x
 Write-Host "HI dummy"
-Write-Host "$PATH" 
-Write-Debug $(ls)
+Write-Debug Get-Location 
+#Write-Debug $(ls)
 ##chmod +x ./Environments/SharedServices
 ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/SharedServices/definition.json
