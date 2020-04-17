@@ -7,7 +7,7 @@ $null = Install-Module -Name Pester -Force
 $secpasswd = ConvertTo-SecureString $env:SERVICE_PRINCIPAL_PASS -AsPlainText -Force
 $Credential = New-Object System.Management.Automation.PSCredential ($env:SERVICE_PRINCIPAL, $secpasswd)
 
-Connect-AzAccount -ServicePrincipal -Credential $Credential -Tenant $env:TENANT_ID -Subscription $env:SUBSCRIPTION_ID
+Connect-AzAccount -ServicePrincipal -Credential $Credential -Tenant $env:TENANT_ID -Subscription $env:SUBSCRIPTION_ID -EnvironmentName $env:AZURE_ENVIRONMENT_NAME
 
 Write-Host "Welcome to the Virtual Datacenter tool kit"
 
