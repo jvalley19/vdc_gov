@@ -5,7 +5,6 @@ author: 'Jack '
 runs:
   using: 'docker'
   image: 'dockerfile'
-  args:
   
 branding:
   color: red
