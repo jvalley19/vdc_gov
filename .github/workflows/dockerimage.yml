@@ -6,13 +6,13 @@ on:
   pull_request:
     branches: [ master ]
 
+
 jobs:
 
   build:
     env:
         SERVICE_PRINCIPAL: ${{ secrets.SERVICE_PRINCIPAL }}
         SERVICE_PRINCIPAL_PASS: ${{ secrets.SERVICE_PRINCIPAL_PASS }}
-        IS_DEV_OPS : "false"
         DEVOPS_SERVICE_PRINCIPAL_USER_ID: ${{ secrets.DEVOPS_SERVICE_PRINCIPAL_USER_ID }}
         ADMIN_USER_NAME: ${{ secrets.ADMIN_USER_NAME }}
         ADMIN_USER_PWD: ${{ secrets.ADMIN_USER_PWD }}

@@ -11,3 +11,4 @@ Connect-AzAccount -ServicePrincipal -Credential $Credential -Tenant $env:TENANT_
 
 Write-Host "Welcome to the script for deploying your Shared Services"
 ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/SharedServices/definition.json
+

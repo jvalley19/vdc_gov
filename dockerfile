@@ -25,7 +25,8 @@ RUN  apt-get update \
   && apt-get install azure-cli \
   && apt-get install -y dotnet-sdk-2.2 \
   && dotnet build Orchestration/OrchestrationService/TopologicalSort/TopologicalSort.csproj --configuration Release
+
 RUN chmod 755 /usr/src/app
-#COPY entrypoint.sh /usr/src/app/entrypoint.sh
+
 COPY entrypoint1.ps1 /usr/src/app/entrypoint1.ps1
 ENTRYPOINT [ "pwsh", "-c", "./entrypoint1.ps1" ]

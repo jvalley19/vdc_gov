@@ -2,17 +2,11 @@ name: 'Build and deploy the VDC toolkit'
 description: 'Builds toolkit for VDC.'
 author: 'Jack '
 inputs:
-  repo-token:
-    description: 'The GITHUB_TOKEN used to authenticate to the current repository'
-    required: true
 outputs: 
-  time: 
-    description: 'Time greeted'
 runs:
   using: 'docker'
   image: 'dockerfile'
   args:
-    - ${{ inputs.repo-token }}
   
 branding:
   color: red
