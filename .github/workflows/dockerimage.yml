@@ -30,16 +30,9 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
-       
-       
+         
     - name: Build the Docker image & Deploy
       id : hello
       uses: jvalley19/vdc@master
       
-    - name:  get output
-      run: |
-        
-        docker run -v "/vdc/tree/master/Config":"/usr/src/app/Config" -v "/vdc/tree/master/Environments":"/usr/src/app/Environments" -v "/vdc/tree/master/Modules":"/usr/src/app/Modules" vdc:latest
-        chmod +x  ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1
-        ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/SharedServices/definition.json
-
+  

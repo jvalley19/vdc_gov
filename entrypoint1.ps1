@@ -9,11 +9,5 @@ $Credential = New-Object System.Management.Automation.PSCredential ($env:SERVICE
 
 Connect-AzAccount -ServicePrincipal -Credential $Credential -Tenant $env:TENANT_ID -Subscription $env:SUBSCRIPTION_ID
 
-
-#set -x
-Write-Host "HI dummy"
-Write-Debug Get-Location 
-#Write-Debug $(ls)
-##chmod +x ./Environments/SharedServices
-#$DebugPreference="Continue"
+Write-Host "Welcome to the script for deploying your Shared Services"
 ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/SharedServices/definition.json
