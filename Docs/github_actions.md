@@ -23,12 +23,9 @@ Getting started with GitHub Actions and the VDC toolkit
 			
 		b. To add these secrets in your Github repository navigate to 
 			i. "Settings" -> "Secrets"
-				1) Then add each secret with exactly the name above
-
-    ![TestImage](Gitsecrets.png)
+				1) Then add each secret with exactly the name above			
 			
-			
-		- You do not need "" around your secret values. 
+		- *You do not need "" around your secret values. 
 	
 	
 	3. In your dockerimage.yml file you will need to change the following values that suit your need
