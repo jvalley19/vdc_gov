@@ -80,7 +80,7 @@
         },
         {
             "Name": "DiagnosticStorageAccount",
-            "ModuleDefinitionName": "StorageAccounts",
+            "ModuleDefinitionName": "Storage123Accounts",
             "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.DiagnosticStorageAccount.ResourceGroup}",
             "Comments": "Storage Account that is used for ...",
             "Policies": {
