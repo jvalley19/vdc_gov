@@ -20,14 +20,13 @@ Start-Sleep -s 5
 
 ## Enter the main script for deploying shared services
 Write-Host "Starting the script for deploying your Shared Services"
-./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -TearDownEnvironment -DefinitionPath ./Environments/SharedServices/definition.json 
+./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/SharedServices/definition.json 
 
-Write-Host $LASTEXITCODE -Verbose
-Start-Sleep -s 5
-
-Write-Host "Executing the pre-req script in the config files"
-./Orchestration/OrchestrationService/Pre_req_script.ps1
+Write-Host "The deployment was succesfull if: $LASTEXITCODE == 0" -Verbose
 
 Write-Host "Starting the script for deploying MS-VDI"
-./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -TearDownEnvironment -DefinitionPath ./Environments/MS-VDI/definition.json
+./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/MS-VDI/definition.json
 
+## Run the cleanup script so that no values are retained in code for the config files
+Write-Host "Executing the cleanup script"
+./Orchestration/OrchestrationService/Cleanup_script.ps1
