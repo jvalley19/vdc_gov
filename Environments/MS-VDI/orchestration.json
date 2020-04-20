@@ -136,7 +136,7 @@
         {
             "Name": "LogAnalytics",
             "ModuleDefinitionName": "LogAnalytics",
-            "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.LogAnalytics.ResourceGroup}"
+            "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.LogAnalytics.ResourceGroup}",
             "DependsOn": [
                 "DiagnosticStorageAccount"
             ],
