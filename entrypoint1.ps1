@@ -22,4 +22,10 @@ Start-Sleep -s 5
 Write-Host "Starting the script for deploying your Shared Services"
 #./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/SharedServices/definition.json
 
-./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/MS-VDI/definition.json
+$msvdi = ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/MS-VDI/definition.json
+if ($?) {
+    Write-Host "This was successful: $?"
+}
+else {
+    Write-host "This wasn't succesfful"
+}
