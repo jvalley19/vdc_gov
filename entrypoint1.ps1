@@ -25,6 +25,9 @@ Write-Host "Starting the script for deploying your Shared Services"
 Write-Host $LASTEXITCODE -Verbose
 Start-Sleep -s 5
 
+Write-Host "Executing the pre-req script in the config files"
+./Orchestration/OrchestrationService/Pre_req_script.ps1
+
 Write-Host "Starting the script for deploying MS-VDI"
 ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -TearDownEnvironment -DefinitionPath ./Environments/MS-VDI/definition.json
 
