@@ -6,6 +6,7 @@
     "Location": "env(AZURE_LOCATION)",
     "EnvironmentName": "env(AZURE_ENVIRONMENT_NAME)",
     "StorageBlobUrl": "env(AZURE_STORAGE_BLOB_URL)",
+    "AzureSentinel": "env(AZURE_SENTINEL)",
     "ModuleConfigurationParameters": {
         "OnPremisesInformation": {
             "InstanceName": "${Parameters.InstanceName}",
