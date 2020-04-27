@@ -1,4 +1,5 @@
 #!/usr/src/app
+
 $null = Find-Module -Name Az | Install-Module -Force
 $null = Install-Module Az.ResourceGraph -Force
 $null = Install-Module -Name Az.Accounts -Force
