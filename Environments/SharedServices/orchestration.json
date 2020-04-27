@@ -62,7 +62,7 @@
                         "value": "${Parameters.ModuleConfigurationParameters.LogAnalytics.Location}"
                     },
                     "azureSentinel": {
-                        "value": "${bool(Parameters.AzureSentinel)}"
+                        "value": "${Parameters.AzureSentinel}"
                     }
                 }
             }
