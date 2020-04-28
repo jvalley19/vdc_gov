@@ -27,7 +27,7 @@ jobs:
         AZURE_DISCOVERY_URL : "https://management.azure.com/metadata/endpoints?api-version=2019-05-01"
         ADMIN_USER_SSH : ${{ secrets.ADMIN_USER_SSH }}
         AZURE_SENTINEL : "False"
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     
     steps:
     - uses: actions/checkout@v2
