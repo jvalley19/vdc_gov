@@ -1,4 +1,4 @@
-FROM ubuntu-18.04
+FROM ubuntu
 WORKDIR /usr/src/app
 COPY . ./
 RUN  apt-get update \
