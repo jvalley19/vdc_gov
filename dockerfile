@@ -1,4 +1,4 @@
-FROM ubuntu-18.04
+FROM alpine
 WORKDIR /usr/src/app
 COPY . ./
 RUN  apt-get update \
