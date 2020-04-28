@@ -2,7 +2,7 @@ FROM ubuntu
 WORKDIR /usr/src/app
 COPY . ./
 RUN  apt-get update \
-  && apt-get install -y wget unzip -y apt-utils \
+  && apt-get install -y wget unzip -y apt-utils && apt-get install -y curl\
   && rm -rf /var/lib/apt/lists \
   && wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb \
   && dpkg -i packages-microsoft-prod.deb \
