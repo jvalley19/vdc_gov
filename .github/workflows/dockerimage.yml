@@ -17,7 +17,7 @@ jobs:
         ADMIN_USER_NAME: ${{ secrets.ADMIN_USER_NAME }}
         ADMIN_USER_PWD: ${{ secrets.ADMIN_USER_PWD }}
         DOMAIN_ADMIN_USERNAME: ${{ secrets.DOMAIN_ADMIN_USERNAME }}
-        DOMAIN_ADMIN_USER_PWD: ${{ secrets.DOMAIN_ADMIN_USER_PWD }}
+        DOMAIN_ADMIN_USER_PWD: "Random"
         ORGANIZATION_NAME : "msgovjv"
         AZURE_LOCATION : "USGov Virginia"
         AZURE_ENVIRONMENT_NAME : "AzureUSGovernment"

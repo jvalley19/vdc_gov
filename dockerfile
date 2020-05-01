@@ -23,7 +23,7 @@ RUN  apt-get update \
   && apt-get install apt-transport-https \
   && apt-get update \
   && apt-get install azure-cli \
-  && apt-get install -y dotnet-sdk-2.2 \
+  && apt-get install -y dotnet-sdk-3.1 \
   && dotnet build Orchestration/OrchestrationService/TopologicalSort/TopologicalSort.csproj --configuration Release
 
 RUN chmod 755 /usr/src/app
