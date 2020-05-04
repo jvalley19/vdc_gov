@@ -1,5 +1,5 @@
 #!/usr/src/app
-$ErrorActionPreference="Stop"
+#$ErrorActionPreference="Stop"
 $null = Find-Module -Name Az | Install-Module -Force
 $null = Install-Module Az.ResourceGraph -Force
 $null = Install-Module -Name Az.Accounts -Force
@@ -24,7 +24,7 @@ Write-Host "Starting the script for deploying your Shared Services"
 ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/SharedServices/definition.json; exit $LASTEXITCODE
 
 Write-Host "The deployment was succesfull if: Exit code $LASTEXITCODE == 0" -Verbose
-Write-Host ($?)
+
 Write-Host "Starting the script for deploying MS-VDI"
 ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/MS-VDI/definition.json
 
