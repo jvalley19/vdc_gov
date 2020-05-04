@@ -34,4 +34,5 @@ Write-Host "Executing the cleanup script"
 
 ./Orchestration/OrchestrationService/Cleanup_Script.ps1
 
+
 Write-Host "The deployment was succesfull if: Exit code $LASTEXITCODE == 0" -Verbose
