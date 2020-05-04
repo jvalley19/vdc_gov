@@ -12,13 +12,14 @@ Connect-AzAccount -ServicePrincipal -Credential $Credential -Tenant $env:TENANT_
 
 Write-Host "Welcome to the Virtual Datacenter tool kit"
 
+
 ## Execute the Pre-req script for adding Sub ID, Tenant ID, and Location to the configuration files
 Write-Host "Executing the pre-req script in the config files"
 ./Orchestration/OrchestrationService/Pre_req_script.ps1
 
 ## Add a quick sleep to make sure the config files are updated before entering the main script
 Start-Sleep -s 5
-
+$DebugPreference="continue"
 ## Enter the main script for deploying shared services
 Write-Host "Starting the script for deploying your Shared Services"
 ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -TearDownEnvironment -DefinitionPath ./Environments/SharedServices/definition.json 
