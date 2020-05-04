@@ -15,7 +15,7 @@ jobs:
         SERVICE_PRINCIPAL_PASS: ${{ secrets.SERVICE_PRINCIPAL_PASS }}
         DEVOPS_SERVICE_PRINCIPAL_USER_ID: ${{ secrets.DEVOPS_SERVICE_PRINCIPAL_USER_ID }}
         ADMIN_USER_NAME: ${{ secrets.ADMIN_USER_NAME }}
-        ADMIN_USER_PWD: ${{ secrets.ADMIN_USER_PWD }}
+        ADMIN_USER_PWD: ""
         DOMAIN_ADMIN_USERNAME: ${{ secrets.DOMAIN_ADMIN_USERNAME }}
         DOMAIN_ADMIN_USER_PWD: "Random"
         ORGANIZATION_NAME : "msgovjv"

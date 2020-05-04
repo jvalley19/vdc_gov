@@ -22,12 +22,12 @@ Start-Sleep -s 5
 $DebugPreference="continue"
 ## Enter the main script for deploying shared services
 Write-Host "Starting the script for deploying your Shared Services"
-./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -TearDownEnvironment -DefinitionPath ./Environments/SharedServices/definition.json 
+./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/SharedServices/definition.json 
 
 Write-Host "The deployment was succesfull if: Exit code $LASTEXITCODE == 0" -Verbose
-
+Write-Host ($?)
 Write-Host "Starting the script for deploying MS-VDI"
-./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -TearDownEnvironment -DefinitionPath ./Environments/MS-VDI/definition.json
+./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/MS-VDI/definition.json
 
 Write-Host "The deployment was succesfull if: Exit code $LASTEXITCODE == 0" -Verbose
 
