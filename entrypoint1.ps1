@@ -19,7 +19,6 @@ Write-Host "Executing the pre-req script in the config files"
 
 ## Add a quick sleep to make sure the config files are updated before entering the main script
 Start-Sleep -s 5
-$DebugPreference="continue"
 ## Enter the main script for deploying shared services
 Write-Host "Starting the script for deploying your Shared Services"
 ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/SharedServices/definition.json 
