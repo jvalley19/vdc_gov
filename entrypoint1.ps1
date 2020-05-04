@@ -12,7 +12,6 @@ Connect-AzAccount -ServicePrincipal -Credential $Credential -Tenant $env:TENANT_
 
 Write-Host "Welcome to the Virtual Datacenter tool kit"
 
-
 ## Execute the Pre-req script for adding Sub ID, Tenant ID, and Location to the configuration files
 Write-Host "Executing the pre-req script in the config files"
 ./Orchestration/OrchestrationService/Pre_req_script.ps1
