@@ -36,7 +36,7 @@ function Get-RandomPassword {
     $numbers = 0..9
     $specialCharacters = '~,!,@,#,$,%,^,&,*,(,),?,\,/,_,-,=,+'
     $array = @()
-    $counter= Get-Random -Minimum 3 -Maximum 7
+    $counter= Get-Random -Minimum 4 -Maximum 7
     $array += $Alphabets.Split(',') | Get-Random -Count $counter
     $array[0] = $array[0].ToUpper()
     $array[-1] = $array[-1].ToUpper()
