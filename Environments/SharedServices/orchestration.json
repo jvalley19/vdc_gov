@@ -833,12 +833,7 @@
                         "value": "${Parameters.ModuleConfigurationParameters.Jumpbox.AdminUsername}"
                     },
                     "adminPassword": {
-                        "reference": {
-                            "keyVault": {
-                                "id": "reference(KeyVault.keyVaultResourceId)"
-                            },
-                            "secretName": "${Parameters.ModuleConfigurationParameters.KeyVault.SecretsObject.Secrets[1].secretName}"
-                        }
+                        "value": "env(ADMIN_USER_PWD)"
                     },
                     "storageBlobUrl": {
                         "value": "${Parameters.ModuleConfigurationParameters.Jumpbox.StorageBlobUrl}"
