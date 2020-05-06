@@ -1,8 +1,6 @@
-# **To deploy Azure Virtual Datacenter for Shared Services**
+# **To deploy Azure Virtual Datacenter for VDI**
 
-Deployment steps for [SharedServices](../../Environments/SharedServices) archetypes provided in the toolkit.
-The documentation applies to manually building and running the docker instance. For github action setup click
-"HERE."
+Deployment steps for [MS-VDI](../../Environments/MS-VDI) archetypes provided in the toolkit.
 
 ### Clone the repository
 
@@ -25,7 +23,7 @@ These steps assume that the `git` command is on your path.
 
 After the image finishing building, you can run it using:
 
-`docker run -it --entrypoint="pwsh" --rm -v C:\git\vdc\Config:/usr/src/app/Config -v C:\git\vdc\Environments:/usr/src/app/Environments -v C:\git\vdc\Modules:/usr/src/app/Modules vdc:latest`
+`docker run -it --rm -v C:\git\vdc\Config:/usr/src/app/Config -v C:\git\vdc\Environments:/usr/src/app/Environments -v C:\git\vdc\Modules:/usr/src/app/Modules vdc:latest`
 
 A few things to note:
 
@@ -48,7 +46,6 @@ You'll need:
 - An organization name for generating a prefix for naming resources.
 - The desired username and password for the Active Directory domain admin that will be created. Active Directory is not deployed now.
 - The desired password of the Windows jumpbox.
-- The [public ssh key](https://docs.microsoft.com/azure/virtual-machines/linux/mac-create-ssh-keys) for accessing the Linux jumpbox.
 
 Note: You can use a single subscription. You'll just need to provide the same subscription id in multiple locations in the configuration.
 
@@ -64,7 +61,7 @@ Using Azure PowerShell:
 
 ### Setting the configuration
 
-To deploy the Shared Services environment, you will need to modify two configuration files and set several environmental variables.
+To deploy the MS-VDI environment, you will need to modify two configuration files and set several environmental variables.
 
 #### [`Config\toolkit.subscription.json`](../Config/toolkit.subscription.json)
 
@@ -81,7 +78,7 @@ This file is for the deployment enviroments configuration. Update the subscripti
 - Set `TenantId` to the tenant id note above.
 - Set `SubscriptionId` to the id of the target subscription for the deployment noted above.
   
-#### Environmental variables
+### Setting the Environmental variables
 
 The toolkit uses environmental variables instead of configuration files to help avoid the accidental inclusion of secrets into your source control. In the context of a CI/CD pipeline, these values would be retrieved from a key vault.
 
@@ -91,6 +88,8 @@ Copy and paste this script into PowerShell to execute it.
 Note: The first two variables are set with the content of the configuration files we just modified. The path will not resolve correctly unless you are in `/usr/src/app` directory. 
 
 ```PowerShell
+$ENV:VDC_SUBSCRIPTIONS = (Get-Content .\Environments\_Common\subscriptions.json -Raw)
+$ENV:VDC_TOOLKIT_SUBSCRIPTION = (Get-Content .\Config\toolkit.subscription.json -Raw)
 $ENV:ORGANIZATION_NAME = "[ORGANIZATION_NAME]"
 $ENV:AZURE_ENVIRONMENT_NAME = "[AZURE_ENVIRONMENT]"
 $ENV:AZURE_LOCATION = "[AZURE_REGION]"
@@ -99,19 +98,16 @@ $ENV:SUBSCRIPTION_ID = "[SUBSCRIPTION_ID]"
 $ENV:KEYVAULT_MANAGEMENT_USER_ID  = "[KEY_VAULT_MANAGEMENT_USER_ID]"
 $ENV:DEVOPS_SERVICE_PRINCIPAL_USER_ID = "[SERVICE_PRINCIPAL_USER_ID]"
 $ENV:DOMAIN_ADMIN_USERNAME = "[DOMAIN_ADMIN_USER_NAME]"
-$ENV:DOMAIN_ADMIN_USER_PWD = "[DOMAIM_ADMIN_USER_PASSWORD]"
+$ENV:DOMAIN_ADMIN_USER_PWD = "[DOMAIN_ADMIN_USER_PASSWORD]"
 $ENV:ADMIN_USER_NAME = "[VM_ADMIN_USER_NAME]"
 $ENV:ADMIN_USER_PWD = "[VM_ADMIN_USER_PASSWORD]"
 $ENV:AZURE_DISCOVERY_URL = "https://management.azure.com/metadata/endpoints?api-version=2019-05-01"
-$ENV:ADMIN_USER_SSH = "[SSH_KEY]"
-$ENV:AZURE_SENTINEL = "[BOOLEAN]
 ```
 
 **NOTE:** Examples to setting the env variables
 
 - "[ORGANIZATION_NAME]"
   - Abbreviation of your org (for e.g. contoso) with **NO SPACES**
-  - Must be 10 characters or less
 - "[AZURE_ENVIRONMENT]"
   - For Azure Commercial
     - "AzureCloud"
@@ -132,20 +128,14 @@ $ENV:AZURE_SENTINEL = "[BOOLEAN]
 - "[SUBSCRIPTION_ID]" - Subscription's GUID
 - "[DOMAIN_ADMIN_USER_NAME]"
   - Domain user name - will be used for AD deployment and not yet included in current deployment
-- "[DOMAIM_ADMIN_USER_PASSWORD]"
-  - Domain user password - will be used for AD deployment and not yet included in current deployment
+- "[DOMAIN_ADMIN_USER_PASSWORD]"
+  - Domain user password - will be used for AD deployment and not yet included in current deployment. Follow the [guidelines](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#what-are-the-password-requirements-when-creating-a-vm) for setting the password.
 - "[VM_ADMIN_USER_NAME]"
   - VM log in username
 - "[VM_ADMIN_USER_PASSWORD]"
-  - VM user password
-- "[SSH_KEY]"
-  - Needs to be a valid public ssh rsa key for SSH to linux box
-- "[BOOLEAN]
-  - This value needs to be "True" or "False"
-    - "True" will deploy Azure Sentinel to the Shared Services Environment
-    - "False" will NOT deploy Azure Sentinel 
-  
-To use the above script:
+  - VM user password. Follow the [guidelines](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#what-are-the-password-requirements-when-creating-a-vm) for setting the password.
+
+To set the environment values:
 
 1. Return to the running Docker container from earlier in the quickstart.
 2. Confirm that you are in the `/usr/src/app` directory.
@@ -153,18 +143,18 @@ To use the above script:
 4. Copy the script into the clipboard and paste it in the terminal.
 5. Verify that the enviromental variables are set by running `env` to view the current values.
 
-#### Parameters
+### Setting the Parameters
 
-Any application specific parameters updates should be done in the [parameters.json](../../Environments/SharedServices/parameters.json) file such as IP address, subnet names, subnet range, secrets etc.
+Any application specific parameters updates should be done in the [parameters.json](../../Environments/MS-VDI/parameters.json) file such as IP address, subnet names, subnet range, secrets etc.
 
-## Deploying the Shared Services environment
+## Deploying the MS-VDI environment
 
 1. Return to the running Docker container from earlier in the quickstart.
 1. If you have not already done so, run `Connect-AzAccount -Tenant "[TENANT_ID]" -SubscriptionId "[SUBSCRIPTION_ID]" -EnvironmentName "[AZURE_ENVIRONMENT]"` to login and set an Azure context.
-1. To deploy the entire Shared Services environment, you can run a single command:
+1. To deploy the entire MS-VDI environment, you can run a single command:
 
     ``` PowerShell
-    ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/SharedServices/definition.json
+    ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/MS-VDI/definition.json
     ```
 
 The toolkit will begin deploying the constituent modules and the status will be sent to the terminal.
@@ -172,24 +162,22 @@ Open the [Azure portal](https://portal.azure.us) and you can check the status of
 
 ## Deploying individual modules
 
-If you prefer you can deploy the constituent modules for Shared Services individually.
+If you prefer you can deploy the constituent modules for MS-VDI individually.
 The following is the series of commands to execute.
 
 ``` PowerShell
-         .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\SharedServices\definition.json -ModuleConfigurationName "AzureFirewall"
-        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\SharedServices\definition.json -ModuleConfigurationName "VirtualNetwork"
-        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\SharedServices\definition.json -ModuleConfigurationName "AzureSecurityCenter"
-        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\SharedServices\definition.json -ModuleConfigurationName "NISTControls"
-        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\SharedServices\definition.json -ModuleConfigurationName "AutomationAccounts"
-        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\SharedServices\definition.json -ModuleConfigurationName "DomainControllerASG"
-        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\SharedServices\definition.json -ModuleConfigurationName "DiagnosticStorageAccount"
-        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\SharedServices\definition.json -ModuleConfigurationName "EnableServiceEndpointOnDiagnosticStorageAccount"
-        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\SharedServices\definition.json -ModuleConfigurationName "LogAnalytics"
-        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\SharedServices\definition.json -ModuleConfigurationName "KeyVault"
-        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\SharedServices\definition.json -ModuleConfigurationName "ArtifactsStorageAccount"
-        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\SharedServices\definition.json -ModuleConfigurationName "UploadScriptsToArtifactsStorage"
-        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\SharedServices\definition.json -ModuleConfigurationName "JumpboxASG"
-        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\SharedServices\definition.json -ModuleConfigurationName "SharedServicesNSG"
+        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "VirtualNetworkHUB"
+        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "VirtualNetworkSPOKE"
+        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "VirtualNetworkPeeringHub"
+        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "VirtualNetworkPeeringSpoke"
+        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "DiagnosticStorageAccount"
+        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "EnableServiceEndpointOnDiagnosticStorageAccount"
+        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "LogAnalytics"
+        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "KeyVault"
+        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "ArtifactsStorageAccount"
+        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "UploadScriptsToArtifactsStorage"
+        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "JumpboxASG"
+        .\Orchestration\OrchestrationService\ModuleConfigurationDeployment.ps1 -DefinitionPath .\Environments\MS-VDI\definition.json -ModuleConfigurationName "WindowsVM"
 ```
 
 **NOTE:**
@@ -200,14 +188,33 @@ The following is the series of commands to execute.
 ### **Teardown the environment**
 
 ``` PowerShell
-./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -TearDownEnvironment -DefinitionPath ./Environments/SharedServices/definition.json
+./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -TearDownEnvironment -DefinitionPath ./Environments/MS-VDI/definition.json
 ```
 
 Note: This is the same command you used to deploy except that you include ` -TearDownEnvironment`.
 It uses the same configuration, so if you change the configuration the tear down may not execute as expected.
 
+### **Remove vdc-toolkit-rg**
+
+Teardown removes only the resources deployed from VDC toolkit orchestration but do not actually remove the resource group (vdc-toolkit-rg) and storage accounts created by VDC toolkit deployment.
+vdc-toolkit-rg
+
+Use the Azure Cli to remove the resource group and the storage accounts. Find the storage account name from the vdc-toolkit-rg resource group.
+
+``` AzureCli
+az account set --subscription [SUBSCRIPTION_ID]
+
+az storage container legal-hold clear --resource-group vdc-toolkit-rg --account-name [STORAGE_ACCOUNT_NAME] --container-name deployments --tags audit
+
+az storage container legal-hold clear --resource-group vdc-toolkit-rg --account-name [STORAGE_ACCOUNT_NAME] --container-name audit --tags audit
+```
+
+### **Remove KeyVault**
+
 For safety reasons, the key vault will not be deleted. Instead, it will be set to a _removed_ state. This means that the name is still considered in use. To fully delete the key vault, use:
 
 ``` PowerShell
-Get-AzKeyVault -InRemovedState | ? { Write-Host "Removing vault: $($_.VaultName)"; Remove-AzKeyVault -InRemovedState -VaultName $_.VaultName -Location $_.Location -Force }
+Get-AzKeyVault -InRemovedState | ? { Write-Host "Removing vault: $($_.VaultName)"; 
+
+Remove-AzKeyVault -InRemovedState -VaultName $_.VaultName -Location $_.Location -Force }
 ```

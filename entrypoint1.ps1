@@ -1,5 +1,4 @@
 #!/usr/src/app
-#$ErrorActionPreference="Stop"
 $null = Find-Module -Name Az | Install-Module -Force
 $null = Install-Module Az.ResourceGraph -Force
 $null = Install-Module -Name Az.Accounts -Force
@@ -18,14 +17,15 @@ Write-Host "Executing the pre-req script in the config files"
 
 ## Add a quick sleep to make sure the config files are updated before entering the main script
 Start-Sleep -s 5
+
 ## Enter the main script for deploying shared services
 Write-Host "Starting the script for deploying your Shared Services"
-./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -tearDownenvironment -DefinitionPath ./Environments/SharedServices/definition.json
+./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/SharedServices/definition.json
 
 Write-Host "The deployment was succesfull if: Exit code $LASTEXITCODE == 0" -Verbose
 
 Write-Host "Starting the script for deploying MS-VDI"
-./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -TearDownEnvironment -DefinitionPath ./Environments/MS-VDI/definition.json
+./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/MS-VDI/definition.json
 
 Write-Host "The deployment was succesfull if: Exit code $LASTEXITCODE == 0" -Verbose
 
@@ -34,6 +34,4 @@ Write-Host "Executing the cleanup script"
 
 ./Orchestration/OrchestrationService/Cleanup_Script.ps1
 
-
 Write-Host "The deployment was succesfull if: Exit code $LASTEXITCODE == 0" -Verbose
-
