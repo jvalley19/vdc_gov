@@ -96,7 +96,7 @@ For($i=0; $i -lt $env:numShrdSvcs; $i++) {
     $ENV:ADMIN_USER_NAME = $inputFile.SharedServices.$hub.vmAdminUserName
     $ENV:ADMIN_USER_PWD = $adminUserPWD[$i]
     $ENV:DOMAIN_ADMIN_USER_PWD = $domainAdminPWD[$i]
-    $ENV:DOMAIN_ADMIN_USER_NAME = $domainAdminUsername[$i]
+    $ENV:DOMAIN_ADMIN_USERNAME = $domainAdminUsername[$i]
 
    
     Write-Host `n"Starting the deployment for $hub. Orchestration using directory folder: $ENV:FolderName"
@@ -111,13 +111,14 @@ For($i=0; $i -lt $env:numShrdSvcs; $i++) {
     Write-Host $ENV:AZURE_DISCOVERY_URL
     Write-Host $ENV:ORGANIZATION_NAME
     Write-Host $ENV:DOMAIN_ADMIN_USER_PWD
-    Write-Host $ENV:DOMAIN_ADMIN_USER_NAME
+    Write-Host $ENV:DOMAIN_ADMIN_USERNAME
     Write-Host $ENV:KEYVAULT_MANAGEMENT_USER_ID
     Write-Host $ENV:DEVOPS_SERVICE_PRINCIPAL_USER_ID
     Write-Host $ENV:AZURE_ENVIRONMENT_NAME
     Write-Host $ENV:ADMIN_USER_SSH
     Write-Host $ENV:TENANT_ID
     
+    sleep -Seconds 5
     ./Orchestration/OrchestrationService/Pre_req_script.ps1
     sleep -Seconds 5
     ./Orchestration/OrchestrationService/ModuleConfigurationDeployment.ps1 -DefinitionPath ./Environments/$env:folderName/definition.json
@@ -141,7 +142,7 @@ For($i=0; $i -lt $env:numMSVDI; $i++) {
     $ENV:ADMIN_USER_NAME = $inputFile.MSVDI.$MSVDI.vmAdminUserName
     $ENV:ADMIN_USER_PWD = $adminUserPWD[$i]
     $ENV:DOMAIN_ADMIN_USER_PWD = $domainAdminPWD[$i]
-    $ENV:DOMAIN_ADMIN_USER_NAME = $domainAdminUsername[$i]
+    $ENV:DOMAIN_ADMIN_USERNAME = $domainAdminUsername[$i]
 
    
     Write-Host `n"Starting the deployment for $MSVDI. Orchestration using directory folder: $ENV:FolderName"
@@ -161,7 +162,7 @@ For($i=0; $i -lt $env:numMSVDI; $i++) {
     Write-Host $ENV:AZURE_DISCOVERY_URL
     Write-Host $ENV:ORGANIZATION_NAME
     Write-Host $ENV:DOMAIN_ADMIN_USER_PWD
-    Write-Host $ENV:DOMAIN_ADMIN_USER_NAME
+    Write-Host $ENV:DOMAIN_ADMIN_USERNAME
     Write-Host $ENV:KEYVAULT_MANAGEMENT_USER_ID
     Write-Host $ENV:DEVOPS_SERVICE_PRINCIPAL_USER_ID
     Write-Host $ENV:AZURE_ENVIRONMENT_NAME
