@@ -1,5 +1,0 @@
-{
-    "Subscriptions": "env(VDC_SUBSCRIPTIONS)",
-    "Parameters": "file(./parameters.json)",
-    "Orchestration": "file(./orchestration.json)"
-}
