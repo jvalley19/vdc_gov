@@ -13,12 +13,12 @@ $vdc.VDCVDI.TenantId = $ENV:TENANT_ID
 $vdc | ConvertTo-Json | Set-Content -Path .\Environments\_Common\subscriptions.json
 
 $SS = (Get-Content -Path .\Environments\_Common\subscriptions.json) | ConvertFrom-Json
-$SS.SharedServices.SubscriptionId = $ENV:SUBSCRIPTION_ID
+$SS.SharedServices.SubscriptionId = $ENV:HUB_SUB_ID
 $SS.SharedServices.TenantId = $ENV:TENANT_ID
 $SS | ConvertTo-Json | Set-Content -Path .\Environments\_Common\subscriptions.json
 
 $arti = (Get-Content -Path .\Environments\_Common\subscriptions.json) | ConvertFrom-Json
-$arti.Artifacts.SubscriptionId = $ENV:SUBSCRIPTION_ID
+$arti.Artifacts.SubscriptionId = $ENV:HUB_SUB_ID
 $arti.Artifacts.TenantId = $ENV:TENANT_ID
 $arti | ConvertTo-Json | Set-Content -Path .\Environments\_Common\subscriptions.json
 
