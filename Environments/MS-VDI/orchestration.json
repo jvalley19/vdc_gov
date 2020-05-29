@@ -29,9 +29,9 @@
             }
         },
         {
-            "Name": "VirtualNetworkPeeringHub",
-            "ModuleDefinitionName": "VirtualNetworkPeering",
-            "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkHUB.ResourceGroupName}",
+            "Name": "VirtualNetworkPeering",
+            "ModuleDefinitionName": "VirtualNetworkPeeringCross",
+            "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.VirtualNetworkSPOKE.ResourceGroup}",
             "DependsOn": [
                 "VirtualNetworkHUB",
                 "VirtualNetworkSPOKE"
@@ -39,39 +39,23 @@
             "Deployment": {
                 "OverrideParameters": {
                     "localVnetName": {
-                        "value": "${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkHUB.Name}"
-                    },
-                    "peeringName": {
-                        "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkPeering.LocalPeering.Name}"
-                    },
-                    "remoteVirtualNetworkId": {
-                        "value": "${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkSPOKE.Id}"
-                    },
-                    "useRemoteGateways": {
-                        "value": false
-                      }
-                }
-            }
-        },
-        {
-            "Name": "VirtualNetworkPeeringSPOKE",
-            "ModuleDefinitionName": "VirtualNetworkPeering",
-            "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.VirtualNetworkSPOKE.ResourceGroup}",
-            "DependsOn": [
-                "VirtualNetworkSPOKE",
-                "VirtualNetworkHUB"
-            ],
-            "Deployment": {
-                "OverrideParameters": {
-                    "localVnetName": {
                         "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkSPOKE.Name}"
                     },
-                    "peeringName": {
-                        "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkPeering.LocalPeering.Name}"
+                    "remoteVnetName": {
+                        "value": "${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkHUB.Name}"
                     },
-                    "remoteVirtualNetworkId": {
-                        "value": "${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkHUB.Id}"
+                    "localSubscriptionID": {
+                        "value": "${Subscriptions.VDCVDI.SubscriptionId}"
                     },
+                    "remoteSubscriptionID": {
+                        "value": "${Subscriptions.SharedServices.SubscriptionId}"
+                    },
+                    "localResourceGroup": {
+                        "value": "${Parameters.ModuleConfigurationParameters.VirtualNetworkSPOKE.ResourceGroup}"
+                    },
+                    "remoteResourceGroup": {
+                        "value": "${Parameters.ModuleConfigurationParameters.SharedServices.VirtualNetworkHUB.ResourceGroupName}"
+                    },                   
                     "useRemoteGateways": {
                         "value": false
                       }
@@ -246,6 +230,18 @@
                     "location": {
                         "value": "${Parameters.ModuleConfigurationParameters.ArtifactsStorageAccount.Location}"
                     }
+                }
+            }
+        },
+        {
+            "Name": "UploadScriptsToArtifactsStorage",
+            "Comments": "Upload Scripts to Artifacts Storage",
+            "DependsOn": [ 
+                "ArtifactsStorageAccount"
+            ],
+            "Script": {
+                "Command": "Write-Host 'Adding Scripts...'; Import-Module -Name Az.Storage; $ctx = New-AzStorageContext -StorageAccountName reference(ArtifactsStorageAccount.storageAccountName) -SasToken '?reference(ArtifactsStorageAccount.storageAccountSasToken)'; New-AzRmStorageContainer -Name scripts -ResourceGroupName reference(ArtifactsStorageAccount.storageAccountResourceGroup) -StorageAccountName reference(ArtifactsStorageAccount.storageAccountName); Get-ChildItem -LiteralPath '../../Scripts/Windows' -File -Recurse | % { Set-AzStorageBlobContent -Context $ctx -Container scripts -Force -File $($_.FullName) -Blob Windows/$($_.Name)}",
+                "Arguments" : {
                 }
             }
         },
