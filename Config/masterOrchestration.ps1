@@ -11,6 +11,8 @@ $ENV:ORGANIZATION_NAME = $inputFile.organizationName
 $ENV:AZURE_ENVIRONMENT_NAME = $inputFile.azureEnvironmentName
 $ENV:TENANT_ID = $inputFile.tenantID
 $ENV:HUB_SUB_ID = $inputFile.SharedServices.hub1.subscriptionID
+#Location for artifact storage account
+$ENV:ARTIFACT_LOCATION = $inputFile.SharedServices.hub1.location
 
 Write-Host "Welcome to the VDC toolkit deployment. Starting the deployment for $ENV:ORGANIZATION_NAME organization. " -ForegroundColor Green
 Write-Host `n"You choose to deploy $ENV:numShrdSvcs Shared Service environments." -ForegroundColor Cyan
