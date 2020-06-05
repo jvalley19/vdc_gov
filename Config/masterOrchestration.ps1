@@ -1,5 +1,6 @@
 # VDC Master Script
 
+## ONLY EDIT THE BELOW LINE (LINE 4)##
 $inputFile = (Get-Content -Path C:\Users\Jack.Valley\Documents\Joke\inputFile.json) | ConvertFrom-Json 
 
 # Set the variables that will not change through the deployments of the VDC toolkit
