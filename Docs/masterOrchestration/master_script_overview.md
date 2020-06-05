@@ -12,5 +12,5 @@ Active Directory components into a separate VNET and peer to the hub that can be
 Note: For testing purposes we suggest using one hub to begin and multiple spokes
 
 The "MS-VDI" environment can be replicated 'X' number of times for the orchestration. Each spoke MS-VDI environment will be peered to the "Shared Services" or HUB environment.
-Refer to the [Folder_Replication](../../Docs/MasterOrchestration/Folder_Replication.md) for more information on how to create multiple spoke "MS-VDI" environments.
+Refer to the [Folder_Replication](../../../Docs/MasterOrchestration/folder_replication.md) for more information on how to create multiple spoke "MS-VDI" environments.
 
