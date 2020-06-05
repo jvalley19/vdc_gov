@@ -14,3 +14,9 @@ Note: For testing purposes we suggest using one hub to begin and multiple spokes
 The "MS-VDI" environment can be replicated 'X' number of times for the orchestration. Each spoke MS-VDI environment will be peered to the "Shared Services" or HUB environment.
 Refer to the [folder_Replication](../masterOrchestration/folder_replication.md) for more information on how to create multiple spoke "MS-VDI" environments.
 
+The master orchestration script has 3 prerequisites before the deployment admin can execute the script.
+1. [Folder Replication](../masterOrchestration/folder_replication.md) 
+2. [Input File](../masterOrchestration/input_File.md)
+3. [Master Orchestration Script](../masterOrchestration_script.md)
+
+Once these 3 requirements are satified the deployment admin can execute the master orchestration script to deploy the full VDC environment. 
