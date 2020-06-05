@@ -24,5 +24,5 @@ Once these 3 requirements are satified the deployment admin can execute the mast
 
 #### TearDown Environment 
 
-Please refer to the [Tear Down Document](../tearDownEnvironment.md) when destroying an environment.
+Please refer to the [Tear Down Document](../masterOrchestration/tearDownEnvironment.md) when destroying an environment.
 The teardown feature will remove individual environments. 
