@@ -1,5 +1,5 @@
 ## Master Orchestration Overview
-#### The master orchestration script is used to deploy multiple environments by executing only one script in the PowerShell 7 command prompt.
+#### The master orchestration script is used to deploy multiple environments by executing only one script.
 
 Two environment types exisit with v1 of the master orchestration script
 - "Shared Services" - located [SharedServices](../../Environments/SharedServices)
