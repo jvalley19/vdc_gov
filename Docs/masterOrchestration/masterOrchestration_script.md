@@ -1,6 +1,6 @@
 ## Master Orchestration Script
 The master orchestration script is located under the "Config" directory in the VDC toolkit repository.  
-[Master Orchestration Script](../config/masterOrchestration.ps1)
+[Master Orchestration Script](../../config/masterOrchestration.ps1)
 
 This will be the script the deployment admin executes to run the full VDC orchestration
 
