@@ -35,7 +35,7 @@ $onprem.OnPremises.SubscriptionId = $ENV:SUBSCRIPTION_ID
 $onprem.OnPremises.TenantId = $ENV:TENANT_ID
 $onprem | ConvertTo-Json | Set-Content -Path .\Environments\_Common\subscriptions.json
 
-Write-Host `n"Checking password randomization"
+Write-Host `n"Checking password randomization" -ForegroundColor Green
 #### Check if random passwords are needed or if passwords are provided for the VM admin accounts and the Active Directory Account
 
 # Random Password Function
@@ -65,4 +65,4 @@ if (($null -eq $ENV:DOMAIN_ADMIN_USER_PWD) -or ("" -eq $ENV:DOMAIN_ADMIN_USER_PW
     $ENV:DOMAIN_ADMIN_USER_PWD = Get-RandomPassword
 }
 
-Write-Host `n"Passwords set for random"
+Write-Host `n"Passwords set for random" -ForegroundColor Green
