@@ -21,3 +21,8 @@ The master orchestration script has 3 prerequisites before the deployment admin 
 3. [Master Orchestration Script](../masterOrchestration_script.md)
 
 Once these 3 requirements are satified the deployment admin can execute the master orchestration script to deploy the full VDC environment. 
+
+#### TearDown Environment 
+
+Please refer to the [Tear Down Document](../tearDownEnvironment.md) when destroying an environment.
+The teardown feature will remove individual environments. 
