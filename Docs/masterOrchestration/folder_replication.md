@@ -1,6 +1,7 @@
+### Environment Folder Replication 
 1. Copy the SharedServices or MS-VDI folders however many times you want to deploy those environments
     - Within the MS-VDI folders you will need to change the following lines per folder copy or per spoke environment
-		- Parameters.json for ms-vdi
+		- **Parameters.json** for ms-vdi
 		    1. Make sure the folder name is unique
 			2. Change line 2: Deployment name (unique)
 			3. Change line 29: VNET spoke address prefix
