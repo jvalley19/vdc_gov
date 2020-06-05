@@ -1,14 +1,15 @@
+## Tear Down Environment
 When tearing down spokes or shared services environments you must make sure to complete the following pre-reqs before running the teardown script
 
 1. You must be in the correct directory where you first deployed the environments
 2. You will need to set your environment variables listed below
-    1. $ENV:ORGANIZATION_NAME = "jvgovern"
+    1. **$ENV:ORGANIZATION_NAME** = "jvgovern"
         - This must be the value used when deployed initially. 
-    2. $ENV:TENANT_ID = "35f102bf-a2d5-4531-86a3-fb1ba0d6725e"
+    2. **$ENV:TENANT_ID** = "35f102bf-a2d5-4531-86a3-fb1ba0d6725e"
         - This must be the value used when deployed initially. 
-    3. $ENV:SUBSCRIPTION_ID = "8780edd9-dcbd-47cd-8aef-6bc3820754a9"
-        - This must be the Sub ID of the environment you wish to tear down.
-    4. $ENV:AZURE_ENVIRONMENT_NAME = "AzureUSGovernment"
+    3. **$ENV:SUBSCRIPTION_ID** = "8780edd9-dcbd-47cd-8aef-6bc3820754a9"
+        - This must be the **Sub ID of the environment you wish to tear down**.
+    4. **$ENV:AZURE_ENVIRONMENT_NAME** = "AzureUSGovernment"
         - This must be the environment name if you used Gov or Commercial 
     5. $ENV:AZURE_LOCATION = "USGov Virginia"
         - Not sure yet
@@ -30,7 +31,7 @@ When tearing down spokes or shared services environments you must make sure to c
         - This can be arbitrary
     14. $ENV:ADMIN_USER_SSH = "Arb"
         - This can be arbitrary
-    15. $ENV:HUB_SUB_ID = "888888888888888"
+    15. **$ENV:HUB_SUB_ID** = "888888888888888"
         - This value needs to be the subscription ID for the HUB environment (master Shared Services)
         - If you are tearing down spokes this value can be arbitrary
     16. $ENV:ARTIFACT_LOCATION = 'Arb"
