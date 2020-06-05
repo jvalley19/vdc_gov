@@ -2,7 +2,7 @@
 
 The inputFile.json should be placed in an accessible folder so that the MasterOrchestration script can retrieve it for manipulation.
 
-An example of the input file: [Input File Example](inputFile.json)
+An example of the input file: [Input File Example](../../inputFile.json)
 
 The deployment admin will need to set the following values (example below in Picture 1):
 1. Tenant ID
