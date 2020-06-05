@@ -44,6 +44,7 @@ NOTE: if you wish to add more spokes you must use the value iteration below
 - "MSVDI2" Line 48
 - And so on "MSVDI3"
 
-![Picture 3](/images/input_file_ex3.png)
+![Picture 3](/images/input_file_ex3.png)  
 *Picture 3*
+
 
