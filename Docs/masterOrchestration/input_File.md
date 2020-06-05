@@ -11,7 +11,7 @@ The deployment admin will need to set the following values:
 
 ![](/images/input_file_ex.png)
 
-**NOTE: DO NOT CHANGE  "SharedServices" in the example below its line 8**
+**NOTE: DO NOT CHANGE  "SharedServices" in the example below its line 8**  
 **NOTE: DO NOT CHANGE the name iterations of "Hub1" In the example below its line 10, 22**
 - The objects under "SharedServices" represent the shared services deployments 
 - NOTE: The first object ("Hub1") under shared services will act as the hub for the VDC toolkit. All other environments will be peered with this hub for a true hub and spoke topology.
