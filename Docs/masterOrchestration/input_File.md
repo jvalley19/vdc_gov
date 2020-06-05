@@ -35,3 +35,15 @@ The deployment admin should change the following values under each Shared Servic
 
 ![Picture 2](/images/input_file_ex2.png)
 *Picture 2*
+
+After the shared services configuration is complete the deployment admin should change the MSVDI variables
+
+DO NOT CHANGE Line 34 in the picture 3 below. This value "MSVDI" represents the msvdi deployments
+NOTE: if you wish to add more spokes you must use the value iteration below
+- "MSVDI1" Line 36
+- "MSVDI2" Line 48
+- And so on "MSVDI3"
+
+![Picture 3](/images/input_file_ex3.png)
+*Picture 3*
+
