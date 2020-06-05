@@ -11,6 +11,7 @@ The deployment admin will need to set the following values (example below in Pic
 
 ![Picture 1](/images/input_file_ex.png)
 *Picture 1*
+
 **NOTE: DO NOT CHANGE  "SharedServices" (In the example picture 2 below its line 8)**  
 **NOTE: DO NOT CHANGE the name iterations of "Hub1" (In the example picture 2 example below its line 10, 22)**
 - The objects under "SharedServices" represent the shared services deployments 
