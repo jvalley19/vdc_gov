@@ -18,4 +18,4 @@ For any resources you do not want to deploy you must add the following to the Or
 This will ensure the resource is not deployed for the environment. This applies to any folder under "environments"
 
 
-![](images/orchestration_enable.png)
+![](/images/orchestration_enable.png)
