@@ -10,6 +10,10 @@ $vdc = (Get-Content -Path .\Environments\_Common\subscriptions.json) | Con
 $vdc.VDCVDI.SubscriptionId = "000000-000-0000-0000"
 $vdc.VDCVDI.TenantId = "000000-000-0000-0000"
 $vdc | ConvertTo-Json | Set-Content -Path .\Environments\_Common\subscriptions.json
+$spoke = (Get-Content -Path .\Environments\_Common\subscriptions.json) | ConvertFrom-Json
+$spoke.SPOKE.SubscriptionId = "000000-000-0000-0000"
+$spoke.SPOKE.TenantId = "000000-000-0000-0000"
+$spoke | ConvertTo-Json | Set-Content -Path .\Environments\_Common\subscriptions.json
 $SS = (Get-Content -Path .\Environments\_Common\subscriptions.json) | ConvertFrom-Json
 $SS.SharedServices.SubscriptionId = "000000-000-0000-0000"
 $SS.SharedServices.TenantId ="000000-000-0000-0000"
