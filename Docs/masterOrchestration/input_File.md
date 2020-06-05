@@ -2,17 +2,17 @@
 
 The inputFile.json should be placed in an accessible folder so that the MasterOrchestration script can retrieve it for manipulation.
 
-The deployment admin will need to set the following values:
+The deployment admin will need to set the following values (example below in Picture 1):
 1. Tenant ID
 2. azureEnvironmentName 
 3. organizationName
 4. azureDiscoveryURL
 5. azureSentinel
 
-![](/images/input_file_ex.png)
+![Picture 1](/images/input_file_ex.png)
 
-**NOTE: DO NOT CHANGE  "SharedServices" in the example below its line 8**  
-**NOTE: DO NOT CHANGE the name iterations of "Hub1" In the example below its line 10, 22**
+**NOTE: DO NOT CHANGE  "SharedServices" (In the example picture 2 below its line 8)**  
+**NOTE: DO NOT CHANGE the name iterations of "Hub1" (In the example picture 2 example below its line 10, 22)**
 - The objects under "SharedServices" represent the shared services deployments 
 - NOTE: The first object ("Hub1") under shared services will act as the hub for the VDC toolkit. All other environments will be peered with this hub for a true hub and spoke topology.
 - In the example below there are two shared service deployments. 
@@ -31,3 +31,5 @@ The deployment admin should change the following values under each Shared Servic
 6. vmAdminUserName
 7. folderName
     1. This is the copied folder of the shared services
+
+![Picture 2](/images/input_file_ex2.png)
