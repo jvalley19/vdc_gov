@@ -1,6 +1,6 @@
 ## Environment Overview
 
-Environments are the heart of the VDC toolkit. Each environment is a set of parameter and orchestration files that deploy [modules](../modules).
+Environments are the heart of the VDC toolkit. Each environment is a set of parameter and orchestration files that deploy [modules](../Modules).
 
 The modules consist of full deployments for different Azure resources. Ex. Virtual Machines, Virtual Networks, Key Vault etc. 
 - Modules can have RBAC policies 
