@@ -48,6 +48,6 @@ The [`Deployment`](../Modules/StorageAccounts/deploy.json) section will be where
 The [`Policies`](../Modules/StorageAccounts/Policy) section is where you would set an Azure Policy for storage accounts.
 - (1st red arrow in Picture 2)  
 
-If ['RBAC'](../Modules/StorageAccounts/RBAC) roles needed to be added you would add this section as well.
+If [`RBAC`](../Modules/StorageAccounts/RBAC) roles needed to be added you would add this section as well.
 
 ![](../images/storage_account_ex2.png)
