@@ -29,12 +29,14 @@ If we look at the [deploy.json](../Modules/StorageAccounts/deploy.json) file we 
     - Default is StorageV2
 ETC. 
 
+#### Parameters.json
 You can either accept the default values OR in the parameters.json file under [MS-VDI parameter.json](../Environments/MS-VDI/parameters.json)
 specify the values you wish to have for the storage account. Example below Picture 1.
 
 ![st](../images/storage_account_ex1.png)
 *Picture 1*
 
+#### Orchestration.json
 Then in the [Orchestration.json](../Environments/MS-VDI/orchestration.json) file configure it with references to the parameters.json file. You 
 can also override the parameters. 
 
