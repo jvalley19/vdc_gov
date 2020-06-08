@@ -42,7 +42,7 @@ You must specify the "ModuleDefinitionName" (Yellow arrow in Picture 2) - This m
 
 The `Deployment` section will be where you reference the parameters for the *deploy.json* file in the modules section 
 - (2nd Red arrow in Picture 2)  
-The `Policies` section refers to the [Policy Folder](../Modules/StorageAccounts/Policy)
+The [`Policies`](../Modules/StorageAccounts/Policy) section is where you would set an Azure Policy for storage accounts.
 - (1st red arrow in Picture 2)  
 If [RBAC](../Modules/StorageAccounts/RBAC) roles needed to be added you would add this section as well.
 
