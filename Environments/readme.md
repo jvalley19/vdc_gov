@@ -40,10 +40,12 @@ can also override the parameters.
 
 You must specify the "ModuleDefinitionName" (Yellow arrow in Picture 2) - This must match the module folder name exactly.
 
-The `Deployment` section will be where you reference the parameters for the *deploy.json* file in the modules section 
-- (2nd Red arrow in Picture 2)  
+The [`Deployment`](../Modules/StorageAccounts/deploy.json) section will be where you reference the parameters for the *deploy.json* file in the modules section 
+- (2nd Red arrow in Picture 2)
+
 The [`Policies`](../Modules/StorageAccounts/Policy) section is where you would set an Azure Policy for storage accounts.
 - (1st red arrow in Picture 2)  
-If [RBAC](../Modules/StorageAccounts/RBAC) roles needed to be added you would add this section as well.
+
+If ['RBAC'](../Modules/StorageAccounts/RBAC) roles needed to be added you would add this section as well.
 
 ![](../images/storage_account_ex2.png)
