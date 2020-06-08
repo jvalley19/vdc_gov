@@ -32,7 +32,7 @@ ETC.
 You can either accept the default values OR in the parameters.json file under [MS-VDI parameter.json](../Environments/MS-VDI/parameters.json)
 specify the values you wish to have for the storage account. Example below Picture 1.
 
-![st](images/storage_account_ex1.png)
+![st](../images/storage_account_ex1.png)
 *Picture 1*
 
 Then in the [Orchestration.json](../Environments/MS-VDI/orchestration.json) file configure it with references to the parameters.json file. You 
@@ -40,8 +40,10 @@ can also override the parameters.
 
 You must specify the "ModuleDefinitionName" (Yellow arrow in Picture 2) - This must match the module folder name exactly.
 
-The "Deployment" section will be where you reference the parameters for the deploy.json file in the modules section (2nd Red arrow in Picture 2).  
-The "Policies" section refers to the [Policy Folder](../Modules/StorageAccounts/Policy) (1st red arrow in Picture 2)  
+The `Deployment` section will be where you reference the parameters for the *deploy.json* file in the modules section 
+- (2nd Red arrow in Picture 2)  
+The `Policies` section refers to the [Policy Folder](../Modules/StorageAccounts/Policy)
+- (1st red arrow in Picture 2)  
 If [RBAC](../Modules/StorageAccounts/RBAC) roles needed to be added you would add this section as well.
 
-![](images/storage_account_ex2.png)
+![](../images/storage_account_ex2.png)
