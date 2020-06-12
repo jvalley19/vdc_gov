@@ -151,7 +151,7 @@ To use the above script:
 1. Return to the PS 7 working directory
 2. Make a copy of the above script and replace the necessary values.
 3. Copy the script into the clipboard and paste it in the terminal.
-4. Verify the environment variables are set by running `env` to view the current values.
+4. Verify the environment variables are set by running `Get-ChildItem Env:` to view the current values.
 
 If you are using docker:
 1. Return to the running Docker container from earlier in the quickstart.
