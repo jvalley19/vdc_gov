@@ -340,6 +340,338 @@
                     }
                 }
             }
+        },
+        {
+            "Name": "citrixStoreFrontVMs",
+            "ModuleDefinitionName": "VirtualMachines",
+            "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.citrixStoreFrontVMs.ResourceGroup}",
+            "DependsOn": [
+                "VirtualNetworkSPOKE",
+                "DiagnosticStorageAccount",
+                "LogAnalytics",
+                "KeyVault",
+                "ArtifactsStorageAccount",
+                "JumpboxASG"
+            ],
+            "Comments": "Creates base citrix storefront servers.",
+            "Deployment": {
+                "OverrideParameters": {
+                    "virtualMachineName": {
+                        "value": "${Parameters.ModuleConfigurationParameters.citrixStoreFrontVMs.Windows.Name}"
+                    },
+                    "virtualMachineSize": {
+                        "value": "${Parameters.ModuleConfigurationParameters.citrixStoreFrontVMs.Windows.VMSize}"
+                    },
+                    "virtualMachineOSImage": {
+                        "value": "${Parameters.ModuleConfigurationParameters.citrixStoreFrontVMs.Windows.OSImage}"
+                    },
+                    "virtualMachineOSType": {
+                        "value": "${Parameters.ModuleConfigurationParameters.citrixStoreFrontVMs.Windows.OSType}"
+                    },
+                    "virtualMachineCount": {
+                        "value": "${Parameters.ModuleConfigurationParameters.citrixStoreFrontVMs.Windows.VMCount}"
+                    },
+                    "workspaceId": {
+                        "value": "reference(LogAnalytics.logAnalyticsWorkspaceId)"
+                    },
+                    "logAnalyticsWorkspaceId": {
+                        "value": "reference(LogAnalytics.logAnalyticsWorkspaceResourceId)"
+                    },
+                    "logAnalyticsWorkspacePrimarySharedKey": {
+                        "value": "reference(LogAnalytics.logAnalyticsPrimarySharedKey)"
+                    },
+                    "diagnosticStorageAccountId": {
+                        "value": "reference(DiagnosticStorageAccount.storageAccountResourceId)"
+                    },
+                    "diagnosticStorageAccountName": {
+                        "value": "reference(DiagnosticStorageAccount.storageAccountName)"
+                    },
+                    "diagnosticStorageAccountSasToken": {
+                        "value": "reference(DiagnosticStorageAccount.storageAccountSasToken)"
+                    },
+                    "artifactsStorageAccountKey": {
+                        "value": "reference(ArtifactsStorageAccount.storageAccountAccessKey)"
+                    },
+                    "artifactsStorageAccountName": {
+                        "value": "reference(ArtifactsStorageAccount.storageAccountName)"
+                    },
+                    "artifactsStorageAccountSasKey": {
+                        "value": "reference(ArtifactsStorageAccount.storageAccountSasToken)"
+                    },
+                    "vNetId": {
+                        "value": "reference(VirtualNetworkSPOKE.vNetResourceId)"
+                    },
+                    "subnetName": {
+                        "value": "${Parameters.ModuleConfigurationParameters.citrixStoreFrontVMs.SubnetName}"
+                    },
+                    "applicationSecurityGroupId": {
+                        "value": "reference(JumpboxASG.applicationSecurityGroupResourceId)"
+                    },
+                    "adminUsername": {
+                        "value": "${Parameters.ModuleConfigurationParameters.citrixStoreFrontVMs.AdminUsername}"
+                    },
+                    "adminPassword": {
+                        "reference": {
+                            "keyVault": {
+                                "id": "reference(KeyVault.keyVaultResourceId)"
+                            },
+                            "secretName": "${Parameters.ModuleConfigurationParameters.KeyVault.SecretsObject.Secrets[1].secretName}"
+                        }
+                    },
+                    "storageBlobUrl": {
+                        "value": "${Parameters.ModuleConfigurationParameters.citrixStoreFrontVMs.StorageBlobUrl}"
+                    }
+                }
+            }
+        },
+        {
+            "Name": "xenDesktopBrokerVMs",
+            "ModuleDefinitionName": "VirtualMachines",
+            "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.xenDesktopBrokerVMs.ResourceGroup}",
+            "DependsOn": [
+                "VirtualNetworkSPOKE",
+                "DiagnosticStorageAccount",
+                "LogAnalytics",
+                "KeyVault",
+                "ArtifactsStorageAccount",
+                "JumpboxASG"
+            ],
+            "Comments": "Creates base xen Desktop Broker vms.",
+            "Deployment": {
+                "OverrideParameters": {
+                    "virtualMachineName": {
+                        "value": "${Parameters.ModuleConfigurationParameters.xenDesktopBrokerVMs.Windows.Name}"
+                    },
+                    "virtualMachineSize": {
+                        "value": "${Parameters.ModuleConfigurationParameters.xenDesktopBrokerVMs.Windows.VMSize}"
+                    },
+                    "virtualMachineOSImage": {
+                        "value": "${Parameters.ModuleConfigurationParameters.xenDesktopBrokerVMs.Windows.OSImage}"
+                    },
+                    "virtualMachineOSType": {
+                        "value": "${Parameters.ModuleConfigurationParameters.xenDesktopBrokerVMs.Windows.OSType}"
+                    },
+                    "virtualMachineCount": {
+                        "value": "${Parameters.ModuleConfigurationParameters.xenDesktopBrokerVMs.Windows.VMCount}"
+                    },
+                    "workspaceId": {
+                        "value": "reference(LogAnalytics.logAnalyticsWorkspaceId)"
+                    },
+                    "logAnalyticsWorkspaceId": {
+                        "value": "reference(LogAnalytics.logAnalyticsWorkspaceResourceId)"
+                    },
+                    "logAnalyticsWorkspacePrimarySharedKey": {
+                        "value": "reference(LogAnalytics.logAnalyticsPrimarySharedKey)"
+                    },
+                    "diagnosticStorageAccountId": {
+                        "value": "reference(DiagnosticStorageAccount.storageAccountResourceId)"
+                    },
+                    "diagnosticStorageAccountName": {
+                        "value": "reference(DiagnosticStorageAccount.storageAccountName)"
+                    },
+                    "diagnosticStorageAccountSasToken": {
+                        "value": "reference(DiagnosticStorageAccount.storageAccountSasToken)"
+                    },
+                    "artifactsStorageAccountKey": {
+                        "value": "reference(ArtifactsStorageAccount.storageAccountAccessKey)"
+                    },
+                    "artifactsStorageAccountName": {
+                        "value": "reference(ArtifactsStorageAccount.storageAccountName)"
+                    },
+                    "artifactsStorageAccountSasKey": {
+                        "value": "reference(ArtifactsStorageAccount.storageAccountSasToken)"
+                    },
+                    "vNetId": {
+                        "value": "reference(VirtualNetworkSPOKE.vNetResourceId)"
+                    },
+                    "subnetName": {
+                        "value": "${Parameters.ModuleConfigurationParameters.xenDesktopBrokerVMs.SubnetName}"
+                    },
+                    "applicationSecurityGroupId": {
+                        "value": "reference(JumpboxASG.applicationSecurityGroupResourceId)"
+                    },
+                    "adminUsername": {
+                        "value": "${Parameters.ModuleConfigurationParameters.xenDesktopBrokerVMs.AdminUsername}"
+                    },
+                    "adminPassword": {
+                        "reference": {
+                            "keyVault": {
+                                "id": "reference(KeyVault.keyVaultResourceId)"
+                            },
+                            "secretName": "${Parameters.ModuleConfigurationParameters.KeyVault.SecretsObject.Secrets[1].secretName}"
+                        }
+                    },
+                    "storageBlobUrl": {
+                        "value": "${Parameters.ModuleConfigurationParameters.xenDesktopBrokerVMs.StorageBlobUrl}"
+                    }
+                }
+            }
+        },
+        {
+            "Name": "CTXSQLCluster",
+            "ModuleDefinitionName": "VirtualMachines",
+            "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.CTXSQLCluster.ResourceGroup}",
+            "DependsOn": [
+                "VirtualNetworkSPOKE",
+                "DiagnosticStorageAccount",
+                "LogAnalytics",
+                "KeyVault",
+                "ArtifactsStorageAccount",
+                "JumpboxASG"
+            ],
+            "Comments": "Creates X number of servers to be setup as sql cluster.",
+            "Deployment": {
+                "OverrideParameters": {
+                    "virtualMachineName": {
+                        "value": "${Parameters.ModuleConfigurationParameters.CTXSQLCluster.Windows.Name}"
+                    },
+                    "virtualMachineSize": {
+                        "value": "${Parameters.ModuleConfigurationParameters.CTXSQLCluster.Windows.VMSize}"
+                    },
+                    "virtualMachineOSImage": {
+                        "value": "${Parameters.ModuleConfigurationParameters.CTXSQLCluster.Windows.OSImage}"
+                    },
+                    "virtualMachineOSType": {
+                        "value": "${Parameters.ModuleConfigurationParameters.CTXSQLCluster.Windows.OSType}"
+                    },
+                    "virtualMachineCount": {
+                        "value": "${Parameters.ModuleConfigurationParameters.CTXSQLCluster.Windows.VMCount}"
+                    },
+                    "workspaceId": {
+                        "value": "reference(LogAnalytics.logAnalyticsWorkspaceId)"
+                    },
+                    "logAnalyticsWorkspaceId": {
+                        "value": "reference(LogAnalytics.logAnalyticsWorkspaceResourceId)"
+                    },
+                    "logAnalyticsWorkspacePrimarySharedKey": {
+                        "value": "reference(LogAnalytics.logAnalyticsPrimarySharedKey)"
+                    },
+                    "diagnosticStorageAccountId": {
+                        "value": "reference(DiagnosticStorageAccount.storageAccountResourceId)"
+                    },
+                    "diagnosticStorageAccountName": {
+                        "value": "reference(DiagnosticStorageAccount.storageAccountName)"
+                    },
+                    "diagnosticStorageAccountSasToken": {
+                        "value": "reference(DiagnosticStorageAccount.storageAccountSasToken)"
+                    },
+                    "artifactsStorageAccountKey": {
+                        "value": "reference(ArtifactsStorageAccount.storageAccountAccessKey)"
+                    },
+                    "artifactsStorageAccountName": {
+                        "value": "reference(ArtifactsStorageAccount.storageAccountName)"
+                    },
+                    "artifactsStorageAccountSasKey": {
+                        "value": "reference(ArtifactsStorageAccount.storageAccountSasToken)"
+                    },
+                    "vNetId": {
+                        "value": "reference(VirtualNetworkSPOKE.vNetResourceId)"
+                    },
+                    "subnetName": {
+                        "value": "${Parameters.ModuleConfigurationParameters.CTXSQLCluster.SubnetName}"
+                    },
+                    "applicationSecurityGroupId": {
+                        "value": "reference(JumpboxASG.applicationSecurityGroupResourceId)"
+                    },
+                    "adminUsername": {
+                        "value": "${Parameters.ModuleConfigurationParameters.CTXSQLCluster.AdminUsername}"
+                    },
+                    "adminPassword": {
+                        "reference": {
+                            "keyVault": {
+                                "id": "reference(KeyVault.keyVaultResourceId)"
+                            },
+                            "secretName": "${Parameters.ModuleConfigurationParameters.KeyVault.SecretsObject.Secrets[1].secretName}"
+                        }
+                    },
+                    "storageBlobUrl": {
+                        "value": "${Parameters.ModuleConfigurationParameters.CTXSQLCluster.StorageBlobUrl}"
+                    }
+                }
+            }
+        },
+        {
+            "Name": "CTXDesktopServers",
+            "ModuleDefinitionName": "VirtualMachines",
+            "ResourceGroupName": "${Parameters.ModuleConfigurationParameters.CTXDesktopServers.ResourceGroup}",
+            "DependsOn": [
+                "VirtualNetworkSPOKE",
+                "DiagnosticStorageAccount",
+                "LogAnalytics",
+                "KeyVault",
+                "ArtifactsStorageAccount",
+                "JumpboxASG"
+            ],
+            "Comments": "Creates X number of servers to be setup as sql cluster.",
+            "Deployment": {
+                "OverrideParameters": {
+                    "virtualMachineName": {
+                        "value": "${Parameters.ModuleConfigurationParameters.CTXDesktopServers.Windows.Name}"
+                    },
+                    "virtualMachineSize": {
+                        "value": "${Parameters.ModuleConfigurationParameters.CTXDesktopServers.Windows.VMSize}"
+                    },
+                    "virtualMachineOSImage": {
+                        "value": "${Parameters.ModuleConfigurationParameters.CTXDesktopServers.Windows.OSImage}"
+                    },
+                    "virtualMachineOSType": {
+                        "value": "${Parameters.ModuleConfigurationParameters.CTXDesktopServers.Windows.OSType}"
+                    },
+                    "virtualMachineCount": {
+                        "value": "${Parameters.ModuleConfigurationParameters.CTXDesktopServers.Windows.VMCount}"
+                    },
+                    "workspaceId": {
+                        "value": "reference(LogAnalytics.logAnalyticsWorkspaceId)"
+                    },
+                    "logAnalyticsWorkspaceId": {
+                        "value": "reference(LogAnalytics.logAnalyticsWorkspaceResourceId)"
+                    },
+                    "logAnalyticsWorkspacePrimarySharedKey": {
+                        "value": "reference(LogAnalytics.logAnalyticsPrimarySharedKey)"
+                    },
+                    "diagnosticStorageAccountId": {
+                        "value": "reference(DiagnosticStorageAccount.storageAccountResourceId)"
+                    },
+                    "diagnosticStorageAccountName": {
+                        "value": "reference(DiagnosticStorageAccount.storageAccountName)"
+                    },
+                    "diagnosticStorageAccountSasToken": {
+                        "value": "reference(DiagnosticStorageAccount.storageAccountSasToken)"
+                    },
+                    "artifactsStorageAccountKey": {
+                        "value": "reference(ArtifactsStorageAccount.storageAccountAccessKey)"
+                    },
+                    "artifactsStorageAccountName": {
+                        "value": "reference(ArtifactsStorageAccount.storageAccountName)"
+                    },
+                    "artifactsStorageAccountSasKey": {
+                        "value": "reference(ArtifactsStorageAccount.storageAccountSasToken)"
+                    },
+                    "vNetId": {
+                        "value": "reference(VirtualNetworkSPOKE.vNetResourceId)"
+                    },
+                    "subnetName": {
+                        "value": "${Parameters.ModuleConfigurationParameters.CTXDesktopServers.SubnetName}"
+                    },
+                    "applicationSecurityGroupId": {
+                        "value": "reference(JumpboxASG.applicationSecurityGroupResourceId)"
+                    },
+                    "adminUsername": {
+                        "value": "${Parameters.ModuleConfigurationParameters.CTXDesktopServers.AdminUsername}"
+                    },
+                    "adminPassword": {
+                        "reference": {
+                            "keyVault": {
+                                "id": "reference(KeyVault.keyVaultResourceId)"
+                            },
+                            "secretName": "${Parameters.ModuleConfigurationParameters.KeyVault.SecretsObject.Secrets[1].secretName}"
+                        }
+                    },
+                    "storageBlobUrl": {
+                        "value": "${Parameters.ModuleConfigurationParameters.CTXDesktopServers.StorageBlobUrl}"
+                    }
+                }
+            }
         }
     ]
 }
