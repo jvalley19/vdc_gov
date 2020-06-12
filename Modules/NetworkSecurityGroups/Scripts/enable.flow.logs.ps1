@@ -39,7 +39,7 @@ try {
     else {
         Write-Host "No subscription switching is required."
     }
-       
+    
     $NetworkWatcherRegion = $NetworkWatcherRegion.Replace(' ', '').ToLower()
 
     $registered = Get-AzResourceProvider -ProviderNamespace Microsoft.Insights
@@ -58,7 +58,7 @@ try {
     Write-Host "Registration complete"
 
     $NW = Get-AzNetworkWatcher -ResourceGroupName NetworkWatcherRg -Name "NetworkWatcher_$NetworkWatcherRegion" -ErrorAction SilentlyContinue
-    
+
     if ($null -eq $NW) {
         $NWRG = Get-AzResourceGroup -Name NetworkWatcherRG -ErrorAction SilentlyContinue
         if ($null -eq $NWRG) {
