@@ -58,11 +58,16 @@ function Get-RandomPassword {
 ### Check the VM password 
 if (($null -eq $ENV:ADMIN_USER_PWD) -or ("" -eq $ENV:ADMIN_USER_PWD) -or ("Random" -eq $ENV:ADMIN_USER_PWD) ) {
     $ENV:ADMIN_USER_PWD = Get-RandomPassword
+    Write-Host `n"Admin Password set for random" -ForegroundColor Green
 }
-
+else {
+    Write-Host `n"Admin password was not randomized." -ForegroundColor Cyan
+}
 ### Check the Active Directory (Domain Password)
 if (($null -eq $ENV:DOMAIN_ADMIN_USER_PWD) -or ("" -eq $ENV:DOMAIN_ADMIN_USER_PWD) -or ("Random" -eq $ENV:DOMAIN_ADMIN_USER_PWD) ) {
     $ENV:DOMAIN_ADMIN_USER_PWD = Get-RandomPassword
+    Write-Host `n"Domain Password set for random" -ForegroundColor Green
 }
-
-Write-Host `n"Passwords set for random" -ForegroundColor Green
+else{
+    Write-Host `n"Domain Password was not randomized." -ForegroundColor Cyan
+}
